@@ -18,4 +18,9 @@ public class AiasController {
     public String aiasIndex(){
         return "index";
     }
+
+    @RequestMapping("/search")
+    public String searchAction(){
+        return "searchResult";
+    }
 }

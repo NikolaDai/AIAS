@@ -15,6 +15,7 @@ public class Author {
     private String phoneNumber;
     private String QQ;
     private String weChat;
+    private String emailAddress;
     private String organizationName;
     private String mailAddress;
     private String zipCode;
@@ -63,6 +64,15 @@ public class Author {
 
     public String getWeChat() {
         return weChat;
+    }
+
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public void setWeChat(String weChat) {

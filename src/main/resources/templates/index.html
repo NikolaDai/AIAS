@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>作者信息分析检索系统</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>作者信息分析调度系统</title>
+    <!-- Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+
+        .row{
+            display: table-cell;
+            vertical-align: middle;
+        }
+        /* centered columns styles */
+        .row-centered {
+            text-align:center;
+        }
+        .col-centered {
+            display:inline-block;
+            float:none;
+            text-align:left;
+            margin-right:-4px;
+        }
+    </style>
 </head>
+
 <body>
-<p>欢迎使用作者信息分析检索系统</p>
+<div class="container">
+    <div class="row row-centered">
+        <div class="col-md-6 col-centered">
+            <div class="text-center">
+                <div class="form-group">
+                    <h2>作者信息分析调度系统</h2>
+                </div>
+                <form action="/search" method="post" role="form" class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="SearchContent" placeholder="请输入检索内容">
+                    </div>
+                    <button type="submit" class="btn btn-success">搜索</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
