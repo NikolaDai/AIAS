@@ -12,5 +12,8 @@
 
 
 # To-do list
-- Create the testing MySQL database and inject the test-data;
+- Create the testing MySQL database and inject the test-data and test successfully;(done on 09/12 22:39)
 - Embed the Elasticsearch module and run the test;
+
+# Key lessons learnt in the coding
+The entity's attribute name, let's say authorName, will map to the column "author_name" in the MySQL table.
