@@ -20,6 +20,7 @@ public class Article {
     private String    paperCategory;
     private String    publishDate;
     private String    paperType;
+    private String    articleText;
 
     public Long getId() {
         return id;
@@ -109,6 +110,6 @@ public class Article {
         this.articleText = articleText;
     }
 
-    private String    articleText;
+
 }
 
