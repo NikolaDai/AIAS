@@ -14,7 +14,7 @@
 I have done all the sub-steps from getting search content from the index.html to return the query data to the searchResult.html. All Fancy Cool.
 ## step 3: add ElasticSearch component to this project
 I will mainly use the spring-data-elasticsearch but have to check if it can really work out. The related document URL is attached:
-https://www.baeldung.com/spring-data-elasticsearch-tutorial
+https://www.baeldung.com/spring-data-elasticsearch-tutorial(done!)
 
 Create entity annotated by @Document
 引题    eyebrowTitle
@@ -30,7 +30,8 @@ Create entity annotated by @Document
 
 # To-do list
 - Create the testing MySQL database and inject the test-data and test successfully;(done on 09/12 22:39)
-- Embed the Elasticsearch module and run the test;
+- Embed the Elasticsearch module and run the test;(done on 09/13 23:22)
+- improve the returning number of results and based on results do some statistics.
 
 # Key lessons learnt in the coding
 The entity's attribute name, let's say authorName, will map to the column "author_name" in the MySQL table.

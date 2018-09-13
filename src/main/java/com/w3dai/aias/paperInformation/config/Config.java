@@ -20,7 +20,7 @@ import java.net.InetAddress;
 @EnableElasticsearchRepositories(basePackages = "com.w3dai.aias.paperInformation.entity")
 @ComponentScan(basePackages = { "com.w3dai.aias.paperInformation"})
 public class Config {
-    @Value("C:\\elasticsearch\\5.6.0")
+    @Value("D:\\elasticsearch\\5.6.0")
     private String elasticsearchHome;
 
     @Value("my-application")

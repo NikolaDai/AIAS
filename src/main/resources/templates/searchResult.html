@@ -9,38 +9,42 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
-<p>检索结果如下</p>
-<div th:unless="${#lists.isEmpty(authors)}">
+<!--
+    引题    eyebrowTitle
+    标题    mainTitle
+    副题    subTitle
+    作者    authorsName
+    责编    editorsName
+    版面    pageName
+    分类    paperCategory
+    日期    publishDate
+    体裁    paperType
+    正文    articleText
+-->
+<div th:unless="${#lists.isEmpty(articles)}">
 <table class="table">
-    <caption>作者具体信息</caption>
+    <caption>文章具体信息</caption>
     <thead>
     <tr>
-        <th>姓名</th>
-        <th>手机号码</th>
-        <th>电话号码</th>
-        <th>QQ</th>
-        <th>微信</th>
-        <th>email</th>
-        <th>单位名称</th>
-        <th>邮件地址</th>
-        <th>邮编</th>
-        <th>城市</th>
-        <th>省份</th>
+        <th>标题</th>
+        <th>作者</th>
+        <th>责编</th>
+        <th>版面</th>
+        <th>分类</th>
+        <th>日期</th>
+        <th>体裁</th>
     </tr>
     </thead>
     <tbody>
-    <tr class="active"  th:each = "author : ${authors}">
-        <td><span   th:text="${author.authorName}">姓名</span></td>
-        <td><span   th:text="${author.cellNumber}">手机号码</span></td>
-        <td><span   th:text="${author.phoneNumber}">电话号码</span></td>
-        <td><span   th:text="${author.QQ}">QQ</span></td>
-        <td><span   th:text="${author.weChat}">微信</span></td>
-        <td><span   th:text="${author.emailAddress}">email地址</span></td>
-        <td><span   th:text="${author.organizationName}">单位名称</span></td>
-        <td><span   th:text="${author.mailAddress}">邮件地址</span></td>
-        <td><span   th:text="${author.zipCode}">邮编</span></td>
-        <td><span   th:text="${author.workCityName}">城市</span></td>
-        <td><span   th:text="${author.workProvinceName}">省份</span></td>
+    <tr class="active"  th:each = "article : ${articles}">
+        <td><span   th:text="${article.mainTitle}">标题</span></td>
+        <td><a th:href="${'/searchAuthor?authorsName='+ article.authorsName}"><span   th:text="${article.authorsName}">作者</span></a></td>
+        <td><span   th:text="${article.editorsName}">责编</span></td>
+        <td><span   th:text="${article.pageName}">版面名字</span></td>
+        <td><span   th:text="${article.paperCategory}">分类</span></td>
+        <td><span   th:text="${article.publishDate}">日期</span></td>
+        <td><span   th:text="${article.paperType}">体裁</span></td>
+        <td><span   th:text="${article.articleText}">全文</span></td>
     </tr>
     </tbody>
 </table>

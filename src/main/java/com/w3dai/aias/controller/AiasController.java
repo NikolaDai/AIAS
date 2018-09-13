@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class AiasController {
@@ -33,12 +33,28 @@ public class AiasController {
 
     @RequestMapping("/search")
     public String searchAction(@RequestParam("searchContent") String searchContent, Model model){
-        List<Author> authorList = authorRepository.findByAuthorName(searchContent);
-        Page<Article> articleList = articleRepository.findByAuthorsName(searchContent, PageRequest.of(0, 10));
-        if(authorList != null){
-            model.addAttribute("authors", authorList);
+        //Page<Article> articleList = articleRepository.findByAuthorsName(searchContent, PageRequest.of(0, 10));
+        List<Article> articleList = articleRepository.findByArticleText(searchContent);
+
+        if(articleList.size() != 0){
             model.addAttribute("articles", articleList);
         }
         return "searchResult";
+    }
+
+    @RequestMapping("/searchAuthor")
+    public String searchAuthorAction(@RequestParam("authorsName") String authorsName, Model model)
+    {
+        String[] authorsArray = authorsName.split(";");
+        List<Author> authorList = new LinkedList<>();
+
+        for(int i = 0; i < authorsArray.length; i++){
+            List<Author> author = authorRepository.findByAuthorName(authorsArray[i]);
+            if(author.size() != 0)
+                authorList.add(author.get(0));
+        }
+
+        model.addAttribute("authors", authorList);
+        return "authorInfo";
     }
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>作者信息分析调度系统</title>
+    <!-- Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<p>检索结果如下</p>
+<div th:unless="${#lists.isEmpty(authors)}">
+    <table class="table">
+        <caption>作者具体信息</caption>
+        <thead>
+        <tr>
+            <th>姓名</th>
+            <th>手机号码</th>
+            <th>电话号码</th>
+            <th>QQ</th>
+            <th>微信</th>
+            <th>email</th>
+            <th>单位名称</th>
+            <th>邮件地址</th>
+            <th>邮编</th>
+            <th>城市</th>
+            <th>省份</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="active"  th:each = "author : ${authors}">
+            <td><span   th:text="${author.authorName}">姓名</span></td>
+            <td><span   th:text="${author.cellNumber}">手机号码</span></td>
+            <td><span   th:text="${author.phoneNumber}">电话号码</span></td>
+            <td><span   th:text="${author.QQ}">QQ</span></td>
+            <td><span   th:text="${author.weChat}">微信</span></td>
+            <td><span   th:text="${author.emailAddress}">email地址</span></td>
+            <td><span   th:text="${author.organizationName}">单位名称</span></td>
+            <td><span   th:text="${author.mailAddress}">邮件地址</span></td>
+            <td><span   th:text="${author.zipCode}">邮编</span></td>
+            <td><span   th:text="${author.workCityName}">城市</span></td>
+            <td><span   th:text="${author.workProvinceName}">省份</span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
