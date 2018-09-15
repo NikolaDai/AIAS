@@ -9,42 +9,19 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
-<!--
-    引题    eyebrowTitle
-    标题    mainTitle
-    副题    subTitle
-    作者    authorsName
-    责编    editorsName
-    版面    pageName
-    分类    paperCategory
-    日期    publishDate
-    体裁    paperType
-    正文    articleText
--->
-<div th:unless="${#lists.isEmpty(articles)}">
+<div th:unless="${#lists.isEmpty(authors)}">
 <table class="table">
-    <caption>文章具体信息</caption>
+    <caption>擅长写作搜索内容相关文章的作者列表及发表文章数目</caption>
     <thead>
     <tr>
-        <th>标题</th>
         <th>作者</th>
-        <th>责编</th>
-        <th>版面</th>
-        <th>分类</th>
-        <th>日期</th>
-        <th>体裁</th>
+        <th>发表文章数</th>
     </tr>
     </thead>
     <tbody>
-    <tr class="active"  th:each = "article : ${articles}">
-        <td><span   th:text="${article.mainTitle}">标题</span></td>
-        <td><a th:href="${'/searchAuthor?authorsName='+ article.authorsName}"><span   th:text="${article.authorsName}">作者</span></a></td>
-        <td><span   th:text="${article.editorsName}">责编</span></td>
-        <td><span   th:text="${article.pageName}">版面名字</span></td>
-        <td><span   th:text="${article.paperCategory}">分类</span></td>
-        <td><span   th:text="${article.publishDate}">日期</span></td>
-        <td><span   th:text="${article.paperType}">体裁</span></td>
-        <td><span   th:text="${article.articleText}">全文</span></td>
+    <tr class="active"  th:each = "author : ${authors}">
+        <td><a th:href="${'/searchAuthor?authorsName='+ author.authorName}"><span   th:text="${author.authorName}">作者</span></a></td>
+        <td><span   th:text="${author.articleNum}">文章数量</span></td>
     </tr>
     </tbody>
 </table>

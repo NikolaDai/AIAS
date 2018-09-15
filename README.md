@@ -16,6 +16,9 @@ I have done all the sub-steps from getting search content from the index.html to
 I will mainly use the spring-data-elasticsearch but have to check if it can really work out. The related document URL is attached:
 https://www.baeldung.com/spring-data-elasticsearch-tutorial(done!)
 
+## step 4: finish the key step to make statistics on the result of elasticsearch query
+https://blog.csdn.net/goodluck_mh/article/details/73655657
+
 Create entity annotated by @Document
 引题    eyebrowTitle
 标题    mainTitle
