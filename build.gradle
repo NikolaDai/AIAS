@@ -30,7 +30,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.data:spring-data-elasticsearch')
-    compile('org.elasticsearch.plugin:transport-netty3-client')
+// https://mvnrepository.com/artifact/org.elasticsearch.plugin/transport-netty3-client
+    compile group: 'org.elasticsearch.plugin', name: 'transport-netty3-client', version: '5.6.11'
     runtime('mysql:mysql-connector-java')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
