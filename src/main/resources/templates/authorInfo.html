@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
+<div class="container">
 <p>检索结果如下</p>
 <div th:unless="${#lists.isEmpty(authors)}">
     <table class="table">
@@ -44,6 +45,7 @@
         </tr>
         </tbody>
     </table>
+</div>
 </div>
 </body>
 </html>

@@ -34,7 +34,8 @@ Create entity annotated by @Document
 # To-do list
 - Create the testing MySQL database and inject the test-data and test successfully;(done on 09/12 22:39)
 - Embed the Elasticsearch module and run the test;(done on 09/13 23:22)
-- improve the returning number of results and based on results do some statistics.
+- improve the returning number of results and based on results do some statistics.(done on 09/16 23:20)
+- Revisit what i have done and rethink the real need from the users.
 
 # Key lessons learnt in the coding
 The entity's attribute name, let's say authorName, will map to the column "author_name" in the MySQL table.

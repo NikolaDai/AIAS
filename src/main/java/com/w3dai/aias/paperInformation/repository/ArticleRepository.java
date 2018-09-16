@@ -1,7 +1,6 @@
 package com.w3dai.aias.paperInformation.repository;
 
 import com.w3dai.aias.paperInformation.entity.Article;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
@@ -12,7 +11,7 @@ import java.util.List;
 public interface ArticleRepository extends ElasticsearchRepository<Article, String> {
 
     Page<Article> findByAuthorsName(String name, Pageable pageable);
-    List<Article> findByArticleText(String name);
+    List<Article> findByAuthorsName(String name);
 
 
     @Query("{\"match\": {\"articleText\":\"?0\"}},\"size\":0,\"aggs\":{\"group_by_state\":{\"terms\":{\"field\":\"authorsName\",\"size\":100}}}")

@@ -76,7 +76,7 @@ public class AiasController {
     public String searchArticleAction(@RequestParam("searchContent") String searchContent, Model model){
         //Page<Article> articleList = articleRepository.findByAuthorsName(searchContent, PageRequest.of(0, 10)););
 
-        List<Article> articleList = articleRepository.findByArticleText(searchContent);
+        List<Article> articleList = articleRepository.findByAuthorsName(searchContent);
 
         if(articleList.size() != 0){
             model.addAttribute("articles", articleList);

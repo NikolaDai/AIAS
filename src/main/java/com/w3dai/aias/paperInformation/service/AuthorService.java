@@ -8,19 +8,17 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.ResultsExtractor;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import static org.elasticsearch.search.aggregations.AggregationBuilders.terms;
 
-import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
-
 @Service
 public class AuthorService {
     private ElasticsearchTemplate elasticsearchTemplate;
     private String searchContent;
+
 
     public String getSearchContent() {
         return searchContent;
@@ -55,4 +53,6 @@ public class AuthorService {
 
         return aggregations;
     }
+
+
 }
