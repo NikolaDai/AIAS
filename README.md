@@ -19,6 +19,8 @@ https://www.baeldung.com/spring-data-elasticsearch-tutorial(done!)
 ## step 4: finish the key step to make statistics on the result of elasticsearch query
 https://blog.csdn.net/goodluck_mh/article/details/73655657
 
+https://blog.csdn.net/Hello_Ray/article/details/82153042
+
 Create entity annotated by @Document
 引题    eyebrowTitle
 标题    mainTitle
