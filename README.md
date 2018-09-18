@@ -42,6 +42,9 @@ Create entity annotated by @Document
 # Key lessons learnt in the coding
 The entity's attribute name, let's say authorName, will map to the column "author_name" in the MySQL table.
 
+#Bugs Report
+When search "十二届", then something weird happens. Cant tell the reason now.(09/18 11:29) => solved
+
 #Java开发者值得关注的十个技术博客
 Java是世界上最流行的程序语言，从1995年问世以来，Java的生态系统在一直在蓬勃的发展着。作为一门健壮的技术，Java社区为广大开发者提供了包括框架、库、web开发sdk、JVM语言等资源。在各种科技行业都能够找到关于Java编程的相关资源，这就是为什么Java会如此受人喜爱。
 在今天，发达的网络技术推动了Java的发展，越来越多的人选择在网上学习，查看技术大牛的博客并进行交流成为了日常学习的一个重要手段。在这里，我整理了国外最流行的十大Java技术博客，它们都是由Java技术专家维护的，无论是初学者还是专业程序员都能够在这些地方找到你所需要的Java技术的一系列信息。

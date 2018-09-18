@@ -11,10 +11,18 @@ import java.util.List;
 public interface ArticleRepository extends ElasticsearchRepository<Article, String> {
 
     Page<Article> findByAuthorsName(String name, Pageable pageable);
-    List<Article> findByAuthorsName(String name);
+
+    //
+    List<Article> findByAuthorsNameAndArticleText(String name, String searchContent);
 
 
-    @Query("{\"match\": {\"articleText\":\"?0\"}},\"size\":0,\"aggs\":{\"group_by_state\":{\"terms\":{\"field\":\"authorsName\",\"size\":100}}}")
-    List<Article> findByAuthorsNameUsingCustomQuery(String name);
+    @Query("{\"bool\":{\n" +
+            "\"must\":[\n" +
+            "{\"match\":{\"articleText\":\"?1\"}},\n" +
+            "{\"match\":{\"authorsName\":\"?0\"}}\n" +
+            "]\n" +
+            "}\n" +
+            "}}")
+    List<Article> findByAuthorsNameAndArticleTextUsingCustomQuery(String name, String searchContent);
     //Page<Article> findByAuthorsNameUsingCustomQuery(String name, Pageable pageable);
 }

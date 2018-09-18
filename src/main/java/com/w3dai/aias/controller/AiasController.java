@@ -73,14 +73,16 @@ public class AiasController {
     }
 
     @RequestMapping("/searchArticle")
-    public String searchArticleAction(@RequestParam("searchContent") String searchContent, Model model){
+    public String searchArticleAction(@RequestParam("searchContent") String authorName, Model model){
         //Page<Article> articleList = articleRepository.findByAuthorsName(searchContent, PageRequest.of(0, 10)););
 
-        List<Article> articleList = articleRepository.findByAuthorsName(searchContent);
+       // List<Article> articleList = articleRepository.findByAuthorsNameAndArticleText(authorName, authorService.getSearchContent());
 
+        List<Article> articleList = articleRepository.findByAuthorsNameAndArticleTextUsingCustomQuery(authorName, authorService.getSearchContent());
         if(articleList.size() != 0){
             model.addAttribute("articles", articleList);
         }
+
         return "searchArticleResult";
     }
 

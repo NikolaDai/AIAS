@@ -30,5 +30,8 @@
     </table>
     </div>
 </div>
+<div th:if="${#lists.isEmpty(authors)}">
+    <h2>没有检索到相关信息</h2>
+</div>
 </body>
 </html>

@@ -27,22 +27,29 @@
             text-align:left;
             margin-right:-4px;
         }
+        .searchtitleCN{
+            font-size: 52px;
+            color: #DB3D19;
+        }
+        .searchtitleEN{
+            font-size: 20px;
+            color: #DB3D19;
+        }
     </style>
 </head>
 
 <body>
 <div class="container">
     <div class="row row-centered">
-        <div class="col-md-6 col-centered">
+        <div class="col-md-6 col-centered" style="width:700px">
             <div class="text-center">
-                <div class="form-group">
-                    <h2>作者信息分析调度系统</h2>
-                </div>
-                <form action="/search" method="POST" role="form" class="form-inline">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="searchContent" placeholder="请输入检索内容">
+                <h2><span class="searchtitleCN">作者信息分析调度系统</span></h2>
+                <h2><span class="searchtitleEN">Author Information Analysis and Scheduling System(AIAS)</span></h2>
+                <form action="/search" method="POST" role="form" class="form-inline" style="padding-top:34px">
+                    <div class="form-group" style="width:510px;height:40px;">
+                        <input type="text" class="form-control" name="searchContent" placeholder="请输入检索内容" style="width:510px;height:40px;">
                     </div>
-                    <button type="submit" class="btn btn-success">搜索作者</button>
+                    <button type="submit" class="btn btn-danger" style="width:130px;height:40px;">搜索</button>
                 </form>
             </div>
         </div>
