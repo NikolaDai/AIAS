@@ -74,8 +74,8 @@ public class AuthorService {
                 .must(QueryBuilders.matchQuery("articleText", this.getSearchContent()))
                 .must(QueryBuilders.matchQuery("authorsName", authorName));
         HighlightBuilder hiBuilder = new HighlightBuilder();
-        hiBuilder.preTags("\"<strong style=\"color:red\">");
-        hiBuilder.postTags("</strong>\"");
+        hiBuilder.preTags("<strong style=\"color:red\">");
+        hiBuilder.postTags("</strong>");
         hiBuilder.field("articleText");
         // 搜索数据
         SearchResponse response = client.prepareSearch("papers")
