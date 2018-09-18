@@ -44,7 +44,7 @@
             <td><span   th:text="${article.paperCategory}">分类</span></td>
             <td><span   th:text="${article.publishDate}">日期</span></td>
             <td><span   th:text="${article.paperType}">体裁</span></td>
-            <td><span   th:text="${article.articleText}">全文</span></td>
+            <td><p  th:utext="${article.articleText}">全文</p></td>
         </tr>
         </tbody>
     </table>

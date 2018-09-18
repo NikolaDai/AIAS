@@ -20,6 +20,8 @@ https://www.baeldung.com/spring-data-elasticsearch-tutorial(done!)
 https://blog.csdn.net/goodluck_mh/article/details/73655657
 
 https://blog.csdn.net/Hello_Ray/article/details/82153042
+## step 5: highlight the results based on the queries.
+https://blog.csdn.net/napoay/article/details/53910646(will refer to this URL later on when checking the USAGE of words)
 
 Create entity annotated by @Document
 引题    eyebrowTitle

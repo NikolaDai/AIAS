@@ -78,7 +78,8 @@ public class AiasController {
 
        // List<Article> articleList = articleRepository.findByAuthorsNameAndArticleText(authorName, authorService.getSearchContent());
 
-        List<Article> articleList = articleRepository.findByAuthorsNameAndArticleTextUsingCustomQuery(authorName, authorService.getSearchContent());
+        //List<Article> articleList = articleRepository.findByAuthorsNameAndArticleTextUsingCustomQuery(authorName, authorService.getSearchContent());
+        List<Article> articleList = authorService.getArticlesByAuthorNameAndSearchContent(authorName);
         if(articleList.size() != 0){
             model.addAttribute("articles", articleList);
         }
