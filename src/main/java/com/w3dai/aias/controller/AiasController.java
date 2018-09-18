@@ -97,6 +97,11 @@ public class AiasController {
             List<Author> author = authorRepository.findByAuthorName(authorsArray[i]);
             if(author.size() != 0)
                 authorList.add(author.get(0));
+            else{
+                Author tempAuthor = new Author();
+                tempAuthor.setAuthorName(authorsArray[i]);
+                authorList.add(tempAuthor);
+            }
         }
 
         model.addAttribute("authors", authorList);
