@@ -40,6 +40,7 @@ Create entity annotated by @Document
 - Embed the Elasticsearch module and run the test;(done on 09/13 23:22)
 - improve the returning number of results and based on results do some statistics.(done on 09/16 23:20)
 - Revisit what i have done and rethink the real need from the users.
+- Look into the URL: https://grokbase.com/t/gg/elasticsearch/128qz6wpzp/highlight-whole-sentence 
 
 # Key lessons learnt in the coding
 The entity's attribute name, let's say authorName, will map to the column "author_name" in the MySQL table.
