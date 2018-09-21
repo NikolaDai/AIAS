@@ -73,10 +73,24 @@ public class AuthorService {
         QueryBuilder multiMatchQuery = QueryBuilders.boolQuery()
                 .must(QueryBuilders.matchQuery("articleText", this.getSearchContent()))
                 .must(QueryBuilders.matchQuery("authorsName", authorName));
+        /***
+        *    "highlight" : {
+        *         "fields" : {
+        *             "articleText" : {}
+        *         },
+        * "boundary_scanner_locale": "zh-cn",
+        * "boundary_scanner":"sentence",
+        * "type":"unified"
+        *     }
+        *  */
         HighlightBuilder hiBuilder = new HighlightBuilder();
         hiBuilder.preTags("<strong style=\"color:red\">");
         hiBuilder.postTags("</strong>");
         hiBuilder.field("articleText");
+        hiBuilder.boundaryScannerLocale("zh-cn");
+        hiBuilder.boundaryScannerType("sentence");
+        hiBuilder.highlighterType("unified");
+
         // 搜索数据
         SearchResponse response = client.prepareSearch("papers")
                 .setQuery(multiMatchQuery)
