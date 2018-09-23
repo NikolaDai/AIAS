@@ -1,3 +1,34 @@
+<p align="center">
+  <h3 align="center">AIAS</h3>
+  <p align="center">
+    Satisfy the editors' most urgent needs and provide powerful and accurate tools for writers.
+  </p>
+</p>
+<br>
+
+## Table of Contents
+- [To-Do List](#to-do-list)
+- [Quick start](#quick-start)
+- [Status](#status)
+- [What's included](#whats-included)
+- [Bugs and feature requests](#bugs-and-feature-requests)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Community](#community)
+- [Versioning](#versioning)
+- [Creators](#creators)
+- [Thanks](#thanks)
+- [Copyright and license](#copyright-and-license)
+
+## To-Do List
+- Create the testing MySQL database and inject the test-data and test successfully;(done on 09/12 22:39)
+- Embed the Elasticsearch module and run the test;(done on 09/13 23:22)
+- improve the returning number of results and based on results do some statistics.(done on 09/16 23:20)
+- Look into the URL: https://grokbase.com/t/gg/elasticsearch/128qz6wpzp/highlight-whole-sentence 
+- Revisit what i have done and rethink the real need from the users.based on the query input, make some basic judgement, for example, if the user inputs a name, directly show the related author information;
+(build a mysql-type database to store the author information for name querying)(done on 09/23 23:40)
+- embed the Neo4J module and inject the data;
+
 # Author Information Analysis and Scheduling System(AIAS)
 ## Step 1: build the initial springMVC based demo
 * follow the instructions in 《Spring Boot in Action》
@@ -36,14 +67,7 @@ Create entity annotated by @Document
 正文    articleText
 
 # To-do list
-- Create the testing MySQL database and inject the test-data and test successfully;(done on 09/12 22:39)
-- Embed the Elasticsearch module and run the test;(done on 09/13 23:22)
-- improve the returning number of results and based on results do some statistics.(done on 09/16 23:20)
-- Look into the URL: https://grokbase.com/t/gg/elasticsearch/128qz6wpzp/highlight-whole-sentence 
 
-- Revisit what i have done and rethink the real need from the users.
-1. based on the query input, make some basic judgement, for example, if the user inputs a name, directly show the related author information;
-(build a mysql-type database to store the author information for name querying)
 
 
 # Key lessons learnt in the coding
