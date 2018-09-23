@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <p>作者信息库</p>
+    <div th:unless="${#lists.isEmpty(author)}">
+        <table class="table">
+            <caption>作者具体信息</caption>
+            <thead>
+            <tr>
+                <th>姓名</th>
+                <th>手机号码</th>
+                <th>电话号码</th>
+                <th>QQ</th>
+                <th>微信</th>
+                <th>email</th>
+                <th>单位名称</th>
+                <th>邮件地址</th>
+                <th>邮编</th>
+                <th>城市</th>
+                <th>省份</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="active"  th:each = "authorA : ${author}">
+                <td><span   th:text="${authorA.authorName}">姓名</span></td>
+                <td><span   th:text="${authorA.cellNumber}">手机号码</span></td>
+                <td><span   th:text="${authorA.phoneNumber}">电话号码</span></td>
+                <td><span   th:text="${authorA.QQ}">QQ</span></td>
+                <td><span   th:text="${authorA.weChat}">微信</span></td>
+                <td><span   th:text="${authorA.emailAddress}">email地址</span></td>
+                <td><span   th:text="${authorA.organizationName}">单位名称</span></td>
+                <td><span   th:text="${authorA.mailAddress}">邮件地址</span></td>
+                <td><span   th:text="${authorA.zipCode}">邮编</span></td>
+                <td><span   th:text="${authorA.workCityName}">城市</span></td>
+                <td><span   th:text="${authorA.workProvinceName}">省份</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

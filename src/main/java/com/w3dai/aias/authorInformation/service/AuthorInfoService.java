@@ -1,4 +1,4 @@
-package com.w3dai.aias.authorInformation;
+package com.w3dai.aias.authorInformation.service;
 
 import com.w3dai.aias.authorInformation.entity.Author;
 import com.w3dai.aias.authorInformation.repository.AuthorRepository;
@@ -31,5 +31,10 @@ public class AuthorInfoService {
             authorRepository.save(author);
         }
 
+    }
+
+    public List<Author> searchByAuthorName(String authorName){
+
+        return authorRepository.findByAuthorName(authorName);
     }
 }

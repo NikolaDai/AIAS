@@ -1,5 +1,6 @@
 package com.w3dai.aias.controller;
 
+import com.w3dai.aias.authorInformation.service.AuthorInfoService;
 import com.w3dai.aias.authorInformation.entity.Author;
 import com.w3dai.aias.authorInformation.repository.AuthorRepository;
 import com.w3dai.aias.domain.AuthorResult;
@@ -23,12 +24,15 @@ public class AiasController {
     private AuthorRepository authorRepository;
     private ArticleRepository articleRepository;
     private AuthorService authorService;
+    private AuthorInfoService authorInfoService;
 
     @Autowired
-    public AiasController(AuthorRepository authorRepository, ArticleRepository articleRepository, AuthorService authorService){
+    public AiasController(AuthorRepository authorRepository, ArticleRepository articleRepository, AuthorService authorService,
+                          AuthorInfoService authorInfoService){
         this.authorRepository = authorRepository;
         this.articleRepository = articleRepository;
         this.authorService = authorService;
+        this.authorInfoService = authorInfoService;
     }
 
     @RequestMapping("/")
@@ -40,9 +44,17 @@ public class AiasController {
     @RequestMapping("/search")
     public String searchAction(@RequestParam("searchContent") String searchContent, Model model){
         //List<Article> authorListWithArticleNumber = articleRepository.findByAuthorsNameUsingCustomQuery(searchContent);
+        List<Author> searchAuthorResult = null;
+        if(searchContent.matches("^[\\u4E00-\\u9FA5]{2,4}"))
+            searchAuthorResult = authorInfoService.searchByAuthorName(searchContent);
+
+        if(searchAuthorResult != null){
+            model.addAttribute("author", searchAuthorResult);
+        }
+
+        /**
         authorService.setSearchContent(searchContent);
         Aggregations newAggregation = authorService.shouldReturnAggregatedResponseForGivenSearchQuery();
-
 
         Map<String, Aggregation> map=newAggregation.asMap();
         ArrayList<AuthorResult> authorListWithArticleNumber = new ArrayList<>();
@@ -60,12 +72,12 @@ public class AiasController {
             }
         }
 
-
-
         if(authorListWithArticleNumber.size() != 0){
             model.addAttribute("authors", authorListWithArticleNumber);
         }
         return "searchResult";
+         **/
+        return "showResult";
     }
 
     @RequestMapping("/searchArticle")
@@ -86,19 +98,13 @@ public class AiasController {
     @RequestMapping("/searchAuthor")
     public String searchAuthorAction(@RequestParam("authorsName") String authorsName, Model model)
     {
-        String[] authorsArray = authorsName.split(";");
         List<Author> authorList = new LinkedList<>();
 
-        for(int i = 0; i < authorsArray.length; i++){
-            List<Author> author = authorRepository.findByAuthorName(authorsArray[i]);
-            if(author.size() != 0)
-                authorList.add(author.get(0));
-            else{
-                Author tempAuthor = new Author();
-                tempAuthor.setAuthorName(authorsArray[i]);
-                authorList.add(tempAuthor);
-            }
-        }
+        List<Author> searchAuthorResult;
+        searchAuthorResult = authorRepository.findByAuthorName(authorsName);
+
+        if(searchAuthorResult.size() > 0)
+            authorList.addAll(searchAuthorResult);
 
         model.addAttribute("authors", authorList);
         return "authorInfo";
