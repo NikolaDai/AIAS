@@ -118,4 +118,55 @@ public class AuthorService {
         return articlesWithHighlight;
     }
 
+
+
+    public List<Article> getArticlesBySearchContent(String SearchContent) {
+        //usage of QueryBuilders
+        QueryBuilder multiMatchQuery = QueryBuilders.boolQuery()
+                .must(QueryBuilders.matchQuery("articleText", this.getSearchContent()));
+        /***
+         *    "highlight" : {
+         *         "fields" : {
+         *             "articleText" : {}
+         *         },
+         * "boundary_scanner_locale": "zh-cn",
+         * "boundary_scanner":"sentence",
+         * "type":"unified"
+         *     }
+         *  */
+        HighlightBuilder hiBuilder = new HighlightBuilder();
+        hiBuilder.preTags("<strong style=\"color:red\">");
+        hiBuilder.postTags("</strong>");
+        hiBuilder.field("articleText");
+        hiBuilder.boundaryScannerLocale("zh-cn");
+        hiBuilder.boundaryScannerType("sentence");
+        hiBuilder.highlighterType("unified");
+
+        // 搜索数据
+        SearchResponse response = client.prepareSearch("papers")
+                .setQuery(multiMatchQuery)
+                .highlighter(hiBuilder)
+                .execute().actionGet();
+        //获取查询结果集
+        SearchHits searchHits = response.getHits();
+
+        System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
+
+        List<Article> articlesWithHighlight = new ArrayList<>();
+        //遍历结果
+        for (SearchHit hit : searchHits) {
+
+            Article article = JSON.parseObject(hit.getSourceAsString(), Article.class);
+            Text[] text = hit.getHighlightFields().get("articleText").getFragments();
+            String articleString = "";
+            for(Text str : text){
+                articleString += (str+"</br>");
+            }
+
+            article.setArticleText(articleString);
+            articlesWithHighlight.add(article);
+        }
+        return articlesWithHighlight;
+    }
+
 }

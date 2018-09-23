@@ -52,7 +52,11 @@ public class AiasController {
             model.addAttribute("author", searchAuthorResult);
         }
 
-        /**
+        List<Article> articleList = articleRepository.findByArticleText(searchContent);
+        if(articleList.size() != 0){
+            model.addAttribute("articles", articleList);
+        }
+
         authorService.setSearchContent(searchContent);
         Aggregations newAggregation = authorService.shouldReturnAggregatedResponseForGivenSearchQuery();
 
@@ -75,8 +79,11 @@ public class AiasController {
         if(authorListWithArticleNumber.size() != 0){
             model.addAttribute("authors", authorListWithArticleNumber);
         }
-        return "searchResult";
-         **/
+
+        List<Article> usageList = authorService.getArticlesBySearchContent(searchContent);
+        if(articleList.size() != 0){
+            model.addAttribute("usageList", usageList);
+        }
         return "showResult";
     }
 

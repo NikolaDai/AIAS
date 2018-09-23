@@ -3,45 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!-- Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+
+        .row{
+            display: table-cell;
+        }
+        /* centered columns styles */
+        .row-centered {
+            text-align:center;
+        }
+        .col-centered {
+            display:inline-block;
+            float:none;
+            text-align:left;
+            margin-right:-4px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <p>作者信息库</p>
-    <div th:unless="${#lists.isEmpty(author)}">
-        <table class="table">
-            <caption>作者具体信息</caption>
-            <thead>
-            <tr>
-                <th>姓名</th>
-                <th>手机号码</th>
-                <th>电话号码</th>
-                <th>QQ</th>
-                <th>微信</th>
-                <th>email</th>
-                <th>单位名称</th>
-                <th>邮件地址</th>
-                <th>邮编</th>
-                <th>城市</th>
-                <th>省份</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="active"  th:each = "authorA : ${author}">
-                <td><span   th:text="${authorA.authorName}">姓名</span></td>
-                <td><span   th:text="${authorA.cellNumber}">手机号码</span></td>
-                <td><span   th:text="${authorA.phoneNumber}">电话号码</span></td>
-                <td><span   th:text="${authorA.QQ}">QQ</span></td>
-                <td><span   th:text="${authorA.weChat}">微信</span></td>
-                <td><span   th:text="${authorA.emailAddress}">email地址</span></td>
-                <td><span   th:text="${authorA.organizationName}">单位名称</span></td>
-                <td><span   th:text="${authorA.mailAddress}">邮件地址</span></td>
-                <td><span   th:text="${authorA.zipCode}">邮编</span></td>
-                <td><span   th:text="${authorA.workCityName}">城市</span></td>
-                <td><span   th:text="${authorA.workProvinceName}">省份</span></td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="row" style="width:700px;margin:auto;">
+        <div class="text-center">
+            <form action="/search" method="POST" role="form" class="form-inline" style="padding-top:34px">
+            <div class="form-group" style="width:510px;height:40px;">
+            <input type="text" class="form-control" name="searchContent" placeholder="请输入检索内容" style="width:510px;height:40px;">
+            </div>
+            <button type="submit" class="btn btn-danger" style="width:130px;height:40px;">搜索</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding-top:25px;">
+    <div class="row" >
+        <div class="col-sm-8" style="font-size: 18px;">
+            <p class="text-primary">搜索结果</p>
+            <div th:unless="${#lists.isEmpty(author)}">
+                <p><a th:href="${'/searchAuthor?authorsName='+ author[0].authorName}"><span  th:text="${author[0].authorName}">姓名</span>_作者信息库</a></p>
+                <p>手机号码：<span   th:text="${author[0].cellNumber}">手机号码</span></p>
+                <p>电话号码：<span   th:text="${author[0].phoneNumber}">电话号码</span></p>
+                <p>QQ：<span   th:text="${author[0].QQ}">QQ</span></p>
+                <p>微信：<span   th:text="${author[0].weChat}">微信</span></p>
+            </div>
+            <div th:unless="${#lists.isEmpty(articles)}">
+                <div class="active"  th:each = "article : ${articles}">
+                    <p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow: hidden;"><span  th:utext="${article.articleText}">全文</span>s</p>
+                </div>
+            </div>
+            <div>
+                <p  class="text-primary">词语用法</p>
+                <div th:unless="${#lists.isEmpty(usageList)}">
+                    <div class="active"  th:each = "usage : ${usageList}">
+                        <p><span  th:utext="${usage.articleText}">全文</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4" style="background-color: #dedef8;border-left-color:rgb(225, 225, 225);border-left-style:solid;border-left-width:1px;">
+            <p>推荐作者</p>
+            <div th:unless="${#lists.isEmpty(authors)}">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>作者</th>
+                        <th>相关文章数</th>
+                        <th>文章列表</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="active"  th:each = "author : ${authors}">
+                        <td><a th:href="${'/searchAuthor?authorsName='+ author.authorName}"><span   th:text="${author.authorName}">作者</span></a></td>
+                        <td><span   th:text="${author.articleNum}">文章数量</span></td>
+                        <td><a th:href="${'/searchArticle?searchContent='+ author.authorName}"><span   th:text="点击查看">文章列表</span></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 </body>
+<script src="/js/bootstrap.min.js"></script>
 </html>
