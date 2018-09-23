@@ -39,8 +39,12 @@ Create entity annotated by @Document
 - Create the testing MySQL database and inject the test-data and test successfully;(done on 09/12 22:39)
 - Embed the Elasticsearch module and run the test;(done on 09/13 23:22)
 - improve the returning number of results and based on results do some statistics.(done on 09/16 23:20)
-- Revisit what i have done and rethink the real need from the users.
 - Look into the URL: https://grokbase.com/t/gg/elasticsearch/128qz6wpzp/highlight-whole-sentence 
+
+- Revisit what i have done and rethink the real need from the users.
+1. based on the query input, make some basic judgement, for example, if the user inputs a name, directly show the related author information;
+(build a mysql-type database to store the author information for name querying)
+
 
 # Key lessons learnt in the coding
 The entity's attribute name, let's say authorName, will map to the column "author_name" in the MySQL table.
