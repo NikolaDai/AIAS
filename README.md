@@ -27,9 +27,13 @@
 - Look into the URL: https://grokbase.com/t/gg/elasticsearch/128qz6wpzp/highlight-whole-sentence 
 - Revisit what i have done and rethink the real need from the users.based on the query input, make some basic judgement, for example, if the user inputs a name, directly show the related author information;
 (build a mysql-type database to store the author information for name querying)(done on 09/23 23:40)
-- embed the Neo4J module and inject the data;
+- (Not necessary function, just for FUN!)embed the Neo4J module and inject the data, refer to https://neo4j.com/developer/spring-data-neo4j/
 
-## 
+## Quick start
+use whatever JAVA IDE on your favor, download AIAS codes and run, have FUN!
+
+## Status
+I'm proud of issuing the Beta 0.1 which nicely solves most of editor's questions(2018 Mid-autumn Day).
 
 # Author Information Analysis and Scheduling System(AIAS)
 ## Step 1: build the initial springMVC based demo
