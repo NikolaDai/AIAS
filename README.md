@@ -29,6 +29,8 @@
 (build a mysql-type database to store the author information for name querying)(done on 09/23 23:40)
 - embed the Neo4J module and inject the data;
 
+## 
+
 # Author Information Analysis and Scheduling System(AIAS)
 ## Step 1: build the initial springMVC based demo
 * follow the instructions in 《Spring Boot in Action》
@@ -68,7 +70,10 @@ Create entity annotated by @Document
 
 # To-do list
 
-
+## elasticsearch query usage
+highlight query:
+http://localhost:9200/papers/_search/ POST
+{"query":{"match":{"articleText":"身先士卒"}},"size":1,"highlight":{"fields":{"articleText":{}},"boundary_scanner_locale":"zh-cn","boundary_scanner":"sentence","type":"unified"}}
 
 # Key lessons learnt in the coding
 The entity's attribute name, let's say authorName, will map to the column "author_name" in the MySQL table.

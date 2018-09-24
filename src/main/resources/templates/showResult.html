@@ -43,8 +43,7 @@
 
 <div class="container" style="padding-top:25px;">
     <div class="row" >
-        <div class="col-sm-8" style="font-size: 18px;">
-            <p class="text-primary">搜索结果</p>
+        <div class="col-sm-8" style="font-size: 16px;">
             <div th:unless="${#lists.isEmpty(author)}">
                 <p><a th:href="${'/searchAuthor?authorsName='+ author[0].authorName}"><span  th:text="${author[0].authorName}">姓名</span>_作者信息库</a></p>
                 <p>手机号码：<span   th:text="${author[0].cellNumber}">手机号码</span></p>
@@ -52,22 +51,25 @@
                 <p>QQ：<span   th:text="${author[0].QQ}">QQ</span></p>
                 <p>微信：<span   th:text="${author[0].weChat}">微信</span></p>
             </div>
+            <p class="text-primary">搜索结果</p>
             <div th:unless="${#lists.isEmpty(articles)}">
-                <div class="active"  th:each = "article : ${articles}">
-                    <p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow: hidden;"><span  th:utext="${article.articleText}">全文</span>s</p>
+                <div class="active"  th:each = "article : ${articles}" style="margin-bottom:14px;">
+                    <p style="color:rgb(0, 0, 204);cursor:pointer;font-family:arial;font-size:16px;"><u><span  th:utext="${article.mainTitle}">标题</span></u></p>
+                    <p style="font-size:13px;" th:if="${article.authorsName != null}">作者：<span  th:utext="${article.authorsName}">作者</span></p>
+                    <p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow: hidden;font-size:13px;"><span  th:utext="${article.articleText}">全文</span></p>
                 </div>
             </div>
             <div>
                 <p  class="text-primary">词语用法</p>
                 <div th:unless="${#lists.isEmpty(usageList)}">
-                    <div class="active"  th:each = "usage : ${usageList}">
+                    <div class="active"  th:each = "usage : ${usageList}" style="margin-bottom:14px;">
                         <p><span  th:utext="${usage.articleText}">全文</span></p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-sm-4" style="background-color: #dedef8;border-left-color:rgb(225, 225, 225);border-left-style:solid;border-left-width:1px;">
-            <p>推荐作者</p>
+            <p class="text-primary">推荐作者</p>
             <div th:unless="${#lists.isEmpty(authors)}">
                 <table class="table">
                     <thead>

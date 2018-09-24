@@ -68,6 +68,7 @@ public class AuthorService {
         return aggregations;
     }
 
+    //return the author's article list
     public List<Article> getArticlesByAuthorNameAndSearchContent(String authorName) {
         //usage of QueryBuilders
         QueryBuilder multiMatchQuery = QueryBuilders.boolQuery()
@@ -101,26 +102,12 @@ public class AuthorService {
 
         System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
 
-        List<Article> articlesWithHighlight = new ArrayList<>();
-        //遍历结果
-        for (SearchHit hit : searchHits) {
-
-            Article article = JSON.parseObject(hit.getSourceAsString(), Article.class);
-            Text[] text = hit.getHighlightFields().get("articleText").getFragments();
-            String articleString = "";
-            for(Text str : text){
-                articleString += (str+"</br>");
-            }
-
-            article.setArticleText(articleString);
-            articlesWithHighlight.add(article);
-        }
-        return articlesWithHighlight;
+        return searchResultProcess(searchHits);
     }
 
 
 
-    public List<Article> getArticlesBySearchContent(String SearchContent) {
+    public List<Article> getArticlesUsageBySearchContent(String SearchContent) {
         //usage of QueryBuilders
         QueryBuilder multiMatchQuery = QueryBuilders.boolQuery()
                 .must(QueryBuilders.matchQuery("articleText", this.getSearchContent()));
@@ -152,10 +139,44 @@ public class AuthorService {
 
         System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
 
-        List<Article> articlesWithHighlight = new ArrayList<>();
-        //遍历结果
-        for (SearchHit hit : searchHits) {
+        return searchResultProcess(searchHits);
+    }
 
+
+
+    public List<Article> getArticlesBySearchContent(String SearchContent) {
+        //usage of QueryBuilders
+        QueryBuilder MatchQuery = QueryBuilders.boolQuery()
+                .must(QueryBuilders.matchQuery("articleText", this.getSearchContent()));
+        /***
+         *    "highlight" : {
+         *         "fields" : {
+         *             "articleText" : {}
+         *         },
+         *     }
+         *  */
+        HighlightBuilder hiBuilder = new HighlightBuilder();
+        hiBuilder.preTags("<strong style=\"color:red\">");
+        hiBuilder.postTags("</strong>");
+        hiBuilder.field("articleText");
+        hiBuilder.fragmentSize(30000);
+
+        SearchResponse response = client.prepareSearch("papers")
+                .setQuery(MatchQuery)
+                .highlighter(hiBuilder)
+                .execute().actionGet();
+
+        //获取查询结果集
+        SearchHits searchHits = response.getHits();
+
+        System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
+
+        return searchResultProcess(searchHits);
+    }
+
+    public List<Article> searchResultProcess(SearchHits searchHits){
+        List<Article> articlesWithHighlight = new ArrayList<>();
+        for (SearchHit hit : searchHits) {
             Article article = JSON.parseObject(hit.getSourceAsString(), Article.class);
             Text[] text = hit.getHighlightFields().get("articleText").getFragments();
             String articleString = "";
@@ -166,6 +187,7 @@ public class AuthorService {
             article.setArticleText(articleString);
             articlesWithHighlight.add(article);
         }
+
         return articlesWithHighlight;
     }
 
