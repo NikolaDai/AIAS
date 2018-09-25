@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.elasticsearch.index.query.QueryBuilders.idsQuery;
 import static org.elasticsearch.search.aggregations.AggregationBuilders.terms;
 
 @Service
@@ -174,6 +175,11 @@ public class AuthorService {
         return searchResultProcess(searchHits);
     }
 
+    //QueryBuilder qb = idsQuery().ids("1", "2");
+    //get document by ID
+
+
+
     public List<Article> searchResultProcess(SearchHits searchHits){
         List<Article> articlesWithHighlight = new ArrayList<>();
         for (SearchHit hit : searchHits) {
@@ -184,6 +190,7 @@ public class AuthorService {
                 articleString += (str+"</br>");
             }
 
+            article.setId(hit.getId());
             article.setArticleText(articleString);
             articlesWithHighlight.add(article);
         }

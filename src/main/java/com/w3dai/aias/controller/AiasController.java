@@ -85,11 +85,12 @@ public class AiasController {
         if(usageList.size() != 0){
             model.addAttribute("usageList", usageList);
         }
+        model.addAttribute("searchContent", searchContent);
         return "showResult";
     }
 
     @RequestMapping("/searchArticle")
-    public String searchArticleAction(@RequestParam("searchContent") String authorName, Model model){
+    public String searchArticleAction(@RequestParam("searchRelatedContent") String authorName, @RequestParam("searchContent") String searchContent,Model model){
         //Page<Article> articleList = articleRepository.findByAuthorsName(searchContent, PageRequest.of(0, 10)););
 
        // List<Article> articleList = articleRepository.findByAuthorsNameAndArticleText(authorName, authorService.getSearchContent());
@@ -99,22 +100,36 @@ public class AiasController {
         if(articleList.size() != 0){
             model.addAttribute("articles", articleList);
         }
-
+        model.addAttribute("searchContent", searchContent);
         return "searchArticleResult";
     }
 
+    @RequestMapping("/searchID")
+    public String searchID(@RequestParam("articleID") String articleID, @RequestParam("searchContent") String searchContent, Model model){
+        Optional<Article> articleList = articleRepository.findById(articleID);
+        if(articleList.isPresent()){
+            model.addAttribute("articles", articleList.get());
+        }
+
+        model.addAttribute("searchContent", searchContent);
+
+        return "articleResult";
+    }
+
     @RequestMapping("/searchAuthor")
-    public String searchAuthorAction(@RequestParam("authorsName") String authorsName, Model model)
+    public String searchAuthorAction(@RequestParam("authorsName") String authorsName, @RequestParam("searchContent") String searchContent,Model model)
     {
         List<Author> authorList = new LinkedList<>();
 
-        List<Author> searchAuthorResult;
-        searchAuthorResult = authorRepository.findByAuthorName(authorsName);
-
-        if(searchAuthorResult.size() > 0)
-            authorList.addAll(searchAuthorResult);
+        String[] authorsNameArray = authorsName.split(";");
+        for(int i = 0; i < authorsNameArray.length; i++) {
+            List<Author> searchAuthorResult = authorRepository.findByAuthorName(authorsNameArray[i]);
+            if(searchAuthorResult.size() > 0)
+                authorList.addAll(searchAuthorResult);
+        }
 
         model.addAttribute("authors", authorList);
+        model.addAttribute("searchContent", searchContent);
         return "authorInfo";
     }
 }
