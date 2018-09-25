@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>作者信息分析调度系统</title>
     <!-- Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <style>
@@ -54,7 +54,7 @@
             <p class="text-primary">搜索结果</p>
             <div th:unless="${#lists.isEmpty(articles)}">
                 <div class="active"  th:each = "article : ${articles}" style="margin-bottom:14px;">
-                    <p style="color:rgb(0, 0, 204);cursor:pointer;font-family:arial;font-size:16px;"><u><span  th:utext="${article.mainTitle}">标题</span></u></p>
+                    <p style="color:rgb(0, 0, 204);cursor:pointer;font-family:arial;font-size:16px;"><u><a th:href="${'/searchID?articleID='+ article.id + '&searchContent=' + searchContent}"><span  th:utext="${article.mainTitle}">标题</span></a></u></p>
                     <p style="font-size:13px;" th:if="${article.authorsName != null}">作者：<span  th:utext="${article.authorsName}">作者</span></p>
                     <p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow: hidden;font-size:13px;"><span  th:utext="${article.articleText}">全文</span></p>
                 </div>
@@ -81,9 +81,9 @@
                     </thead>
                     <tbody>
                     <tr class="active"  th:each = "author : ${authors}">
-                        <td><a th:href="${'/searchAuthor?authorsName='+ author.authorName}"><span   th:text="${author.authorName}">作者</span></a></td>
+                        <td><a th:href="${'/searchAuthor?authorsName='+ author.authorName + '&searchContent=' + searchContent}"><span   th:text="${author.authorName}">作者</span></a></td>
                         <td><span   th:text="${author.articleNum}">文章数量</span></td>
-                        <td><a th:href="${'/searchArticle?searchContent='+ author.authorName}"><span   th:text="点击查看">文章列表</span></a></td>
+                        <td><a th:href="${'/searchArticle?searchRelatedContent='+ author.authorName + '&searchContent=' + searchContent}"><span   th:text="点击查看">文章列表</span></a></td>
                     </tr>
                     </tbody>
                 </table>
