@@ -28,12 +28,18 @@
 - Revisit what i have done and rethink the real need from the users.based on the query input, make some basic judgement, for example, if the user inputs a name, directly show the related author information;
 (build a mysql-type database to store the author information for name querying)(done on 09/23 23:40)
 - (Not necessary function, just for FUN!)embed the Neo4J module and inject the data, refer to https://neo4j.com/developer/spring-data-neo4j/
-
+- allow the users to update the authors' information
+- allow multi-page show in which ajax technique may be used
+- allow the article title to be highlighted.
+ 
 ## Quick start
 use whatever JAVA IDE on your favor, download AIAS codes and run, have FUN!
 
 ## Status
 I'm proud of issuing the Beta 0.1 which nicely solves most of editor's questions(2018 Mid-autumn Day).
+
+## Thanks
+Many thanks to Mr. NI Shunqian who took me to the IDEA world.
 
 # Author Information Analysis and Scheduling System(AIAS)
 ## Step 1: build the initial springMVC based demo
