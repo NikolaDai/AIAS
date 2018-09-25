@@ -10,7 +10,7 @@ import javax.persistence.Id;
 public class Article {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long      id;
+    private String      id;
     private String    eyebrowTitle;
     private String    mainTitle;
     private String    subTitle;
@@ -21,12 +21,21 @@ public class Article {
     private String    publishDate;
     private String    paperType;
     private String    articleText;
+    private String    columnName;
 
-    public Long getId() {
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
