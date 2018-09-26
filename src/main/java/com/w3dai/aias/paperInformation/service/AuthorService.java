@@ -175,10 +175,6 @@ public class AuthorService {
         return searchResultProcess(searchHits);
     }
 
-    //QueryBuilder qb = idsQuery().ids("1", "2");
-    //get document by ID
-
-
 
     public List<Article> searchResultProcess(SearchHits searchHits){
         List<Article> articlesWithHighlight = new ArrayList<>();

@@ -59,12 +59,27 @@
                     <p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow: hidden;font-size:13px;"><span  th:utext="${article.articleText}">全文</span></p>
                 </div>
             </div>
+
+            <ul class="pagination"> 
+                <li class="disabled"><a href="#">&laquo;</a></li> 
+                <li class="active"><a href="#">1</a></li> 
+                <li><a href="#">2</a></li> 
+                <li><a href="#">3</a></li> 
+                <li><a href="#">4</a></li> 
+                <li><a href="#">5</a></li> 
+                <li><a href="#">&raquo;</a></li>
+            </ul>
+
             <div>
                 <p  class="text-primary">词语用法</p>
                 <div th:unless="${#lists.isEmpty(usageList)}">
-                    <div class="active"  th:each = "usage : ${usageList}" style="margin-bottom:14px;">
-                        <p><span  th:utext="${usage.articleText}">全文</span></p>
-                    </div>
+                    <ol>
+                        <div class="active"  th:each = "usage : ${usageList}" style="margin-bottom:14px;">
+                            <li>
+                                <p><span  th:utext="${usage.articleText}">全文</span></p>
+                            </li>
+                        </div>
+                    </ol>
                 </div>
             </div>
         </div>

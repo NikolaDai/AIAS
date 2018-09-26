@@ -41,6 +41,7 @@ I'm proud of issuing the Beta 0.1 which nicely solves most of editor's questions
 ## Thanks
 Many thanks to Mr. NI Shunqian who took me to the IDEA world.
 
+
 # Author Information Analysis and Scheduling System(AIAS)
 ## Step 1: build the initial springMVC based demo
 * follow the instructions in 《Spring Boot in Action》
@@ -65,6 +66,7 @@ https://blog.csdn.net/goodluck_mh/article/details/73655657
 https://blog.csdn.net/Hello_Ray/article/details/82153042
 ## step 5: highlight the results based on the queries.
 https://blog.csdn.net/napoay/article/details/53910646(will refer to this URL later on when checking the USAGE of words)
+
 
 Create entity annotated by @Document
 引题    eyebrowTitle
