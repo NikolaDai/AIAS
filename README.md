@@ -38,6 +38,10 @@ use whatever JAVA IDE on your favor, download AIAS codes and run, have FUN!
 ## Status
 I'm proud of issuing the Beta 0.1 which nicely solves most of editor's questions(2018 Mid-autumn Day).
 
+## What is included?
+Due to the complexity of the designed system, many underlying technologies are used including Java, Spring, Spring boot, MySQL, Elasticsearch and etc(Neo4J in future).
+
+
 ## Thanks
 Many thanks to Mr. NI Shunqian who took me to the IDEA world.
 
