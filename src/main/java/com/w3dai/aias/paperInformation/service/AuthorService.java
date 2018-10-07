@@ -8,6 +8,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.text.Text;
+import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -24,7 +25,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.elasticsearch.index.query.QueryBuilders.idsQuery;
 import static org.elasticsearch.search.aggregations.AggregationBuilders.terms;
 
 @Service
@@ -32,7 +32,6 @@ public class AuthorService {
     private ElasticsearchTemplate elasticsearchTemplate;
     private Client client;
     private String searchContent;
-
 
     public String getSearchContent() {
         return searchContent;
@@ -50,7 +49,8 @@ public class AuthorService {
 
     public Aggregations shouldReturnAggregatedResponseForGivenSearchQuery() {
         // given
-        QueryBuilder queryBuilder = QueryBuilders.matchQuery("articleText", this.getSearchContent());
+        QueryBuilder queryBuilder = QueryBuilders.matchQuery("articleText", this.getSearchContent()).operator(Operator.AND);
+        //QueryBuilder queryBuilder = QueryBuilders.matchQuery("articleText", this.getSearchContent());
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
                 .withQuery(queryBuilder)
                 .withSearchType(SearchType.DEFAULT)

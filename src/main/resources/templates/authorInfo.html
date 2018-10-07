@@ -47,7 +47,21 @@
         </tbody>
     </table>
 </div>
-
+    <h3>更新作者信息</h3>
+    <form method="POST" th:each = "author : ${authors}">
+        <label for="authorName"><span   th:text="${author.authorName}">姓名</span></label>
+        <label for="cellNumber">手机号码：</label>
+        <input type="text" name="cellnumber" size="50" /><br />
+        <label for="phoneNumber">电话号码：</label>
+        <input type="text" name="phoneNumber" size="50" /><br />
+        <label for="QQ">QQ：</label>
+        <input type="text" name="QQ" size="50" /><br />
+        <label for="weChat">微信：</label>
+        <input type="text" name="weChat" size="50" /><br />
+        <label for="emailAddress">email地址：</label>
+        <input type="text" name="emailAddress" size="50" /><br />
+        <input type="submit" />
+    </form>
 </div>
 <div class="container">
     <a th:href="${'/search?searchContent=' + searchContent}"><button class="btn btn-danger" style="margin:auto">返回</button></a>
