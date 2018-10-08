@@ -49,17 +49,28 @@
 </div>
     <h3>更新作者信息</h3>
     <form method="POST" th:each = "author : ${authors}">
-        <label for="authorName"><span   th:text="${author.authorName}">姓名</span></label>
+        <label for="authorName">姓名</label>
+        <input type="text" name="authorName" size="50" readonly="readonly" th:value="${author.authorName}"/><br />
         <label for="cellNumber">手机号码：</label>
-        <input type="text" name="cellnumber" size="50" /><br />
+        <input type="text" name="cellNumber" size="50"  th:value="${author.cellNumber}" /><br />
         <label for="phoneNumber">电话号码：</label>
-        <input type="text" name="phoneNumber" size="50" /><br />
+        <input type="text" name="phoneNumber" size="50" th:value="${author.phoneNumber}" /><br />
         <label for="QQ">QQ：</label>
-        <input type="text" name="QQ" size="50" /><br />
+        <input type="text" name="QQ" size="50"  th:value="${author.QQ}" /><br />
         <label for="weChat">微信：</label>
-        <input type="text" name="weChat" size="50" /><br />
+        <input type="text" name="weChat" size="50" th:value="${author.weChat}" /><br />
         <label for="emailAddress">email地址：</label>
-        <input type="text" name="emailAddress" size="50" /><br />
+        <input type="text" name="emailAddress" size="50" th:value="${author.emailAddress}" /><br />
+        <label for="organizationName">单位名称：</label>
+        <input type="text" name="organizationName" size="50" th:value="${author.organizationName}" /><br />
+        <label for="mailAddress">邮件地址：</label>
+        <input type="text" name="mailAddress" size="50" th:value="${author.mailAddress}" /><br />
+        <label for="zipCode">邮编：</label>
+        <input type="text" name="zipCode" size="50" th:value="${author.zipCode}" /><br />
+        <label for="workCityName">城市：</label>
+        <input type="text" name="workCityName" size="50" th:value="${author.workCityName}" /><br />
+        <label for="workProvinceName">省份：</label>
+        <input type="text" name="workProvinceName" size="50" th:value="${author.workProvinceName}" /><br />
         <input type="submit" />
     </form>
 </div>

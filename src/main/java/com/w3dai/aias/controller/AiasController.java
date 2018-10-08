@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
@@ -92,10 +93,9 @@ public class AiasController {
     @RequestMapping("/searchArticle")
     public String searchArticleAction(@RequestParam("searchRelatedContent") String authorName, @RequestParam("searchContent") String searchContent,Model model){
         //Page<Article> articleList = articleRepository.findByAuthorsName(searchContent, PageRequest.of(0, 10)););
-
        // List<Article> articleList = articleRepository.findByAuthorsNameAndArticleText(authorName, authorService.getSearchContent());
-
         //List<Article> articleList = articleRepository.findByAuthorsNameAndArticleTextUsingCustomQuery(authorName, authorService.getSearchContent());
+
         List<Article> articleList = authorService.getArticlesByAuthorNameAndSearchContent(authorName);
         if(articleList.size() != 0){
             model.addAttribute("articles", articleList);
@@ -116,7 +116,7 @@ public class AiasController {
         return "articleResult";
     }
 
-    @RequestMapping("/searchAuthor")
+    @RequestMapping(value = {"/searchAuthor"}, method = {RequestMethod.GET})
     public String searchAuthorAction(@RequestParam("authorsName") String authorsName, @RequestParam("searchContent") String searchContent,Model model)
     {
         List<Author> authorList = new LinkedList<>();
@@ -130,6 +130,41 @@ public class AiasController {
 
         model.addAttribute("authors", authorList);
         model.addAttribute("searchContent", searchContent);
+        return "authorInfo";
+    }
+
+    @RequestMapping(value = {"/searchAuthor"}, method = {RequestMethod.POST})
+    public String updateAuthorInfo(@RequestParam("authorName") String authorName,
+                                   @RequestParam("cellNumber") String cellNumber,
+                                   @RequestParam("phoneNumber") String phoneNumber,
+                                   @RequestParam("QQ") String QQ,
+                                   @RequestParam("weChat") String weChat,
+                                   @RequestParam("emailAddress") String emailAddress,
+                                   @RequestParam("organizationName") String organizationName,
+                                   @RequestParam("mailAddress") String mailAddress,
+                                   @RequestParam("zipCode") String zipCode,
+                                   @RequestParam("workCityName") String workCityName,
+                                   @RequestParam("workProvinceName") String workProvinceName,
+                                   Model model)
+    {
+        Author newAuthorInfo = new Author();
+        List<Author> searchAuthorResult = authorRepository.findByAuthorName(authorName);
+        newAuthorInfo.setId(searchAuthorResult.get(0).getId());
+        newAuthorInfo.setAuthorName(authorName);
+        newAuthorInfo.setCellNumber(cellNumber);
+        newAuthorInfo.setPhoneNumber(phoneNumber);
+        newAuthorInfo.setQQ(QQ);
+        newAuthorInfo.setWeChat(weChat);
+        newAuthorInfo.setEmailAddress(emailAddress);
+        newAuthorInfo.setOrganizationName(organizationName);
+        newAuthorInfo.setMailAddress(mailAddress);
+        newAuthorInfo.setZipCode(zipCode);
+        newAuthorInfo.setWorkCityName(workCityName);
+        newAuthorInfo.setWorkProvinceName(workProvinceName);
+        authorRepository.save(newAuthorInfo);
+        List<Author> authorList = authorRepository.findByAuthorName(authorName);
+        model.addAttribute("authors", authorList);
+
         return "authorInfo";
     }
 }
