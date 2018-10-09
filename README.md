@@ -95,7 +95,7 @@ http://localhost:9200/papers/_search/ POST
 The entity's attribute name, let's say authorName, will map to the column "author_name" in the MySQL table.
 
 #Bugs Report
-When search "十二届", then something weird happens. Cant tell the reason now.(09/18 11:29) => solved
+
 
 #Java开发者值得关注的十个技术博客
 Java是世界上最流行的程序语言，从1995年问世以来，Java的生态系统在一直在蓬勃的发展着。作为一门健壮的技术，Java社区为广大开发者提供了包括框架、库、web开发sdk、JVM语言等资源。在各种科技行业都能够找到关于Java编程的相关资源，这就是为什么Java会如此受人喜爱。
@@ -120,3 +120,12 @@ The Pragmatic Integrator 是由Pascal Alma运营维护的备受欢迎的Java博�
 Java Revisited是一个关于Java编程、FIX协议以及Tibco RV的编程类博客，在这里Java语言爱好者可以找到关于Java内核、Java设计模式、多线程、面向对象编程和Spring框架等多种类型的文章。Java Revisited还提供了对各种常见的编程面试问题的解决方法，涵盖的主题包括SQL、数据结构与算法、Hibernate等，除此之外，它还提供了关于Java JSON、Java多线程、Java编程和Java网络的一系列教程。
 10. Program Creek
 Program Creek是一个覆盖了大量文章、文本教程、代码示例和图表的Java编程类博客，网站的文章包括了Java基础知识、Java XML解析、Java多线程、面向对象概念、Java 8λ、Java API 示例和Java框架等主题。Program Creek还包含了大量的插图和图表来简化复杂的Java主题，比如空语句、监视器、JVM运行时数据分区等。
+
+# elasticsearch(ES)的java开发
+创建完成ES的索引(index)和记录（document）后，如何利用java查询数据成为首先要解决的问题。ES提供了两个强大的类协助解决此类问题，分别是QueryBuilders和SearchQuery。下面结合范例具体讲解两个类的用法。
+## QueryBuilders的用法
+QueryBuilders用于构建具体查询语句，类型为QueryBuilder，可以作为count和search的查询参数。
+
+#Java Basics
+## interface extends implements
+extends用于继承，implements用于实现接口。可以通过继承在新接口中组合数个接口。
