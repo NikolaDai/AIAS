@@ -32,6 +32,7 @@
 - allow multi-page show in which ajax technique may be used
 - allow the article title to be highlighted
 - try new analyzer other tan IKAnalyzer
+- add the user management module including sign in and out
  
 ## Quick start
 use whatever JAVA IDE on your favor, download AIAS codes and run, have FUN!
