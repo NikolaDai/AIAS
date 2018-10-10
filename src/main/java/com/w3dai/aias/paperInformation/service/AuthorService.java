@@ -38,7 +38,7 @@ public class AuthorService {
         this.client = client;
     }
 
-    //Key function: based on the querying results,
+    //Key function: based on the querying results, show the most related authors.
     public Aggregations shouldReturnAggregatedResponseForGivenSearchQuery() {
         // given
         //QueryBuilder queryBuilder = matchQuery("articleText", this.getSearchContent()).operator(Operator.AND);
