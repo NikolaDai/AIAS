@@ -1,8 +1,6 @@
 package com.w3dai.aias.paperInformation.service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.w3dai.aias.paperInformation.entity.Article;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
@@ -11,6 +9,7 @@ import org.elasticsearch.common.text.Text;
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregations;
@@ -33,23 +32,21 @@ public class AuthorService {
     private Client client;
     private String searchContent;
 
-    public String getSearchContent() {
-        return searchContent;
-    }
-
-    public void setSearchContent(String searchContent) {
-        this.searchContent = searchContent;
-    }
-
     @Autowired
     public AuthorService(ElasticsearchTemplate elasticsearchTemplate, Client client) {
         this.elasticsearchTemplate = elasticsearchTemplate;
         this.client = client;
     }
 
+    //Key function: based on the querying results,
     public Aggregations shouldReturnAggregatedResponseForGivenSearchQuery() {
         // given
-        QueryBuilder queryBuilder = QueryBuilders.matchQuery("articleText", this.getSearchContent()).operator(Operator.AND);
+        //QueryBuilder queryBuilder = matchQuery("articleText", this.getSearchContent()).operator(Operator.AND);
+        QueryBuilder queryBuilder = commonTermsQuery("articleText", this.getSearchContent());
+        //QueryBuilder qb = matchAllQuery();
+        //note that you can easily print(aka debug) json generated queries using toString() method on QueryBuilder object.
+        System.out.println(queryBuilder.toString());
+
         //QueryBuilder queryBuilder = QueryBuilders.matchQuery("articleText", this.getSearchContent());
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
                 .withQuery(queryBuilder)
@@ -73,8 +70,8 @@ public class AuthorService {
     public List<Article> getArticlesByAuthorNameAndSearchContent(String authorName) {
         //usage of QueryBuilders
         QueryBuilder multiMatchQuery = QueryBuilders.boolQuery()
-                .must(QueryBuilders.matchQuery("articleText", this.getSearchContent()))
-                .must(QueryBuilders.matchQuery("authorsName", authorName));
+                .must(matchQuery("articleText", this.getSearchContent()))
+                .must(matchQuery("authorsName", authorName));
         /***
         *    "highlight" : {
         *         "fields" : {
@@ -111,7 +108,7 @@ public class AuthorService {
     public List<Article> getArticlesUsageBySearchContent(String SearchContent) {
         //usage of QueryBuilders
         QueryBuilder multiMatchQuery = QueryBuilders.boolQuery()
-                .must(QueryBuilders.matchQuery("articleText", this.getSearchContent()));
+                .must(matchQuery("articleText", this.getSearchContent()));
         /***
          *    "highlight" : {
          *         "fields" : {
@@ -148,7 +145,7 @@ public class AuthorService {
     public List<Article> getArticlesBySearchContent(String SearchContent) {
         //usage of QueryBuilders
         QueryBuilder MatchQuery = QueryBuilders.boolQuery()
-                .must(QueryBuilders.matchQuery("articleText", this.getSearchContent()));
+                .must(matchQuery("articleText", this.getSearchContent()));
         /***
          *    "highlight" : {
          *         "fields" : {
@@ -192,6 +189,15 @@ public class AuthorService {
         }
 
         return articlesWithHighlight;
+    }
+
+
+    public String getSearchContent() {
+        return searchContent;
+    }
+
+    public void setSearchContent(String searchContent) {
+        this.searchContent = searchContent;
     }
 
 }
