@@ -124,8 +124,43 @@ Program Creek是一个覆盖了大量文章、文本教程、代码示例和图�
 # elasticsearch(ES)的java开发
 创建完成ES的索引(index)和记录（document）后，如何利用java查询数据成为首先要解决的问题。ES提供了两个强大的类协助解决此类问题，分别是QueryBuilders和SearchQuery。下面结合范例具体讲解两个类的用法。
 ## QueryBuilders的用法
+ES提供了与REST Query DSL具有类似功能的纯JAVA查询DSL（domain specific language）。查询构建者工厂是QueryBuilders。通过查看源码可知，该类是抽象类，包含了一系列用于构建各种类型查询的静态函数。使用QueryBuilders需要import到代码中，如下
+```aidl
+import static org.elasticsearch.index.query.QueryBuilders.*;
+```
+
+QueryBuilders工厂构建的查询共分为七大类：
+
+| 类别名称 | 使用场景 | 功能说明 | 包含的函数 |
+| :------: | ------ | ------ | ------ |
+| Full text queries | 对整个文本域上进行文本查询 | 对查询语句使用各域上配置分词器进行分词后执行查询操作| matchQuery, multiMatchQuery, commonTermsQuery, queryStringQuery |
+| Term level queries | 用于数字、日期以及枚举等结构化数据 | 对查询语句不做分词预处理，作为整体进行查询 | termQuery，termsQuery，rangeQuery， existsQuery， wildcardQuery， regexpQuery |
+| Compound queries | 复合查询 | 将复合查询或者叶子查询归拢在一起后进行两种操作，组合这些查询的结果或者评分或者从查询（query context）切换到过滤上下文（filter context） | constantScoreQuery，|
+| Joining queries |||
+| Geo queries |||
+| Specialized queries |||
+| Span queries |||
+
+背景知识：
+- Query Context 和 Filter Context
+查询短句的行为取决于查询是在query还是filter上下文中使用。
+1. Query Context: 在此场景使用的查询短句回答了这个问题：“这个文档有多么好的匹配这个查询短句？”在决定文档是否匹配的基础上，查询短句也计算了_score的值，用于表示相对于其他文档，这个文档的匹配度。
+2. Filter Context:  在此场景使用的查询短句回答了这个问题：“这个文档匹配这个查询短句吗？”回答是YES或者NO，无需计算任何分值。Filter Context大部分应用于结构化数据。
+
+难点函数解析：
+- commonTermsQuery：此函数是一种替换停用词（stopwords）的先进功能，在考虑停用词前提下提高了查询结果的准确性和召回率。不熟悉停用词的请参见：https://blog.csdn.net/yang090510118/article/details/37993627
+在已有开发系统中只是使用了matchQuery，确实遇到了这个问题，比如查询“我是天才”，会把含有“我”和“是”的搜索结果排的靠前。为此，commonTermsQuery就颇为有用。对查询语句进行分词后对词语进行了分组，重要词（频率低）和次重要词（频率高）。
+通常来看，频率高的词是停用词的可能性较大。common term query首先对重要词进行全文检索，然后在检索结果中对次重要词进行检索。
+- constantScoreQuery：
 QueryBuilders用于构建具体查询语句，类型为QueryBuilder，可以作为count和search的查询参数。
 
 #Java Basics
 ## interface extends implements
 extends用于继承，implements用于实现接口。可以通过继承在新接口中组合数个接口。
+
+## import static
+
+# other useful resource
+Chinese Stopwords:
+
+的一不在人有是为以于上他而后之来及了因下可到由这与也此但并个其已无小我们起最再今去好只又或很亦某把那你乃它吧被比别趁当从到得打凡儿尔该各给跟和何还即几既看据距靠啦了另么每们嘛拿哪那您凭且却让仍啥如若使谁虽随同所她哇嗡往哪些向沿哟用于咱则怎曾至致着诸自
