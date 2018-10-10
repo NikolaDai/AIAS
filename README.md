@@ -28,9 +28,10 @@
 - Revisit what i have done and rethink the real need from the users.based on the query input, make some basic judgement, for example, if the user inputs a name, directly show the related author information;
 (build a mysql-type database to store the author information for name querying)(done on 09/23 23:40)
 - (Not necessary function, just for FUN!)embed the Neo4J module and inject the data, refer to https://neo4j.com/developer/spring-data-neo4j/
-- allow the users to update the authors' information
+- allow the users to update the authors' information (done on 2018/10/09)
 - allow multi-page show in which ajax technique may be used
-- allow the article title to be highlighted.
+- allow the article title to be highlighted
+- try new analyzer other tan IKAnalyzer
  
 ## Quick start
 use whatever JAVA IDE on your favor, download AIAS codes and run, have FUN!
@@ -136,10 +137,10 @@ QueryBuilders工厂构建的查询共分为七大类：
 | Full text queries | 对整个文本域上进行文本查询 | 对查询语句使用各域上配置分词器进行分词后执行查询操作| matchQuery, multiMatchQuery, commonTermsQuery, queryStringQuery |
 | Term level queries | 用于数字、日期以及枚举等结构化数据 | 对查询语句不做分词预处理，作为整体进行查询 | termQuery，termsQuery，rangeQuery， existsQuery， wildcardQuery， regexpQuery |
 | Compound queries | 复合查询 | 将复合查询或者叶子查询归拢在一起后进行两种操作，组合这些查询的结果或者评分或者从查询（query context）切换到过滤上下文（filter context） | constantScoreQuery，|
-| Joining queries |||
-| Geo queries |||
-| Specialized queries |||
-| Span queries |||
+| Joining queries | 交叉查询 ||
+| Geo queries | 地理位置查询 ||
+| Specialized queries | 特殊查询 | 用于相似文本检索或者使用脚本作为过滤条件或者|
+| Span queries | span查询 | 主要用于立法文件或专利 |
 
 背景知识：
 - Query Context 和 Filter Context
@@ -151,8 +152,20 @@ QueryBuilders工厂构建的查询共分为七大类：
 - commonTermsQuery：此函数是一种替换停用词（stopwords）的先进功能，在考虑停用词前提下提高了查询结果的准确性和召回率。不熟悉停用词的请参见：https://blog.csdn.net/yang090510118/article/details/37993627
 在已有开发系统中只是使用了matchQuery，确实遇到了这个问题，比如查询“我是天才”，会把含有“我”和“是”的搜索结果排的靠前。为此，commonTermsQuery就颇为有用。对查询语句进行分词后对词语进行了分组，重要词（频率低）和次重要词（频率高）。
 通常来看，频率高的词是停用词的可能性较大。common term query首先对重要词进行全文检索，然后在检索结果中对次重要词进行检索。
-- constantScoreQuery：
-QueryBuilders用于构建具体查询语句，类型为QueryBuilder，可以作为count和search的查询参数。
+- boolQuery：此函数主要用于组合查询，用于匹配满足多个查询的布尔组合，对应于lucene的BooleanQuery。基于一个或者多个布尔查询短句，
+每个短句都有一种关键词类型，如下：
+
+| 关键字类型 | 功能说明 |
+| :------: | ------ |
+| must | 查询短句必须出现在文本中并且对评分有贡献 |
+| filter | 查询短句必须出现在文本中. 与must不同， 此查询的评分不计算. Filter短句在filter context中执行, 也就是说不计算评分并短句将被缓存。|
+| should | 短句视情况是否出现在文本中。当bool查询组合中含有must和filter时，匹配must和filter文档无需考虑是否匹配should短句。否则，文档仅需满足should短句中一条或者多条，由 minimum_should_match参数决定。|
+| must_not | 匹配文档中必定不包含此类短句 |
+
+## Search API的用法
+可以使用Search API进行查询（查询语句由QueryBuilders来构建）并返回搜索命中结果。
+
+- Using scrolls in Java
 
 #Java Basics
 ## interface extends implements
