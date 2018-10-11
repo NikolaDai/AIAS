@@ -144,15 +144,8 @@ public class AuthorService {
 
     public List<Article> getArticlesBySearchContent(String SearchContent) {
         //usage of QueryBuilders
-        QueryBuilder MatchQuery = QueryBuilders.boolQuery()
-                .must(matchQuery("articleText", this.getSearchContent()));
-        /***
-         *    "highlight" : {
-         *         "fields" : {
-         *             "articleText" : {}
-         *         },
-         *     }
-         *  */
+        QueryBuilder MatchQuery = QueryBuilders.matchQuery("articleText", this.getSearchContent());
+
         HighlightBuilder hiBuilder = new HighlightBuilder();
         hiBuilder.preTags("<strong style=\"color:red\">");
         hiBuilder.postTags("</strong>");
@@ -161,6 +154,8 @@ public class AuthorService {
 
         SearchResponse response = client.prepareSearch("papers")
                 .setQuery(MatchQuery)
+                .setFrom(0)
+                .setSize(20)
                 .highlighter(hiBuilder)
                 .execute().actionGet();
 
