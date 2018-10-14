@@ -29,7 +29,7 @@
 (build a mysql-type database to store the author information for name querying)(done on 09/23 23:40)
 - (Not necessary function, just for FUN!)embed the Neo4J module and inject the data, refer to https://neo4j.com/developer/spring-data-neo4j/
 - allow the users to update the authors' information (done on 2018/10/09)
-- allow multi-page show in which ajax technique may be used, refer to http://www.importnew.com/24722.html 
+- allow multi-page show in which ajax technique may be used, refer to http://www.importnew.com/24722.html
 - allow the article title to be highlighted
 - try new analyzer other tan IKAnalyzer
 - add the user management module including sign in and out
@@ -171,6 +171,11 @@ QueryBuilders工厂构建的查询共分为七大类：
 #Java Basics
 ## interface extends implements
 extends用于继承，implements用于实现接口。可以通过继承在新接口中组合数个接口。
+## 如何函数返回多个结果参数
+1. total page number returned;
+2. the searching results are needed;
+3. need modify the current function  to return the above two values.
+4. the solution is suggested to read https://blog.csdn.net/zzh920625/article/details/80462379
 
 ## import static
 
