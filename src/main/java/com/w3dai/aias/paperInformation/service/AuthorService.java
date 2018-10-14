@@ -21,8 +21,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.elasticsearch.search.aggregations.AggregationBuilders.terms;
 
@@ -141,7 +140,7 @@ public class AuthorService {
     }
 
 
-
+/*
     public List<Article> getArticlesBySearchContent(String SearchContent) {
         //usage of QueryBuilders
         QueryBuilder MatchQuery = QueryBuilders.matchQuery("articleText", this.getSearchContent());
@@ -166,7 +165,35 @@ public class AuthorService {
 
         return searchResultProcess(searchHits);
     }
+*/
 
+    public Map<String, Object> getArticlesBySearchContent(String SearchContent) {
+        //usage of QueryBuilders
+        QueryBuilder MatchQuery = QueryBuilders.matchQuery("articleText", this.getSearchContent());
+
+        HighlightBuilder hiBuilder = new HighlightBuilder();
+        hiBuilder.preTags("<strong style=\"color:red\">");
+        hiBuilder.postTags("</strong>");
+        hiBuilder.field("articleText");
+        hiBuilder.fragmentSize(30000);
+
+        SearchResponse response = client.prepareSearch("papers")
+                .setQuery(MatchQuery)
+                .setFrom(0)
+                .setSize(20)
+                .highlighter(hiBuilder)
+                .execute().actionGet();
+
+        //获取查询结果集
+        SearchHits searchHits = response.getHits();
+
+        Map<String, Object> resultWanted = new HashMap<String, Object>();
+        resultWanted.put("totalNumOfResults", response.getHits().getTotalHits());
+        resultWanted.put("resultsOfWanted", searchResultProcess(searchHits));
+        System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
+
+        return resultWanted;
+    }
 
     public List<Article> searchResultProcess(SearchHits searchHits){
         List<Article> articlesWithHighlight = new ArrayList<>();

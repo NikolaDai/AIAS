@@ -54,9 +54,13 @@ public class AiasController {
         }
 
         authorService.setSearchContent(searchContent);
-        List<Article> articleList = authorService.getArticlesBySearchContent(searchContent);
+        Map<String, Object> searchDataResults = authorService.getArticlesBySearchContent(searchContent);
+
+        List<Article> articleList = (List<Article>)searchDataResults.get("resultsOfWanted");
+
 
         if(articleList.size() != 0){
+            model.addAttribute("searchedArticlesNum", searchDataResults.get("totalNumOfResults"));
             model.addAttribute("articles", articleList);
         }
 
