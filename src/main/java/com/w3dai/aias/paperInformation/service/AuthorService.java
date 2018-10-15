@@ -15,6 +15,8 @@ import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.ResultsExtractor;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -213,6 +215,9 @@ public class AuthorService {
         return articlesWithHighlight;
     }
 
+    public Page<Article>  resultsBySearchArticleContent(String searchContent, Pageable pageable){
+
+    }
 
     public String getSearchContent() {
         return searchContent;
