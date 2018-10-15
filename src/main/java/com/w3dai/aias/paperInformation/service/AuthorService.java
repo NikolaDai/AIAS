@@ -6,7 +6,6 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.text.Text;
-import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -16,13 +15,17 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.ResultsExtractor;
+import org.springframework.data.elasticsearch.core.SearchResultMapper;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 import static org.elasticsearch.search.aggregations.AggregationBuilders.terms;
@@ -215,7 +218,63 @@ public class AuthorService {
         return articlesWithHighlight;
     }
 
-    public Page<Article>  resultsBySearchArticleContent(String searchContent, Pageable pageable){
+    public Page<Article>  resultsBySearchArticleContent(String searchContent, Pageable pageable) {
+        QueryBuilder MatchQuery = QueryBuilders.matchQuery("articleText", searchContent);
+
+        HighlightBuilder hiBuilder = new HighlightBuilder();
+        hiBuilder.preTags("<strong style=\"color:red\">");
+        hiBuilder.postTags("</strong>");
+        hiBuilder.field("articleText");
+        hiBuilder.fragmentSize(30000);
+
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(MatchQuery)
+                .withHighlightFields(new HighlightBuilder.Field("articleText")).build();
+
+        Page<Article> page = elasticsearchTemplate.queryForPage(searchQuery, Article.class, new SearchResultMapper() {
+            @Override
+            public <T> Page<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
+                ArrayList<Article> articles = new ArrayList<>();
+                SearchHits hits = response.getHits();
+                for (SearchHit searchHit : hits) {
+                    if (hits.getHits().length <= 0) {
+                        return null;
+                    }
+                    Article article = JSON.parseObject(searchHit.getSourceAsString(), Article.class);
+                    String highLightMessage = searchHit.getHighlightFields().get("articleText").fragments()[0].toString();
+                    article.setId(searchHit.getId());
+
+                    // 反射调用set方法将高亮内容设置进去
+                    try {
+                        String setMethodName = parSetName("articleText");
+                        Class<? extends Article> articleClazz = article.getClass();
+                        Method setMethod = articleClazz.getMethod(setMethodName, String.class);
+                        setMethod.invoke(article, highLightMessage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    articles.add(article);
+                }
+                if (articles.size() > 0) {
+                    return new PageImpl<T>((List<T>) articles);
+
+                }
+                return null;
+            }
+        });
+
+        return page;
+    }
+
+    private String parSetName(String fieldName) {
+        if (null == fieldName || "".equals(fieldName)) {
+            return null;
+        }
+        int startIndex = 0;
+        if (fieldName.charAt(0) == '_')
+            startIndex = 1;
+        return "set" + fieldName.substring(startIndex, startIndex + 1).toUpperCase()
+                + fieldName.substring(startIndex + 1);
 
     }
 

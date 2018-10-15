@@ -180,6 +180,9 @@ extends用于继承，implements用于实现接口。可以通过继承在新接
 ## import static
 
 # other useful resource
-Chinese Stopwords:
 
+## Chinese Stopwords:
 的一不在人有是为以于上他而后之来及了因下可到由这与也此但并个其已无小我们起最再今去好只又或很亦某把那你乃它吧被比别趁当从到得打凡儿尔该各给跟和何还即几既看据距靠啦了另么每们嘛拿哪那您凭且却让仍啥如若使谁虽随同所她哇嗡往哪些向沿哟用于咱则怎曾至致着诸自
+
+## the official spring-data-elasticsearch doesn't support highlight feature
+However, in this article https://blog.csdn.net/yuleishangran/article/details/81274254, the author developed one way.
