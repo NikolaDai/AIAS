@@ -12,8 +12,11 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -170,5 +173,11 @@ public class AiasController {
         model.addAttribute("authors", authorList);
 
         return "authorInfo";
+    }
+
+    @RequestMapping("/searchTest")
+    public String list(ModelMap model, @SortDefault("mainTitle") Pageable pageable){
+        model.addAttribute("page", articleRepository.findByArticleText("海军", pageable));
+        return "testTable";
     }
 }
