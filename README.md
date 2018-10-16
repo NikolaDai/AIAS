@@ -29,7 +29,8 @@
 (build a mysql-type database to store the author information for name querying)(done on 09/23 23:40)
 - (Not necessary function, just for FUN!)embed the Neo4J module and inject the data, refer to https://neo4j.com/developer/spring-data-neo4j/
 - allow the users to update the authors' information (done on 2018/10/09)
-- allow multi-page show in which ajax technique may be used, refer to http://www.importnew.com/24722.html
+- allow article multi-page show in which ajax technique may be used, refer to https://github.com/yankuangshi/SpringBootThymeleafPagination(done on 2018/10/16, not consider ajax yet)
+- allow author multi-page show, considering use datatables
 - allow the article title to be highlighted
 - try new analyzer other tan IKAnalyzer
 - add the user management module including sign in and out

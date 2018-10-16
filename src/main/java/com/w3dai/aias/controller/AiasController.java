@@ -4,6 +4,7 @@ import com.w3dai.aias.authorInformation.service.AuthorInfoService;
 import com.w3dai.aias.authorInformation.entity.Author;
 import com.w3dai.aias.authorInformation.repository.AuthorRepository;
 import com.w3dai.aias.domain.AuthorResult;
+import com.w3dai.aias.domain.PagedList;
 import com.w3dai.aias.paperInformation.entity.Article;
 import com.w3dai.aias.paperInformation.repository.ArticleRepository;
 import com.w3dai.aias.paperInformation.service.AuthorService;
@@ -30,6 +31,12 @@ public class AiasController {
     private AuthorService authorService;
     private AuthorInfoService authorInfoService;
 
+    //support the pagination function
+    private static final int INIT_PAGE_SIZE = 20;
+    private static final int INIT_PAGE_INDEX = 0;
+    private static final int[] PAGE_SIZES = {5, 10, 20};
+
+
     @Autowired
     public AiasController(AuthorRepository authorRepository, ArticleRepository articleRepository, AuthorService authorService,
                           AuthorInfoService authorInfoService){
@@ -44,7 +51,7 @@ public class AiasController {
         return "index";
     }
 
-
+/*
     @RequestMapping("/search")
     public String searchAction(@RequestParam("searchContent") String searchContent, Model model){
         //List<Article> authorListWithArticleNumber = articleRepository.findByAuthorsNameUsingCustomQuery(searchContent);
@@ -57,10 +64,9 @@ public class AiasController {
         }
 
         authorService.setSearchContent(searchContent);
-        Map<String, Object> searchDataResults = authorService.getArticlesBySearchContent(searchContent);
+        Map<String, Object> searchDataResults = authorService.getArticlesBySearchContent(searchContent, 20, 0);
 
         List<Article> articleList = (List<Article>)searchDataResults.get("resultsOfWanted");
-
 
         if(articleList.size() != 0){
             model.addAttribute("searchedArticlesNum", searchDataResults.get("totalNumOfResults"));
@@ -96,7 +102,7 @@ public class AiasController {
         model.addAttribute("searchContent", searchContent);
         return "showResult";
     }
-
+*/
     @RequestMapping("/searchArticle")
     public String searchArticleAction(@RequestParam("searchRelatedContent") String authorName, @RequestParam("searchContent") String searchContent,Model model){
         //Page<Article> articleList = articleRepository.findByAuthorsName(searchContent, PageRequest.of(0, 10)););
@@ -175,9 +181,101 @@ public class AiasController {
         return "authorInfo";
     }
 
+    //proved to be useful when dealing with fixed repository class
     @RequestMapping("/searchTest")
     public String list(ModelMap model, @SortDefault("mainTitle") Pageable pageable){
         model.addAttribute("page", articleRepository.findByArticleText("海军", pageable));
         return "testTable";
+    }
+
+    /**
+     *demo code
+     */
+    @RequestMapping(value = "/searchByPage", method = RequestMethod.GET)
+    public String getRequestedArticles(@RequestParam(value="searchContent",required = false,defaultValue = "海军") String searchContent,
+                                       @RequestParam("pageSize") Optional<Integer> pageSize,
+                                       @RequestParam("page") Optional<Integer> page,
+                                       Model model){
+    int evalPageSize = pageSize.orElse(INIT_PAGE_SIZE);
+    int evalPageIndex = (page.orElse(0) < 1) ? 0 : page.get() - 1;
+
+    int fromValue = evalPageIndex * evalPageSize;
+    PagedList<Article> pagedList = new PagedList<>(evalPageSize, evalPageIndex);
+
+    Map<String, Object> searchDataResults = authorService.getArticlesBySearchContent(searchContent, fromValue, evalPageSize);
+    List<Article> articleList = (List<Article>)searchDataResults.get("resultsOfWanted");
+
+    int totalCount = Integer.parseInt(searchDataResults.get("totalNumOfResults").toString());
+
+    pagedList.setItemList(articleList);
+    pagedList.setTotalCount(totalCount);
+    model.addAttribute("list", pagedList);
+    model.addAttribute("pageSizes", PAGE_SIZES);
+    model.addAttribute("searchContent", searchContent);
+
+    return "articles";
+    }
+
+    @RequestMapping("/search")
+    public String searchAction(@RequestParam(value="searchContent",required = false,defaultValue = "海军") String searchContent,
+                               @RequestParam("pageSize") Optional<Integer> pageSize,
+                               @RequestParam("page") Optional<Integer> page,
+                               Model model){
+        List<Author> searchAuthorResult = null;
+        if(searchContent.matches("^[\\u4E00-\\u9FA5]{2,4}"))
+            searchAuthorResult = authorInfoService.searchByAuthorName(searchContent);
+
+        if(searchAuthorResult != null){
+            model.addAttribute("author", searchAuthorResult);
+        }
+
+        authorService.setSearchContent(searchContent);
+
+        int evalPageSize = pageSize.orElse(INIT_PAGE_SIZE);
+        int evalPageIndex = (page.orElse(0) < 1) ? 0 : page.get() - 1;
+
+        int fromValue = evalPageIndex * evalPageSize;
+        PagedList<Article> pagedList = new PagedList<>(evalPageSize, evalPageIndex);
+
+        Map<String, Object> searchDataResults = authorService.getArticlesBySearchContent(searchContent, fromValue, evalPageSize);
+        List<Article> articleList = (List<Article>)searchDataResults.get("resultsOfWanted");
+
+        int totalCount = Integer.parseInt(searchDataResults.get("totalNumOfResults").toString());
+
+        pagedList.setItemList(articleList);
+        pagedList.setTotalCount(totalCount);
+        model.addAttribute("list", pagedList);
+        model.addAttribute("pageSizes", PAGE_SIZES);
+        model.addAttribute("searchContent", searchContent);
+        model.addAttribute("searchedArticlesNum", searchDataResults.get("totalNumOfResults"));
+
+        Aggregations newAggregation = authorService.shouldReturnAggregatedResponseForGivenSearchQuery();
+
+        Map<String, Aggregation> map=newAggregation.asMap();
+        ArrayList<AuthorResult> authorListWithArticleNumber = new ArrayList<>();
+        for(String s:map.keySet()){
+            StringTerms a=(StringTerms) map.get(s);
+            List<StringTerms.Bucket> list=a.getBuckets();
+
+            for(Terms.Bucket b:list){
+                AuthorResult tempAuthor = new AuthorResult();
+                if(!b.getKeyAsString().equals("等")) {
+                    tempAuthor.setAuthorName(b.getKeyAsString());
+                    tempAuthor.setArticleNum((int) b.getDocCount());
+                    authorListWithArticleNumber.add(tempAuthor);
+                }
+            }
+        }
+
+        if(authorListWithArticleNumber.size() != 0){
+            model.addAttribute("authors", authorListWithArticleNumber);
+        }
+
+        List<Article> usageList = authorService.getArticlesUsageBySearchContent(searchContent);
+        if(usageList.size() != 0){
+            model.addAttribute("usageList", usageList);
+        }
+        model.addAttribute("searchContent", searchContent);
+        return "showResultPage";
     }
 }

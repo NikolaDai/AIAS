@@ -10,9 +10,9 @@
 <table class="table table-striped table-hover">
     <thead>
     <tr>
-        <th><a class="sorted" sd:pagination-sort="username" >Username</a></th>
-        <th><a class="sorted" sd:pagination-sort="firstName" >First name</a></th>
-        <th>Last Name</th>
+        <th><a class="sorted" sd:pagination-sort="username" >mainTitle</a></th>
+        <th><a class="sorted" sd:pagination-sort="firstName" >authorsName</a></th>
+        <th>articleText</th>
         <th></th>
     </tr>
     </thead>
@@ -21,7 +21,7 @@
     <tr th:each="row : ${page}">
         <th scope="row" th:text="${row.mainTitle}">mainTitle</th>
         <td th:text="${row.authorsName}">authorsName</td>
-        <td th:text="${row.editorsName}">editorsName</td>
+        <td th:utext="${row.articleText}">articleText</td>
         <td><a href="#">edit</a></td>
     </tr>
     </tbody>

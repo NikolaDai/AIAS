@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>作者信息分析调度系统</title>
+    <!-- Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="/css/style.css}" rel="stylesheet"/>
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+
+        .row{
+            display: table-cell;
+        }
+        /* centered columns styles */
+        .row-centered {
+            text-align:center;
+        }
+        .col-centered {
+            display:inline-block;
+            float:none;
+            text-align:left;
+            margin-right:-4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row" style="width:700px;margin:auto;">
+        <div class="text-center">
+            <form action="/search" method="POST" role="form" class="form-inline" style="padding-top:34px">
+            <div class="form-group" style="width:510px;height:40px;">
+            <input type="text" class="form-control" name="searchContent" placeholder="请输入检索内容" style="width:510px;height:40px;">
+            </div>
+            <button type="submit" class="btn btn-danger" style="width:130px;height:40px;">搜索</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding-top:25px;">
+    <div class="row">
+        <div class="col-sm-8" style="font-size: 16px;">
+            <div th:unless="${#lists.isEmpty(author)}">
+                <p><a th:href="${'/searchAuthor?authorsName='+ author[0].authorName}"><span  th:text="${author[0].authorName}">姓名</span>_作者信息库</a></p>
+                <p>手机号码：<span   th:text="${author[0].cellNumber}">手机号码</span></p>
+                <p>电话号码：<span   th:text="${author[0].phoneNumber}">电话号码</span></p>
+                <p>QQ：<span   th:text="${author[0].QQ}">QQ</span></p>
+                <p>微信：<span   th:text="${author[0].weChat}">微信</span></p>
+            </div>
+
+            <p class="text-primary">搜索到<span th:text="${searchedArticlesNum}">0</span>个结果</p>
+            <div th:unless="${#lists.isEmpty(list.itemList)}">
+                <div class="active"  th:each = "article : ${list.itemList}" style="margin-bottom:14px;">
+                    <p style="color:rgb(0, 0, 204);cursor:pointer;font-family:arial;font-size:16px;"><u><a th:href="${'/searchID?articleID='+ article.id + '&searchContent=' + searchContent}"><span  th:utext="${article.mainTitle}">标题</span></a></u></p>
+                    <p style="font-size:13px;" th:if="${article.authorsName != null}">作者：<span  th:utext="${article.authorsName}">作者</span></p>
+                    <p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow: hidden;font-size:13px;"><span  th:utext="${article.articleText}">全文</span></p>
+                </div>
+            </div>
+
+            <div class="row"  style="width:600px">
+                <!--
+                <div class="form-group col-md-1">
+                    <select class="form-control pagination" id="pageSizeSelect">
+                        <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
+                                th:selected="${pageSize} == ${list.pageSize}"></option>
+                    </select>
+                </div>
+                -->
+                <div th:if="${list.totalPageCount != 1}" class="form-group col-md-11 pagination-centered">
+                    <ul class="pagination">
+                        <li th:class="${list.pageIndex == 0} ? disabled">
+                            <a class="pageLink" th:href="@{/search/(pageSize=${list.pageSize}, page=1, searchContent=${searchContent})}">&laquo;</a>
+                        </li>
+                        <li th:class="${list.pageIndex == 0} ? disabled">
+                            <a class="pageLink" th:href="@{/search/(pageSize=${list.pageSize}, page=${list.pageIndex}, searchContent=${searchContent})}">&larr;</a>
+                        </li>
+                        <li th:class="${list.pageIndex == (pageNo - 1)} ? 'active pointer-disabled'"
+                            th:each="pageNo : ${#numbers.sequence(list.startPage, list.endPage)}">
+                            <a class="pageLink" th:href="@{/search/(pageSize=${list.pageSize}, page=${pageNo}, searchContent=${searchContent})}"
+                               th:text="${pageNo}"></a>
+                        </li>
+                        <li th:class="${list.pageIndex + 1 == list.totalPageCount} ? disabled">
+                            <a class="pageLink" th:href="@{/search/(pageSize=${list.pageSize}, page=${list.pageIndex + 2}, searchContent=${searchContent})}">&rarr;</a>
+                        </li>
+                        <li th:class="${list.pageIndex + 1 == list.totalPageCount} ? disabled">
+                            <a class="pageLink" th:href="@{/search/(pageSize=${list.pageSize}, page=${list.totalPageCount}, searchContent=${searchContent})}">&raquo;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <p  class="text-primary">词语用法</p>
+                <div th:unless="${#lists.isEmpty(usageList)}">
+                    <ol>
+                        <div class="active"  th:each = "usage : ${usageList}" style="margin-bottom:14px;">
+                            <li>
+                                <p><span  th:utext="${usage.articleText}">全文</span></p>
+                            </li>
+                        </div>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4" style="background-color: #dedef8;border-left-color:rgb(225, 225, 225);border-left-style:solid;border-left-width:1px;">
+            <p class="text-primary">推荐作者</p>
+            <div th:unless="${#lists.isEmpty(authors)}">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>作者</th>
+                        <th>相关文章数</th>
+                        <th>文章列表</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="active"  th:each = "author : ${authors}">
+                        <td><a th:href="${'/searchAuthor?authorsName='+ author.authorName + '&searchContent=' + searchContent}"><span   th:text="${author.authorName}">作者</span></a></td>
+                        <td><span   th:text="${author.articleNum}">文章数量</span></td>
+                        <td><a th:href="${'/searchArticle?searchRelatedContent='+ author.authorName + '&searchContent=' + searchContent}"><span   th:text="点击查看">文章列表</span></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/js/jquery.min.js}"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/app.js}"></script>
+</html>

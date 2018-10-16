@@ -15,11 +15,12 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.ResultsExtractor;
 import org.springframework.data.elasticsearch.core.SearchResultMapper;
+import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
+import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
@@ -172,9 +173,12 @@ public class AuthorService {
     }
 */
 
-    public Map<String, Object> getArticlesBySearchContent(String SearchContent) {
+    public Map<String, Object> getArticlesBySearchContent(String SearchContent, int fromValue, int sizeValue) {
         //usage of QueryBuilders
-        QueryBuilder MatchQuery = QueryBuilders.matchQuery("articleText", this.getSearchContent());
+        if(SearchContent == null)
+            SearchContent = this.getSearchContent();
+
+        QueryBuilder MatchQuery  = QueryBuilders.matchQuery("articleText", SearchContent);
 
         HighlightBuilder hiBuilder = new HighlightBuilder();
         hiBuilder.preTags("<strong style=\"color:red\">");
@@ -184,8 +188,8 @@ public class AuthorService {
 
         SearchResponse response = client.prepareSearch("papers")
                 .setQuery(MatchQuery)
-                .setFrom(0)
-                .setSize(20)
+                .setFrom(fromValue)
+                .setSize(sizeValue)
                 .highlighter(hiBuilder)
                 .execute().actionGet();
 
@@ -218,22 +222,17 @@ public class AuthorService {
         return articlesWithHighlight;
     }
 
+    //proved to be a failure! hope to take some time fix in future.
     public Page<Article>  resultsBySearchArticleContent(String searchContent, Pageable pageable) {
         QueryBuilder MatchQuery = QueryBuilders.matchQuery("articleText", searchContent);
 
-        HighlightBuilder hiBuilder = new HighlightBuilder();
-        hiBuilder.preTags("<strong style=\"color:red\">");
-        hiBuilder.postTags("</strong>");
-        hiBuilder.field("articleText");
-        hiBuilder.fragmentSize(30000);
-
         NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(MatchQuery)
+                .withQuery(MatchQuery).withPageable(pageable)
                 .withHighlightFields(new HighlightBuilder.Field("articleText")).build();
 
         Page<Article> page = elasticsearchTemplate.queryForPage(searchQuery, Article.class, new SearchResultMapper() {
             @Override
-            public <T> Page<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
+            public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable){
                 ArrayList<Article> articles = new ArrayList<>();
                 SearchHits hits = response.getHits();
                 for (SearchHit searchHit : hits) {
@@ -256,7 +255,7 @@ public class AuthorService {
                     articles.add(article);
                 }
                 if (articles.size() > 0) {
-                    return new PageImpl<T>((List<T>) articles);
+                    return new AggregatedPageImpl<>((List<T>) articles);
 
                 }
                 return null;
