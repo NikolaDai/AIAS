@@ -57,7 +57,7 @@
             <div th:unless="${#lists.isEmpty(list.itemList)}">
                 <div class="active"  th:each = "article : ${list.itemList}" style="margin-bottom:14px;">
                     <p style="color:rgb(0, 0, 204);cursor:pointer;font-family:arial;font-size:16px;"><u><a th:href="${'/searchID?articleID='+ article.id + '&searchContent=' + searchContent}"><span  th:utext="${article.mainTitle}">标题</span></a></u></p>
-                    <p style="font-size:13px;" th:if="${article.authorsName != null}">作者：<span  th:utext="${article.authorsName}">作者</span></p>
+                    <p style="font-size:13px;" th:if="${article.authorsName != null}">作者：<span  th:utext="${article.authorsName}">作者</span>&nbsp&nbsp&nbsp发表日期：<span th:utext="${article.publishDate}"></span></p>
                     <p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow: hidden;font-size:13px;"><span  th:utext="${article.articleText}">全文</span></p>
                 </div>
             </div>
