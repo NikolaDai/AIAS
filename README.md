@@ -34,6 +34,7 @@
 - allow the article title to be highlighted
 - try new analyzer other tan IKAnalyzer
 - add the user management module including sign in and out
+- hotwords to show https://blog.csdn.net/yulio1234/article/details/77479181
  
 ## Quick start
 use whatever JAVA IDE on your favor, download AIAS codes and run, have FUN!
@@ -44,10 +45,8 @@ I'm proud of issuing the Beta 0.1 which nicely solves most of editor's questions
 ## What is included?
 Due to the complexity of the designed system, many underlying technologies are used including Java, Spring, Spring boot, MySQL, Elasticsearch and etc(Neo4J in future).
 
-
 ## Thanks
 Many thanks to Mr. NI Shunqian who took me to the IDEA world.
-
 
 # Author Information Analysis and Scheduling System(AIAS)
 ## Step 1: build the initial springMVC based demo
@@ -59,7 +58,6 @@ Many thanks to Mr. NI Shunqian who took me to the IDEA world.
     - 1.1 create the entity "author"
     - 1.2 create the "author" repository
 - 2.paperInformation(based on Elasticsearch)
-
 
 ## Step 2: add MySQL component to this project
 I have done all the sub-steps from getting search content from the index.html to return the query data to the searchResult.html. All Fancy Cool.
@@ -186,4 +184,6 @@ extends用于继承，implements用于实现接口。可以通过继承在新接
 的一不在人有是为以于上他而后之来及了因下可到由这与也此但并个其已无小我们起最再今去好只又或很亦某把那你乃它吧被比别趁当从到得打凡儿尔该各给跟和何还即几既看据距靠啦了另么每们嘛拿哪那您凭且却让仍啥如若使谁虽随同所她哇嗡往哪些向沿哟用于咱则怎曾至致着诸自
 
 ## the official spring-data-elasticsearch doesn't support highlight feature
-However, in this article https://blog.csdn.net/yuleishangran/article/details/81274254, the author developed one way.
+However, in this article https://blog.csdn.net/yuleishangran/article/details/81274254, the author developed one way.（useless）
+
+问题：为什么要用资料库数据？而不使用数字报的直接数据？资料库数据中最有价值的数据是什么？
