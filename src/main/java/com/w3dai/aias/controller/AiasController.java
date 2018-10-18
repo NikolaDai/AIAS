@@ -189,6 +189,13 @@ public class AiasController {
         return "testTable";
     }
 
+    @RequestMapping("/searchByTime")
+    public String searchByTime(ModelMap model, @SortDefault("mainTitle") Pageable pageable){
+        //model.addAttribute("page", articleRepository.findByArticleText("海军", pageable));
+        model.addAttribute("page", authorService.resultsBySearchArticleContent("海军", pageable));
+        return "testTable";
+    }
+
     /**
      *demo code
      */
