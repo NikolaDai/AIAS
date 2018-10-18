@@ -5,14 +5,22 @@ import com.w3dai.aias.paperInformation.entity.Article;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.io.stream.StreamOutput;
 import org.elasticsearch.common.text.Text;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import static org.elasticsearch.index.query.QueryBuilders.*;
+
+import org.elasticsearch.index.query.QueryShardContext;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortFieldAndFormat;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,6 +35,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -187,8 +196,12 @@ public class AuthorService {
         hiBuilder.field("articleText");
         hiBuilder.fragmentSize(30000);
 
+        SortBuilder hiSort = SortBuilders.fieldSort("publishDate")
+                .order(SortOrder.DESC);
+
+
         SearchResponse response = client.prepareSearch("papers")
-                .setQuery(MatchQuery)
+                .setQuery(MatchQuery).addSort(hiSort)
                 .setFrom(fromValue)
                 .setSize(sizeValue)
                 .highlighter(hiBuilder)
