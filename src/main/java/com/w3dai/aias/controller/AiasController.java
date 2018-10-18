@@ -181,10 +181,11 @@ public class AiasController {
         return "authorInfo";
     }
 
-    //proved to be useful when dealing with fixed repository class
+    //thymeleaf-spring-data-dialect：proved to be useful when dealing with fixed repository class
     @RequestMapping("/searchTest")
     public String list(ModelMap model, @SortDefault("mainTitle") Pageable pageable){
-        model.addAttribute("page", articleRepository.findByArticleText("海军", pageable));
+        //model.addAttribute("page", articleRepository.findByArticleText("海军", pageable));
+        model.addAttribute("page", authorService.resultsBySearchArticleContent("海军", pageable));
         return "testTable";
     }
 

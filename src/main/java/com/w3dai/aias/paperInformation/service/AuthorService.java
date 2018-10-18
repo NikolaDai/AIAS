@@ -15,6 +15,7 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.ResultsExtractor;
@@ -213,7 +214,7 @@ public class AuthorService {
             for(Text str : text){
                 articleString += (str+"</br>");
             }
-
+            System.out.println(articleString);
             article.setId(hit.getId());
             article.setArticleText(articleString);
             articlesWithHighlight.add(article);
@@ -223,12 +224,14 @@ public class AuthorService {
     }
 
     //proved to be a failure! hope to take some time fix in future.
+    //make it reborn as a success on 10/18
+    //refer to https://stackoverflow.com/questions/37049764/how-to-provide-highlighting-with-spring-data-elasticsearch/37163711
     public Page<Article>  resultsBySearchArticleContent(String searchContent, Pageable pageable) {
         QueryBuilder MatchQuery = QueryBuilders.matchQuery("articleText", searchContent);
 
         NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
                 .withQuery(MatchQuery).withPageable(pageable)
-                .withHighlightFields(new HighlightBuilder.Field("articleText")).build();
+                .withHighlightFields(new HighlightBuilder.Field("articleText").preTags("<strong style=\"color:red\">").postTags("</strong>").fragmentSize(30000)).build();
 
         Page<Article> page = elasticsearchTemplate.queryForPage(searchQuery, Article.class, new SearchResultMapper() {
             @Override
@@ -242,7 +245,9 @@ public class AuthorService {
                     Article article = JSON.parseObject(searchHit.getSourceAsString(), Article.class);
                     String highLightMessage = searchHit.getHighlightFields().get("articleText").fragments()[0].toString();
                     article.setId(searchHit.getId());
+                    article.setArticleText(highLightMessage);
 
+                    /******unknown code which needs to be checked
                     // 反射调用set方法将高亮内容设置进去
                     try {
                         String setMethodName = parSetName("articleText");
@@ -252,10 +257,11 @@ public class AuthorService {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                     ******/
                     articles.add(article);
                 }
                 if (articles.size() > 0) {
-                    return new AggregatedPageImpl<>((List<T>) articles);
+                    return new AggregatedPageImpl<>((List<T>) articles, pageable, response.getHits().getTotalHits());
 
                 }
                 return null;
