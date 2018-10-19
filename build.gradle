@@ -37,6 +37,9 @@ dependencies {
     compile group: 'org.elasticsearch.plugin', name: 'transport-netty3-client', version: '5.6.11'
     // https://mvnrepository.com/artifact/com.alibaba/fastjson
     compile group: 'com.alibaba', name: 'fastjson', version: '1.2.49'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    // https://mvnrepository.com/artifact/io.github.jpenren/thymeleaf-spring-data-dialect
+    compile group: 'io.github.jpenren', name: 'thymeleaf-spring-data-dialect', version: '3.3.1'
 
     runtime('mysql:mysql-connector-java')
     testCompile('org.springframework.boot:spring-boot-starter-test')
