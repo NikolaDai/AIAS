@@ -187,3 +187,5 @@ extends用于继承，implements用于实现接口。可以通过继承在新接
 However, in this article https://blog.csdn.net/yuleishangran/article/details/81274254, the author developed one way.（useless）
 
 问题：为什么要用资料库数据？而不使用数字报的直接数据？资料库数据中最有价值的数据是什么？
+
+spring security refers to https://docs.spring.io/spring-security/site/docs/5.0.9.RELEASE/reference/htmlsingle/
