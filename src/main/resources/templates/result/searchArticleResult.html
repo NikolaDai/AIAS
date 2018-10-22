@@ -39,7 +39,7 @@
         <tbody>
         <tr class="active"  th:each = "article : ${articles}">
             <td style="color:rgb(0, 0, 204);cursor:pointer;font-family:arial;font-size:16px;"><u><a th:href="${'/searchID?articleID='+ article.id + '&searchContent=' + searchContent}"><span  th:utext="${article.mainTitle}">标题</span></a></u></td>
-            <td><a th:href="${'/searchAuthor?authorsName='+ article.authorsName+'&searchContent=' + searchContent}"><span   th:text="${article.authorsName}">作者</span></a></td>
+            <td><a th:href="${'/author/authorInfo?authorsName='+ article.authorsName+'&searchContent=' + searchContent}"><span   th:text="${article.authorsName}">作者</span></a></td>
             <td><span   th:text="${article.editorsName}">责编</span></td>
             <td><span   th:text="${article.pageName}">版面名字</span></td>
             <td><span   th:text="${article.paperCategory}">分类</span></td>

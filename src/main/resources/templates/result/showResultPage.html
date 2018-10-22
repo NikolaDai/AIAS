@@ -122,7 +122,7 @@
                     </thead>
                     <tbody>
                     <tr class="active"  th:each = "author : ${authors}">
-                        <td><a th:href="${'/searchAuthor?authorsName='+ author.authorName + '&searchContent=' + searchContent}"><span   th:text="${author.authorName}">作者</span></a></td>
+                        <td><a th:href="${'/author/authorInfo?authorsName='+ author.authorName + '&searchContent=' + searchContent}"><span   th:text="${author.authorName}">作者</span></a></td>
                         <td><span   th:text="${author.articleNum}">文章数量</span></td>
                         <td><a th:href="${'/searchArticle?searchRelatedContent='+ author.authorName + '&searchContent=' + searchContent}"><span   th:text="点击查看">文章列表</span></a></td>
                     </tr>

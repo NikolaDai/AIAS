@@ -48,11 +48,14 @@ public class AiasController {
     }
 
     @RequestMapping("/")
-    public String aiasIndex(){
-        return "index";
+    public String root(){
+        return "redirect:/index";
     }
 
-    @RequestMapping("/search")
+    @RequestMapping("/index")
+    public String index(){return "index"; }
+
+    @RequestMapping("/result/showResultPage")
     public String searchAction(@RequestParam(value="searchContent",required = false,defaultValue = "解放军") String searchContent,
                                @RequestParam("pageSize") Optional<Integer> pageSize,
                                @RequestParam("page") Optional<Integer> page,
@@ -112,7 +115,7 @@ public class AiasController {
             model.addAttribute("usageList", usageList);
         }
         model.addAttribute("searchContent", searchContent);
-        return "showResultPage";
+        return "/result/showResultPage";
     }
 
 
@@ -180,7 +183,7 @@ public class AiasController {
             model.addAttribute("articles", articleList);
         }
         model.addAttribute("searchContent", searchContent);
-        return "searchArticleResult";
+        return "redirect:/result/searchArticleResult";
     }
 
     @RequestMapping("/searchID")
@@ -192,10 +195,10 @@ public class AiasController {
 
         model.addAttribute("searchContent", searchContent);
 
-        return "articleResult";
+        return "redirect:/result/articleResult";
     }
 
-    @RequestMapping(value = {"/searchAuthor"}, method = {RequestMethod.GET})
+    @RequestMapping(value = {"/author/authorInfo"}, method = {RequestMethod.GET})
     @Secured("ROLE_ADMIN")
     public String searchAuthorAction(@RequestParam("authorsName") String authorsName, @RequestParam("searchContent") String searchContent,Model model)
     {
@@ -210,7 +213,7 @@ public class AiasController {
 
         model.addAttribute("authors", authorList);
         model.addAttribute("searchContent", searchContent);
-        return "authorInfo";
+        return "/author/authorInfo";
     }
 
     @RequestMapping(value = {"/searchAuthor"}, method = {RequestMethod.POST})
@@ -245,7 +248,7 @@ public class AiasController {
         List<Author> authorList = authorRepository.findByAuthorName(authorName);
         model.addAttribute("authors", authorList);
 
-        return "authorInfo";
+        return "redirect:/author/authorInfo";
     }
 
     //thymeleaf-spring-data-dialect：proved to be useful when dealing with fixed repository class
@@ -288,8 +291,24 @@ public class AiasController {
     model.addAttribute("pageSizes", PAGE_SIZES);
     model.addAttribute("searchContent", searchContent);
 
-    return "articles";
+    return "redirect:/result/articles";
     }
 
+    @RequestMapping(value = "/login")
+    public String login() {
+        return "login";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String postLogin() {
+        // TODO Enable form login with Spring Security (trigger error for now)
+        return "redirect:/login-error";
+    }
+
+    @RequestMapping("/login-error")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
+        return "login";
+    }
 
 }
