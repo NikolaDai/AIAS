@@ -14,6 +14,8 @@ public interface ArticleRepository extends ElasticsearchRepository<Article, Stri
 
     Page<Article> findByArticleText(String name, Pageable pageable);
 
+    Page<Article> findByAuthorsNameAndArticleText(String name, String searchContent, Pageable pageable);
+
     @Query("{\"bool\":{\n" +
             "\"must\":[\n" +
             "{\"match\":{\"articleText\":\"?1\"}},\n" +

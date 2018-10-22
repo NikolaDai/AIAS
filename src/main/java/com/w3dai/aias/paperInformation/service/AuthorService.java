@@ -124,16 +124,7 @@ public class AuthorService {
         //usage of QueryBuilders
         QueryBuilder multiMatchQuery = QueryBuilders.boolQuery()
                 .must(matchQuery("articleText", this.getSearchContent()));
-        /***
-         *    "highlight" : {
-         *         "fields" : {
-         *             "articleText" : {}
-         *         },
-         * "boundary_scanner_locale": "zh-cn",
-         * "boundary_scanner":"sentence",
-         * "type":"unified"
-         *     }
-         *  */
+
         HighlightBuilder hiBuilder = new HighlightBuilder();
         hiBuilder.preTags("<strong style=\"color:red\">");
         hiBuilder.postTags("</strong>");
@@ -154,34 +145,6 @@ public class AuthorService {
 
         return searchResultProcess(searchHits);
     }
-
-
-/*
-    public List<Article> getArticlesBySearchContent(String SearchContent) {
-        //usage of QueryBuilders
-        QueryBuilder MatchQuery = QueryBuilders.matchQuery("articleText", this.getSearchContent());
-
-        HighlightBuilder hiBuilder = new HighlightBuilder();
-        hiBuilder.preTags("<strong style=\"color:red\">");
-        hiBuilder.postTags("</strong>");
-        hiBuilder.field("articleText");
-        hiBuilder.fragmentSize(30000);
-
-        SearchResponse response = client.prepareSearch("papers")
-                .setQuery(MatchQuery)
-                .setFrom(0)
-                .setSize(20)
-                .highlighter(hiBuilder)
-                .execute().actionGet();
-
-        //获取查询结果集
-        SearchHits searchHits = response.getHits();
-
-        System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
-
-        return searchResultProcess(searchHits);
-    }
-*/
 
     public Map<String, Object> getArticlesBySearchContent(String SearchContent, int fromValue, int sizeValue) {
         //usage of QueryBuilders

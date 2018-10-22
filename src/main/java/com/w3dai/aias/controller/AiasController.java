@@ -118,75 +118,16 @@ public class AiasController {
         return "/result/showResultPage";
     }
 
+    @RequestMapping("/result/searchArticleResult")
+    public String searchArticleAction(@RequestParam("searchRelatedContent") String authorName, @RequestParam("searchContent") String searchContent,Pageable pageable, Model model){
 
-
-/*
-    @RequestMapping("/search")
-    public String searchAction(@RequestParam("searchContent") String searchContent, Model model){
-        //List<Article> authorListWithArticleNumber = articleRepository.findByAuthorsNameUsingCustomQuery(searchContent);
-        List<Author> searchAuthorResult = null;
-        if(searchContent.matches("^[\\u4E00-\\u9FA5]{2,4}"))
-            searchAuthorResult = authorInfoService.searchByAuthorName(searchContent);
-
-        if(searchAuthorResult != null){
-            model.addAttribute("author", searchAuthorResult);
-        }
-
-        authorService.setSearchContent(searchContent);
-        Map<String, Object> searchDataResults = authorService.getArticlesBySearchContent(searchContent, 20, 0);
-
-        List<Article> articleList = (List<Article>)searchDataResults.get("resultsOfWanted");
-
-        if(articleList.size() != 0){
-            model.addAttribute("searchedArticlesNum", searchDataResults.get("totalNumOfResults"));
-            model.addAttribute("articles", articleList);
-        }
-
-        Aggregations newAggregation = authorService.shouldReturnAggregatedResponseForGivenSearchQuery();
-
-        Map<String, Aggregation> map=newAggregation.asMap();
-        ArrayList<AuthorResult> authorListWithArticleNumber = new ArrayList<>();
-        for(String s:map.keySet()){
-            StringTerms a=(StringTerms) map.get(s);
-            List<StringTerms.Bucket> list=a.getBuckets();
-
-            for(Terms.Bucket b:list){
-                AuthorResult tempAuthor = new AuthorResult();
-                if(!b.getKeyAsString().equals("等")) {
-                    tempAuthor.setAuthorName(b.getKeyAsString());
-                    tempAuthor.setArticleNum((int) b.getDocCount());
-                    authorListWithArticleNumber.add(tempAuthor);
-                }
-            }
-        }
-
-        if(authorListWithArticleNumber.size() != 0){
-            model.addAttribute("authors", authorListWithArticleNumber);
-        }
-
-        List<Article> usageList = authorService.getArticlesUsageBySearchContent(searchContent);
-        if(usageList.size() != 0){
-            model.addAttribute("usageList", usageList);
-        }
+        model.addAttribute("articles", articleRepository.findByAuthorsNameAndArticleText(authorName, searchContent, pageable));
         model.addAttribute("searchContent", searchContent);
-        return "showResult";
-    }
-*/
-    @RequestMapping("/searchArticle")
-    public String searchArticleAction(@RequestParam("searchRelatedContent") String authorName, @RequestParam("searchContent") String searchContent,Model model){
-        //Page<Article> articleList = articleRepository.findByAuthorsName(searchContent, PageRequest.of(0, 10)););
-       // List<Article> articleList = articleRepository.findByAuthorsNameAndArticleText(authorName, authorService.getSearchContent());
-        //List<Article> articleList = articleRepository.findByAuthorsNameAndArticleTextUsingCustomQuery(authorName, authorService.getSearchContent());
 
-        List<Article> articleList = authorService.getArticlesByAuthorNameAndSearchContent(authorName);
-        if(articleList.size() != 0){
-            model.addAttribute("articles", articleList);
-        }
-        model.addAttribute("searchContent", searchContent);
-        return "redirect:/result/searchArticleResult";
+        return "/result/searchArticleResult";
     }
 
-    @RequestMapping("/searchID")
+    @RequestMapping("/result/articleResult")
     public String searchID(@RequestParam("articleID") String articleID, @RequestParam("searchContent") String searchContent, Model model){
         Optional<Article> articleList = articleRepository.findById(articleID);
         if(articleList.isPresent()){
@@ -195,7 +136,7 @@ public class AiasController {
 
         model.addAttribute("searchContent", searchContent);
 
-        return "redirect:/result/articleResult";
+        return "/result/articleResult";
     }
 
     @RequestMapping(value = {"/author/authorInfo"}, method = {RequestMethod.GET})
@@ -216,7 +157,7 @@ public class AiasController {
         return "/author/authorInfo";
     }
 
-    @RequestMapping(value = {"/searchAuthor"}, method = {RequestMethod.POST})
+    @RequestMapping(value = {"/author/authorInfo"}, method = {RequestMethod.POST})
     public String updateAuthorInfo(@RequestParam("authorName") String authorName,
                                    @RequestParam("cellNumber") String cellNumber,
                                    @RequestParam("phoneNumber") String phoneNumber,
@@ -228,6 +169,7 @@ public class AiasController {
                                    @RequestParam("zipCode") String zipCode,
                                    @RequestParam("workCityName") String workCityName,
                                    @RequestParam("workProvinceName") String workProvinceName,
+                                   @RequestParam("searchContent") String searchContent,
                                    Model model)
     {
         Author newAuthorInfo = new Author();
@@ -247,8 +189,9 @@ public class AiasController {
         authorRepository.save(newAuthorInfo);
         List<Author> authorList = authorRepository.findByAuthorName(authorName);
         model.addAttribute("authors", authorList);
+        model.addAttribute("searchContent", searchContent);
 
-        return "redirect:/author/authorInfo";
+        return "/author/authorInfo";
     }
 
     //thymeleaf-spring-data-dialect：proved to be useful when dealing with fixed repository class

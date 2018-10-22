@@ -49,6 +49,7 @@
 </div>
     <h3>更新作者信息</h3>
     <form method="POST" th:each = "author : ${authors}">
+        <input type="text" name="searchContent" size="50" readonly="readonly" th:value="${searchContent}" style="display:none"/>
         <label for="authorName">姓名</label>
         <input type="text" name="authorName" size="50" readonly="readonly" th:value="${author.authorName}"/><br />
         <label for="cellNumber">手机号码：</label>

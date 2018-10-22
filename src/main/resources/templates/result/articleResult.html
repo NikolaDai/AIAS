@@ -20,6 +20,7 @@
     日期    publishDate
     体裁    paperType
     正文    articleText
+    栏目    columnName
 -->
 <div th:unless="${#lists.isEmpty(articles)}">
     <table class="table">
@@ -37,8 +38,8 @@
         </thead>
         <tbody>
         <tr class="active"  th:each = "article : ${articles}">
-            <td><span   th:text="${article.mainTitle}">标题</span></td>
-            <td><a th:href="${'/searchAuthor?authorsName='+ article.authorsName + '&searchContent=' + searchContent}"><span   th:text="${article.authorsName}">作者</span></a></td>
+            <td style="color:rgb(0, 0, 204);cursor:pointer;font-family:arial;font-size:16px;"><u><a th:href="${'/result/articleResult?articleID='+ article.id + '&searchContent=' + searchContent}"><span  th:utext="${article.mainTitle}">标题</span></a></u></td>
+            <td><a th:href="${'/author/authorInfo?authorsName='+ article.authorsName+'&searchContent=' + searchContent}"><span   th:text="${article.authorsName}">作者</span></a></td>
             <td><span   th:text="${article.editorsName}">责编</span></td>
             <td><span   th:text="${article.pageName}">版面名字</span></td>
             <td><span   th:text="${article.paperCategory}">分类</span></td>
@@ -50,7 +51,7 @@
     </table>
 </div>
 <div class="container">
-    <a th:href="${'/search?searchContent=' + searchContent}"><button class="btn btn-danger" style="margin:auto">返回</button></a>
+    <a th:href="${'/result/showResultPage?searchContent=' + searchContent}"><button class="btn btn-danger" style="margin:auto">返回</button></a>
 </div>
 </body>
 </html>
