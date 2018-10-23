@@ -21,8 +21,8 @@
     <tr th:each="row : ${page}">
         <th scope="row" th:text="${row.mainTitle}">mainTitle</th>
         <td th:text="${row.authorsName}">authorsName</td>
-        <td th:utext="${row.articleText}">articleText</td>
-        <td><a href="#">edit</a></td>
+        <td th:utext="${#strings.replace(row.articleText, T(org.apache.commons.lang3.StringUtils).LF, '&lt;br /&gt;')}">articleText</td>
+        <td th:utext="${row.columnName}">columnName</td>
     </tr>
     </tbody>
 </table>
@@ -31,6 +31,7 @@
     <div class="col-sm-6">
         <div sd:pagination-summary="">info</div>
     </div>
+    Show <span sd:page-size-selector="javascript"></span> entries
     <div class="col-sm-6">
         <nav class="pull-right">
             <ul class="pagination" sd:pagination="full">

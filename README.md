@@ -189,3 +189,6 @@ However, in this article https://blog.csdn.net/yuleishangran/article/details/812
 问题：为什么要用资料库数据？而不使用数字报的直接数据？资料库数据中最有价值的数据是什么？
 
 spring security refers to https://docs.spring.io/spring-security/site/docs/5.0.9.RELEASE/reference/htmlsingle/
+
+Thymeleaf: replace newline characters with <br>, refer to https://stackoverflow.com/questions/30655011/thymeleaf-replace-newline-characters-with-br, use the second way as follows:
+<td th:utext="${#strings.replace(row.articleText, T(org.apache.commons.lang3.StringUtils).LF, '&lt;br /&gt;')}">articleText</td>

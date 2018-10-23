@@ -13,6 +13,7 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.annotation.Secured;
@@ -198,7 +199,14 @@ public class AiasController {
     @RequestMapping("/searchTest")
     public String list(ModelMap model, @SortDefault("mainTitle") Pageable pageable){
         //model.addAttribute("page", articleRepository.findByArticleText("海军", pageable));
-        model.addAttribute("page", authorService.resultsBySearchArticleContent("海军", pageable));
+        Page<Article> resultPage = articleRepository.findByColumnName("强军论坛", pageable);
+        model.addAttribute("page", resultPage);
+        for(Article aAticle : resultPage){
+            if(aAticle.getColumnName().contains("强军论坛"))
+                System.out.println(aAticle.getArticleText());
+        }
+
+
         return "testTable";
     }
 
