@@ -18,10 +18,8 @@ public class AiasApplicationTests {
     @Autowired
     AuthorInfoService authorInfoService;
 
-    //import the authorlist.file to MySQL database;
     @Test
     public void contextLoads() throws IOException {
-        List<Author> authorList;
         authorInfoService.importDataToMySQL();
     }
 

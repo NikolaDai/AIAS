@@ -22,7 +22,7 @@ public class AuthorInfoService {
 
     public void importDataToMySQL() throws IOException
     {
-        File file = new File("authorList.txt");
+        File file = new File("authorNameList.txt");
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         String authorName = null;
         while((authorName = bufferedReader.readLine()) != null){
