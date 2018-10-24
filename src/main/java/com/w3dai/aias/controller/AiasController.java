@@ -254,6 +254,12 @@ public class AiasController {
     return "redirect:/result/articles";
     }
 
+    //show the author's location
+    @RequestMapping(value = "/location")
+    public String location() {
+        return "location";
+    }
+
     @RequestMapping(value = "/login")
     public String login() {
         return "login";
