@@ -1,5 +1,8 @@
 package com.w3dai.aias.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.w3dai.aias.authorInformation.entity.Authorfeature;
+import com.w3dai.aias.authorInformation.repository.AuthorFeatureRepository;
 import com.w3dai.aias.authorInformation.service.AuthorInfoService;
 import com.w3dai.aias.authorInformation.entity.Author;
 import com.w3dai.aias.authorInformation.repository.AuthorRepository;
@@ -29,6 +32,7 @@ import java.util.*;
 @Controller
 public class AiasController {
     private AuthorRepository authorRepository;
+    private AuthorFeatureRepository authorFeatureRepository;
     private ArticleRepository articleRepository;
     private AuthorService authorService;
     private AuthorInfoService authorInfoService;
@@ -40,9 +44,10 @@ public class AiasController {
 
 
     @Autowired
-    public AiasController(AuthorRepository authorRepository, ArticleRepository articleRepository, AuthorService authorService,
+    public AiasController(AuthorRepository authorRepository, AuthorFeatureRepository authorFeatureRepository, ArticleRepository articleRepository, AuthorService authorService,
                           AuthorInfoService authorInfoService){
         this.authorRepository = authorRepository;
+        this.authorFeatureRepository = authorFeatureRepository;
         this.articleRepository = articleRepository;
         this.authorService = authorService;
         this.authorInfoService = authorInfoService;
@@ -62,11 +67,15 @@ public class AiasController {
                                @RequestParam("page") Optional<Integer> page,
                                Model model){
         List<Author> searchAuthorResult = null;
-        if(searchContent.matches("^[\\u4E00-\\u9FA5]{2,4}"))
+        List<Authorfeature> searchAuthorFeatureResult = null;
+        if(searchContent.matches("^[\\u4E00-\\u9FA5]{2,4}")) {
             searchAuthorResult = authorInfoService.searchByAuthorName(searchContent);
-
+            searchAuthorFeatureResult = authorFeatureRepository.findByAuthorName(searchContent);
+        }
         if(searchAuthorResult != null){
             model.addAttribute("author", searchAuthorResult);
+            String result = JSON.toJSONString(searchAuthorFeatureResult);
+            System.out.println(result);
         }
 
         authorService.setSearchContent(searchContent);

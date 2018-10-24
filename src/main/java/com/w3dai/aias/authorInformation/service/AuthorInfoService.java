@@ -25,7 +25,9 @@ public class AuthorInfoService {
         File file = new File("authorNameList.txt");
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         String authorName = null;
+        int i = 0;
         while((authorName = bufferedReader.readLine()) != null){
+            System.out.println(i++);
             Author author = new Author();
             author.setAuthorName(authorName);
             authorRepository.save(author);
@@ -34,7 +36,6 @@ public class AuthorInfoService {
     }
 
     public List<Author> searchByAuthorName(String authorName){
-
         return authorRepository.findByAuthorName(authorName);
     }
 }

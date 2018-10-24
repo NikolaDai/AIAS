@@ -113,7 +113,7 @@ public class AuthorService {
         //获取查询结果集
         SearchHits searchHits = response.getHits();
 
-        System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
+        //System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
 
         return searchResultProcess(searchHits);
     }
@@ -141,7 +141,7 @@ public class AuthorService {
         //获取查询结果集
         SearchHits searchHits = response.getHits();
 
-        System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
+       // System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
 
         return searchResultProcess(searchHits);
     }
@@ -176,7 +176,7 @@ public class AuthorService {
         Map<String, Object> resultWanted = new HashMap<String, Object>();
         resultWanted.put("totalNumOfResults", response.getHits().getTotalHits());
         resultWanted.put("resultsOfWanted", searchResultProcess(searchHits));
-        System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
+        //System.out.println("共搜到:" + searchHits.getTotalHits() + "条结果!");
 
         return resultWanted;
     }
@@ -190,7 +190,7 @@ public class AuthorService {
             for(Text str : text){
                 articleString += (str+"</br>");
             }
-            System.out.println(articleString);
+           // System.out.println(articleString);
             article.setId(hit.getId());
             article.setArticleText(articleString);
             articlesWithHighlight.add(article);
