@@ -1,71 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>作者信息分析调度系统</title>
-    <!-- Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-</head>
-<body>
-<!--
-    引题    eyebrowTitle
-    标题    mainTitle
-    副题    subTitle
-    作者    authorsName
-    责编    editorsName
-    版面    pageName
-    分类    paperCategory
-    日期    publishDate
-    体裁    paperType
-    正文    articleText
--->
-<div th:unless="${#lists.isEmpty(articles)}">
-    <table class="table table-striped table-hover">
-        <caption>文章具体信息</caption>
-        <thead>
-        <tr>
-            <th><a class="sorted" sd:pagination-sort="mainTitle" >标题</a></th>
-            <th>作者</th>
-            <th>责编</th>
-            <th>版面</th>
-            <th>分类</th>
-            <th>日期</th>
-            <th>体裁</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="article:${articles}">
-            <td scope="row"><span   th:text="${article.mainTitle}">标题</span></td>
-            <td><a th:href="${'/author/authorInfo?authorsName='+ article.authorsName + '&searchContent=' + searchContent}"><span   th:text="${article.authorsName}">作者</span></a></td>
-            <td><span   th:text="${article.editorsName}">责编</span></td>
-            <td><span   th:text="${article.pageName}">版面名字</span></td>
-            <td><span   th:text="${article.paperCategory}">分类</span></td>
-            <td><span   th:text="${article.publishDate}">日期</span></td>
-            <td><span   th:text="${article.paperType}">体裁</span></td>
-            <td><p  th:utext="${article.articleText}">全文</p></td>
-        </tr>
-        </tbody>
-    </table>
+<html lang="zh-cn">
 
-    <div class="row">
-        <div class="col-sm-6">
-            <div sd:pagination-summary="">info</div>
-        </div>
-        <div class="col-sm-6">
-            <nav class="pull-right">
-                <ul class="pagination" sd:pagination="full">
-                    <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
-                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                </ul>
-            </nav>
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="robots" content="all">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>相关作者文章</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/css/normalize.css">
+
+    <!-- build:css xgzzwz.css -->
+    <link rel="stylesheet" href="/css/xgzzwz.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- endbuild -->
+</head>
+
+<body>
+<div class="header-search">
+    <div class="container clearfix">
+        <img src="/img/logo-b.png" alt="">
+        <form action="">
+            <input type="text"><button>搜索</button>
+        </form>
+        <ul class="clearfix">
+            <li>
+                <a href="#">首页</a>
+            </li>
+            <li>
+                <a href="#">所有作者</a>
+            </li>
+            <li>
+                <a href="#">作者分类</a>
+            </li>
+            <li>
+                <a href="#">排行榜</a>
+            </li>
+            <li>
+                <a href="#">登录</a>
+            </li>
+        </ul>
     </div>
 </div>
+
 <div class="container">
-    <a th:href="${'/result/showResultPage?searchContent=' + searchContent}"><button class="btn btn-danger" style="margin:auto">返回</button></a>
+    <div class="resault">
+        <span>为您找到相关结果约50个</span>
+    </div>
+
+    <div class="navbar">
+        <ul class="clearfix">
+            <li class="active"><a href="#" class="zh">综合</a></li>
+            <li><a href="#" class="sj">时间</a></li>
+            <li><a href="#" class="bm">版面</a></li>
+            <li><a href="#" class="fl">分类</a></li>
+            <li><a href="#" class="tc">体裁</a></li>
+        </ul>
+    </div>
 </div>
+
+<div class="container">
+    <div class="con">
+        <ul class="con-mes">
+            <li th:each="article:${articles}">
+                <h3 class="title">
+                    <a href="#" target="_blank"><span   th:text="${article.mainTitle}">标题</span></a>
+                </h3>
+                <div class="art-mes">
+                    <a href="#" target="_blank">作者：<span   th:text="${article.authorsName}">作者</span></a>
+                    <span class="art-respon">责编：仇建辉 庞清杰</span>
+                    <span class="art-page">版面：时事新闻</span>
+                    <span class="art-time">2014.07.05</span>
+                </div>
+                <p th:utext="${#strings.replace(article.articleText, T(org.apache.commons.lang3.StringUtils).LF, '&lt;br /&gt;&lt;br /&gt;')}">世界杯期间，游走在巴黎街头，举目皆“黄”。这个“黄”，是指巴西人身上穿的巴西队黄色球衣，不论男女老少，高矮胖瘦，俄罗斯世界杯比赛很精彩，相信大家都有关注。我虽然不是铁杆球迷，关注不多，但对其中一场比赛印象非常深刻…</p>
+                <div class="other">
+                    <a href="#" target="_blank" class="classify">分类：<span   th:text="${article.paperCategory}">分类</span></a><a href="#" target="_blank" class="tc">体裁：<span   th:text="${article.paperType}">体裁</span></a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div sd:pagination-summary="">info</div>
+    </div>
+    <div class="col-sm-6">
+        <nav class="pull-right">
+            <ul class="pagination" sd:pagination="full">
+                <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</div>
+
+<!-- build:js xgzzwz.js -->
+<!-- <script src="scripts/module-1.js"></script> -->
+<!-- endbuild -->
+
 </body>
+
 </html>
