@@ -1,0 +1,43 @@
+@charset "UTF-8";
+.container { width: 1000px; margin: 0 auto; }
+
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+
+.clearfix:after { clear: both; }
+
+body { margin: 0; }
+
+body a, body p, body span { font-size: 14px; line-height: 20px; font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+body a { text-decoration: none; }
+
+.header-wznr { height: 60px; box-shadow: 0 2px 4px #cfcfcf; }
+
+.header-wznr .logo, .header-wznr ul { float: left; }
+
+.header-wznr .logo { margin-top: 15px; }
+
+.header-wznr ul { margin: 0; padding-left: 50px; list-style: none; }
+
+.header-wznr ul li { float: left; margin-right: 30px; }
+
+.header-wznr ul li a { display: block; line-height: 60px; font-size: 14px; color: #333; }
+
+.header-wznr form { margin-top: 16px; float: right; }
+
+.header-wznr form .sub { width: 185px; height: 26px; padding: 0 0 0 8px; line-height: 30px; font-size: 14px; outline: none; border: 2px solid #c9c9c9; border-right-width: 0; }
+
+.header-wznr form button { width: 60px; height: 30px; padding: 0 0 0 4px; line-height: 30px; font-size: 14px; border: none; letter-spacing: 4px; background: #0D6144; color: #fff; cursor: pointer; vertical-align: top; }
+
+/*面包屑导航*/
+.breadcrumb { margin-top: 30px; }
+
+.breadcrumb a, .breadcrumb span { font-size: 12px; color: #666; }
+
+.content .title { margin: 30px 0 0 0; font-size: 24px; color: #333; }
+
+.content .time { margin: 10px 0 20px 0; font-size: 12px; color: #a7a7a7; }
+
+.content .con { width: 800px; }
+
+.content .con p { margin: 0 0 20px 0; font-size: 14px; color: #303030; }

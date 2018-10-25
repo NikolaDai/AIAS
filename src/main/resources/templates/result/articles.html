@@ -12,11 +12,11 @@
         <h1>Articles</h1>
     </div>
     <div class="row">
-            <div th:each="article : ${list.itemList}">
-                <p th:text="${article.mainTitle}"></p>
-                <p th:text="${article.authorsName}"></p>
-                <p th:utext="${article.articleText}"></p>
-            </div>
+        <div th:each="article : ${list.itemList}">
+            <p th:text="${article.mainTitle}"></p>
+            <p th:text="${article.authorsName}"></p>
+            <p th:utext="${article.articleText}"></p>
+        </div>
     </div>
 
     <div class="row">

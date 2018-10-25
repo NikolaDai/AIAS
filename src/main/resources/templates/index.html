@@ -1,60 +1,45 @@
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>作者信息分析调度系统</title>
-    <!-- Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <style>
-        /*web background*/
-        .container{
-            display:table;
-            height:100%;
-        }
+<!DOCTYPE html>
+<html lang="zh-cn">
 
-        .row{
-            display: table-cell;
-            vertical-align: middle;
-        }
-        /* centered columns styles */
-        .row-centered {
-            text-align:center;
-        }
-        .col-centered {
-            display:inline-block;
-            float:none;
-            text-align:left;
-            margin-right:-4px;
-        }
-        .searchtitleCN{
-            font-size: 52px;
-            color: #DB3D19;
-        }
-        .searchtitleEN{
-            font-size: 20px;
-            color: #DB3D19;
-        }
-    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="robots" content="all">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>作者信息分析调度系统</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <!-- build:css index.css -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/module-1.css">
+    <!-- endbuild -->
 </head>
 
 <body>
-<div class="container">
-    <div class="row row-centered">
-        <div class="col-md-6 col-centered" style="width:700px">
-            <div class="text-center">
-                <h2><span class="searchtitleCN">作者信息分析调度系统</span></h2>
-                <h2><span class="searchtitleEN">Author Information Analysis and Scheduling System(AIAS)</span></h2>
-                <form action="/result/showResultPage" method="POST" role="form" class="form-inline" style="padding-top:34px">
-                    <div class="form-group" style="width:510px;height:40px;">
-                        <input type="text" class="form-control" name="searchContent" placeholder="请输入检索内容" style="width:510px;height:40px;">
-                    </div>
-                    <button type="submit" class="btn btn-danger" style="width:130px;height:40px;">搜索</button>
-                </form>
-            </div>
+    <div class="header">
+        <div class="container clearfix">
+            <ul class="clearfix">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">所有作者</a></li>
+                <li><a href="#">作者分类</a></li>
+                <li><a href="#">排行榜</a></li>
+                <li><a href="#">登录</a></li>
+            </ul>
         </div>
     </div>
-</div>
-<script src="/js/bootstrap.min.js"></script>
+
+    <div class="main">
+        <div class="logo">
+            <img src="img/logo.png" alt="">
+        </div>
+        <form class="search" action="/result/showResultPage" method="POST">
+            <input type="text" name="searchContent"><button  type="submit">搜索</button>
+        </form>
+    </div>
+
 </body>
+
 </html>

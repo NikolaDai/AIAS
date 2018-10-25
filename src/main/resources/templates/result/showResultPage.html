@@ -1,131 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
+
 <head>
     <meta charset="UTF-8">
-    <title>作者信息分析调度系统</title>
-    <!-- Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link href="/css/style.css}" rel="stylesheet"/>
-    <style>
-        /*web background*/
-        .container{
-            display:table;
-            height:100%;
-        }
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="robots" content="all">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>检索结果</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="../css/normalize.css">
 
-        .row{
-            display: table-cell;
-        }
-        /* centered columns styles */
-        .row-centered {
-            text-align:center;
-        }
-        .col-centered {
-            display:inline-block;
-            float:none;
-            text-align:left;
-            margin-right:-4px;
-        }
-    </style>
+    <!-- build:css jsjg.css -->
+    <link rel="stylesheet" href="../css/jsjg.css">
+    <!-- endbuild -->
 </head>
+
 <body>
-<div class="container">
-    <div class="row" style="width:700px;margin:auto;">
-        <div class="text-center">
-            <form action="/result/showResultPage" method="POST" role="form" class="form-inline" style="padding-top:34px">
-            <div class="form-group" style="width:510px;height:40px;">
-            <input type="text" class="form-control" name="searchContent" placeholder="请输入检索内容" style="width:510px;height:40px;">
-            </div>
-            <button type="submit" class="btn btn-danger" style="width:130px;height:40px;">搜索</button>
+    <div class="header-search">
+        <div class="container clearfix">
+            <img src="../img/logo-b.png" alt="">
+            <form action="/result/showResultPage" method="POST">
+                <input type="text" name="searchContent"><button type="submit">搜索</button>
             </form>
+            <ul class="clearfix">
+                <li>
+                    <a href="#">首页</a>
+                </li>
+                <li>
+                    <a href="#">所有作者</a>
+                </li>
+                <li>
+                    <a href="#">作者分类</a>
+                </li>
+                <li>
+                    <a href="#">排行榜</a>
+                </li>
+                <li>
+                    <a href="#">登录</a>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
 
-<div class="container" style="padding-top:25px;">
-    <div class="row">
-        <div class="col-sm-8" style="font-size: 16px;">
-            <div th:unless="${#lists.isEmpty(author)}">
-                <p><a th:href="${'/author/authorInfo?authorsName='+ author[0].authorName + '&searchContent=' + searchContent}"><span  th:text="${author[0].authorName}">姓名</span>_作者信息库</a></p>
-                <p>手机号码：<span   th:text="${author[0].cellNumber}">手机号码</span></p>
-                <p>电话号码：<span   th:text="${author[0].phoneNumber}">电话号码</span></p>
-                <p>QQ：<span   th:text="${author[0].QQ}">QQ</span></p>
-                <p>微信：<span   th:text="${author[0].weChat}">微信</span></p>
-            </div>
 
-            <p class="text-primary">搜索到<span th:text="${searchedArticlesNum}">0</span>个结果&nbsp&nbsp&nbsp<a href="/searchByTime">按时间排序</a></p>
-            <div th:unless="${#lists.isEmpty(list.itemList)}">
-                <div class="active"  th:each = "article : ${list.itemList}" style="margin-bottom:14px;">
-                    <p style="color:rgb(0, 0, 204);cursor:pointer;font-family:arial;font-size:16px;"><u><a th:href="${'/result/articleResult?articleID='+ article.id + '&searchContent=' + searchContent}"><span  th:utext="${article.mainTitle}">标题</span></a></u></p>
-                    <p style="font-size:13px;" th:if="${article.authorsName != null}">作者：<span  th:utext="${article.authorsName}">作者</span>&nbsp&nbsp&nbsp发表日期：<span th:utext="${article.publishDate}"></span></p>
-                    <p style="font-size:13px;" th:if="${article.authorsName == null}">发表日期：<span th:utext="${article.publishDate}"></span></p>
-                    <p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow: hidden;font-size:13px;"><span  th:utext="${article.articleText}">全文</span></p>
-                    <p style="font-size:13px;">分类：<span  th:utext="${article.paperCategory}">分类</span>&nbsp&nbsp&nbsp体裁：<span th:utext="${article.paperType}"></span></p>
-                </div>
-            </div>
+    <div class="container">
+        <div class="tab-bq">
+            <ul class="clearfix">
+                <li class="selected"><a href="#">相关文章及作者</a></li>
+                <li><a href="#">相关词语用法</a></li>
+            </ul>
+        </div>
+        <div class="resault">
+            <span>为您找到相关结果约</span><span th:text="${searchedArticlesNum}">0</span><span>个</span>
+        </div>
 
-            <div class="row"  style="width:600px">
-                <div th:if="${list.totalPageCount != 1}" class="form-group col-md-11 pagination-centered">
-                    <ul class="pagination">
-                        <li th:class="${list.pageIndex == 0} ? disabled">
-                            <a class="pageLink" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=1, searchContent=${searchContent})}">&laquo;</a>
-                        </li>
-                        <li th:class="${list.pageIndex == 0} ? disabled">
-                            <a class="pageLink" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${list.pageIndex}, searchContent=${searchContent})}">&larr;</a>
-                        </li>
-                        <li th:class="${list.pageIndex == (pageNo - 1)} ? 'active pointer-disabled'"
-                            th:each="pageNo : ${#numbers.sequence(list.startPage, list.endPage)}">
-                            <a class="pageLink" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${pageNo}, searchContent=${searchContent})}"
-                               th:text="${pageNo}"></a>
-                        </li>
-                        <li th:class="${list.pageIndex + 1 == list.totalPageCount} ? disabled">
-                            <a class="pageLink" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${list.pageIndex + 2}, searchContent=${searchContent})}">&rarr;</a>
-                        </li>
-                        <li th:class="${list.pageIndex + 1 == list.totalPageCount} ? disabled">
-                            <a class="pageLink" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${list.totalPageCount}, searchContent=${searchContent})}">&raquo;</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div>
-                <p  class="text-primary">词语用法</p>
-                <div th:unless="${#lists.isEmpty(usageList)}">
-                    <ol>
-                        <div class="active"  th:each = "usage : ${usageList}" style="margin-bottom:14px;">
-                            <li>
-                                <p><span  th:utext="${usage.articleText}">全文</span></p>
-                            </li>
+        <div class="navbar">
+            <ul class="clearfix">
+                <li class="active"><a href="#" class="zh">综合</a></li>
+                <li><a href="#" class="sj">时间</a></li>
+                <li><a href="#" class="bm">版面</a></li>
+                <li><a href="#" class="fl">分类</a></li>
+                <li><a href="#" class="tc">体裁</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <div class="con clearfix">
+            <ul class="con-mes">
+                <li th:unless="${#lists.isEmpty(author)}">
+                    <h3 class="title">
+                        <a th:href="${'/author/authorInfo?authorsName='+ author[0].authorName + '&searchContent=' + searchContent}" target="_blank"><span  th:text="${author[0].authorName}">姓名</span>_军报作者信息库</a>
+                    </h3>
+                    <div class="peo-mes clearfix">
+                        <div class="peo-mes-left">
+                            <img src="styles/photo.png" alt="">
                         </div>
-                    </ol>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4" style="background-color: #dedef8;border-left-color:rgb(225, 225, 225);border-left-style:solid;border-left-width:1px;">
-            <p class="text-primary">推荐作者</p>
-            <div th:unless="${#lists.isEmpty(authors)}">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>作者</th>
-                        <th>相关文章数</th>
-                        <th>文章列表</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="active"  th:each = "author : ${authors}">
-                        <td><a th:href="${'/author/authorInfo?authorsName='+ author.authorName + '&searchContent=' + searchContent}"><span   th:text="${author.authorName}">作者</span></a></td>
-                        <td><span   th:text="${author.articleNum}">文章数量</span></td>
-                        <td><a th:href="${'/result/searchArticleResult?searchRelatedContent='+ author.authorName + '&searchContent=' + searchContent}"><span   th:text="点击查看">文章列表</span></a></td>
-                    </tr>
-                    </tbody>
-                </table>
+                        <div class="peo-mes-right">
+                            <p>目前作品总数：2000</p>
+                            <p>联系方式：<span th:text="${author[0].phoneNumber}">电话号码</span><span th:text="${author[0].cellNumber}">手机号码</span> </p>
+                            <p>Email：<span   th:text="${author[0].emailAddress}">电子邮箱</span></p>
+                            <p>作者简介：十八届一中全会任中共中央第十二届全国人大第一次会议当选为第十二届全国人大第第十二届全国人大第一次会议当选为第十二届全国人大第第十二届全国人大第一次会议当选为第十……</p>
+                            <div class="other">
+                                <a href="#" target="_blank">人物履历</a>
+                                <a href="#" target="_blank">代表作品</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li  th:each = "article : ${list.itemList}">
+                    <h3 class="title">
+                        <a th:href="${'/result/articleResult?articleID='+ article.id + '&searchContent=' + searchContent}"><span  th:utext="${article.mainTitle}">世界杯是节日，足球是生活</span></a>
+                    </h3>
+                    <div class="art-mes">
+                        <a href="#" target="_blank" >作者：<span  th:utext="${article.authorsName}">柴华</span></a>
+                        <span class="art-respon">责编：仇建辉 庞清杰</span>
+                        <span class="art-page">版面：时事新闻</span>
+                        <span class="art-time" th:utext="${article.publishDate}">2014.07.05</span>
+                    </div>
+                    <p><span  th:utext="${article.articleText}">世界杯期间，游走在巴黎街头，举目皆“黄”。这个“黄”，是指巴西人身上穿的巴西队黄色球衣，不论男女老少，高矮胖瘦，俄罗斯世界杯比赛很精彩，相信大家都有关注。我虽然不是铁杆球迷，关注不多，但对其中一场比赛印象非常深刻…</span></p>
+                    <div class="other">
+                        <a href="#" target="_blank" class="classify">分类：<span  th:utext="${article.paperCategory}">其它综合性世界运动会（世界大学生、中学生、残疾人运动会等）</span></a><a href="#" target="_blank" class="tc"><span th:utext="${article.paperType}">体裁：通讯</span></a>
+                    </div>
+                </li>    
+            </ul>
+
+            <div class="aside">
+                <h3>相关作者推荐</h3>
+                <p>相关文章数</p>
+                <ul>
+                    <li class="clearfix" th:each = "author : ${authors}"><a th:href="${'/author/authorInfo?authorsName='+ author.authorName + '&searchContent=' + searchContent}"><span   th:text="${author.authorName}">安普忠</span></a><a th:href="${'/result/searchArticleResult?searchRelatedContent='+ author.authorName + '&searchContent=' + searchContent}"><span  th:text="${author.articleNum}">50</span></a></li>
+                </ul>
             </div>
         </div>
     </div>
-</div>
+    </div>
+
+    <div class="container">
+        <div class="displaypagenum">
+            <div th:if="${list.totalPageCount != 1}" class="form-group col-md-11 pagination-centered">
+                <ul class="pagination">
+                    <li th:class="${list.pageIndex == 0} ? disabled">
+                        <a class="pageLink" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=1, searchContent=${searchContent})}">&laquo;</a>
+                    </li>
+                    <li th:class="${list.pageIndex == 0} ? disabled">
+                        <a class="pageLink" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${list.pageIndex}, searchContent=${searchContent})}">&larr;</a>
+                    </li>
+                    <li th:class="${list.pageIndex == (pageNo - 1)} ? 'active pointer-disabled'"
+                        th:each="pageNo : ${#numbers.sequence(list.startPage, list.endPage)}">
+                        <a class="pageLink" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${pageNo}, searchContent=${searchContent})}"
+                           th:text="${pageNo}"></a>
+                    </li>
+                    <li th:class="${list.pageIndex + 1 == list.totalPageCount} ? disabled">
+                        <a class="pageLink" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${list.pageIndex + 2}, searchContent=${searchContent})}">&rarr;</a>
+                    </li>
+                    <li th:class="${list.pageIndex + 1 == list.totalPageCount} ? disabled">
+                        <a class="pageLink" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${list.totalPageCount}, searchContent=${searchContent})}">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- build:js jsjg.js -->
+    <script src="scripts/module-1.js"></script>
+    <!-- endbuild -->
+
 </body>
-<script src="/js/jquery.min.js}"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/app.js}"></script>
+
 </html>
