@@ -66,16 +66,18 @@ public class AiasController {
                                @RequestParam("pageSize") Optional<Integer> pageSize,
                                @RequestParam("page") Optional<Integer> page,
                                Model model){
+
         List<Author> searchAuthorResult = null;
         List<Authorfeature> searchAuthorFeatureResult = null;
+
         if(searchContent.matches("^[\\u4E00-\\u9FA5]{2,4}")) {
             searchAuthorResult = authorInfoService.searchByAuthorName(searchContent);
             searchAuthorFeatureResult = authorFeatureRepository.findByAuthorName(searchContent);
         }
+
         if(searchAuthorResult != null){
             model.addAttribute("author", searchAuthorResult);
-            String result = JSON.toJSONString(searchAuthorFeatureResult);
-            System.out.println(result);
+            model.addAttribute("authorFeature", searchAuthorFeatureResult);
         }
 
         authorService.setSearchContent(searchContent);

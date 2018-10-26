@@ -80,10 +80,10 @@
                             <img src="styles/photo.png" alt="">
                         </div>
                         <div class="peo-mes-right">
-                            <p>目前作品总数：2000</p>
+                            <p>目前作品总数：<span th:text="${authorFeature[0].articleNumber}">0</span></p>
                             <p>联系方式：<span th:text="${author[0].phoneNumber}">电话号码</span><span th:text="${author[0].cellNumber}">手机号码</span> </p>
-                            <p>Email：<span   th:text="${author[0].emailAddress}">电子邮箱</span></p>
-                            <p>作者简介：十八届一中全会任中共中央第十二届全国人大第一次会议当选为第十二届全国人大第第十二届全国人大第一次会议当选为第十二届全国人大第第十二届全国人大第一次会议当选为第十……</p>
+                            <p>善写体裁：<span  th:text="${authorFeature[0].type}">善写体裁</span></p>
+                            <p>善写栏目：<span  th:text="${authorFeature[0].columnName}">善写栏目</span></p>
                             <div class="other">
                                 <a href="#" target="_blank">人物履历</a>
                                 <a href="#" target="_blank">代表作品</a>

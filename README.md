@@ -45,6 +45,9 @@ I'm proud of issuing the Beta 0.1 which nicely solves most of editor's questions
 ## What is included?
 Due to the complexity of the designed system, many underlying technologies are used including Java, Spring, Spring boot, MySQL, Elasticsearch and etc(Neo4J in future).
 
+## bugs and feature requested
+由于原始文档中两字作者名中有空格，导致无法正确查询两字作者名，比如“王庚”，需要对原始数据文档进行处理。10/26/2018
+Due to that in the source file, there is a space between the two character names. So, we can't search the names correctly which needs to be fixed by regular expression.
 ## Thanks
 Many thanks to Mr. NI Shunqian who took me to the IDEA world.
 
