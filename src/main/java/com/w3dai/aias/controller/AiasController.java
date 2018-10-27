@@ -1,6 +1,5 @@
 package com.w3dai.aias.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.w3dai.aias.authorInformation.entity.Authorfeature;
 import com.w3dai.aias.authorInformation.repository.AuthorFeatureRepository;
 import com.w3dai.aias.authorInformation.service.AuthorInfoService;
@@ -155,9 +154,27 @@ public class AiasController {
     @Secured("ROLE_ADMIN")
     public String searchAuthorAction(@RequestParam("authorsName") String authorsName, @RequestParam("searchContent") String searchContent,Model model)
     {
-        List<Author> authorList = new LinkedList<>();
 
         String[] authorsNameArray = authorsName.split(";");
+        if(authorsNameArray.length == 1) {
+            List<Author> searchAuthorResult = null;
+            List<Authorfeature> searchAuthorFeatureResult = null;
+
+            searchAuthorResult = authorInfoService.searchByAuthorName(authorsName);
+            searchAuthorFeatureResult = authorFeatureRepository.findByAuthorName(authorsName);
+
+
+            if (searchAuthorResult != null) {
+                model.addAttribute("author", searchAuthorResult);
+                model.addAttribute("authorFeature", searchAuthorFeatureResult);
+            }
+            String[] articlesTitleArray = searchAuthorFeatureResult.get(0).getArticleTitles().split(",");
+            model.addAttribute("articlesTitle", articlesTitleArray);
+        }
+        /*多名作者检索
+        List<Author> authorList = new LinkedList<>();
+        String[] authorsNameArray = authorsName.split(";");
+
         for(int i = 0; i < authorsNameArray.length; i++) {
             List<Author> searchAuthorResult = authorRepository.findByAuthorName(authorsNameArray[i]);
             if(searchAuthorResult.size() > 0)
@@ -166,6 +183,7 @@ public class AiasController {
 
         model.addAttribute("authors", authorList);
         model.addAttribute("searchContent", searchContent);
+        */
         return "/author/authorInfo";
     }
 
@@ -199,9 +217,20 @@ public class AiasController {
         newAuthorInfo.setWorkCityName(workCityName);
         newAuthorInfo.setWorkProvinceName(workProvinceName);
         authorRepository.save(newAuthorInfo);
+        /*
         List<Author> authorList = authorRepository.findByAuthorName(authorName);
         model.addAttribute("authors", authorList);
         model.addAttribute("searchContent", searchContent);
+        */
+        List<Authorfeature> searchAuthorFeatureResult = null;
+
+        searchAuthorResult = authorInfoService.searchByAuthorName(authorName);
+        searchAuthorFeatureResult = authorFeatureRepository.findByAuthorName(authorName);
+
+        model.addAttribute("author", searchAuthorResult);
+        model.addAttribute("authorFeature", searchAuthorFeatureResult);
+        String[] articlesTitleArray = searchAuthorFeatureResult.get(0).getArticleTitles().split(",");
+        model.addAttribute("articlesTitle", articlesTitleArray);
 
         return "/author/authorInfo";
     }

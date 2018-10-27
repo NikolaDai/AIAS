@@ -1,109 +1,96 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layout/default">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="renderer" content="webkit">
-    <meta name="robots" content="all">
-    <meta http-equiv="Cache-Control" content="no-siteapp">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
-    <title>相关作者文章</title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <link rel="stylesheet" href="/css/normalize.css">
-
-    <!-- build:css xgzzwz.css -->
-    <link rel="stylesheet" href="/css/xgzzwz.css">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!-- endbuild -->
+    <title>作者信息分析调度系统</title>
 </head>
 
 <body>
-<div class="header-search">
-    <div class="container clearfix">
-        <img src="/img/logo-b.png" alt="">
-        <form action="">
-            <input type="text"><button>搜索</button>
-        </form>
-        <ul class="clearfix">
-            <li>
-                <a href="#">首页</a>
-            </li>
-            <li>
-                <a href="#">所有作者</a>
-            </li>
-            <li>
-                <a href="#">作者分类</a>
-            </li>
-            <li>
-                <a href="#">排行榜</a>
-            </li>
-            <li>
-                <a href="#">登录</a>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<div class="container">
-    <div class="resault">
-        <span>为您找到相关结果约50个</span>
-    </div>
-
-    <div class="navbar">
-        <ul class="clearfix">
-            <li class="active"><a href="#" class="zh">综合</a></li>
-            <li><a href="#" class="sj">时间</a></li>
-            <li><a href="#" class="bm">版面</a></li>
-            <li><a href="#" class="fl">分类</a></li>
-            <li><a href="#" class="tc">体裁</a></li>
-        </ul>
-    </div>
-</div>
-
-<div class="container">
-    <div class="con">
-        <ul class="con-mes">
-            <li th:each="article:${articles}">
-                <h3 class="title">
-                    <a href="#" target="_blank"><span   th:text="${article.mainTitle}">标题</span></a>
-                </h3>
-                <div class="art-mes">
-                    <a href="#" target="_blank">作者：<span   th:text="${article.authorsName}">作者</span></a>
-                    <span class="art-respon">责编：仇建辉 庞清杰</span>
-                    <span class="art-page">版面：时事新闻</span>
-                    <span class="art-time">2014.07.05</span>
-                </div>
-                <p th:utext="${#strings.replace(article.articleText, T(org.apache.commons.lang3.StringUtils).LF, '&lt;br /&gt;&lt;br /&gt;')}">世界杯期间，游走在巴黎街头，举目皆“黄”。这个“黄”，是指巴西人身上穿的巴西队黄色球衣，不论男女老少，高矮胖瘦，俄罗斯世界杯比赛很精彩，相信大家都有关注。我虽然不是铁杆球迷，关注不多，但对其中一场比赛印象非常深刻…</p>
-                <div class="other">
-                    <a href="#" target="_blank" class="classify">分类：<span   th:text="${article.paperCategory}">分类</span></a><a href="#" target="_blank" class="tc">体裁：<span   th:text="${article.paperType}">体裁</span></a>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-6">
-        <div sd:pagination-summary="">info</div>
-    </div>
-    <div class="col-sm-6">
-        <nav class="pull-right">
-            <ul class="pagination" sd:pagination="full">
-                <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
-                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+<div layout:fragment="content">
+    <div class="header-search">
+        <div class="aias-container clearfix">
+            <img src="/img/logo-b.png" alt="">
+            <form action="">
+                <input type="text" placeholder="请输入检索内容"  name="searchContent"><button type="submit">搜索</button>
+            </form>
+            <ul class="clearfix">
+                <li>
+                    <a href="#">首页</a>
+                </li>
+                <li>
+                    <a href="#">所有作者</a>
+                </li>
+                <li>
+                    <a href="#">作者分类</a>
+                </li>
+                <li>
+                    <a href="#">排行榜</a>
+                </li>
+                <li>
+                    <a href="#">登录</a>
+                </li>
             </ul>
-        </nav>
+        </div>
+    </div>
+
+    <div class="aias-container">
+        <!--
+        <div class="resault">
+            <i>为您找到相关结果约50个</i>
+        </div>
+         -->
+        <div class="navbar">
+            <ul class="clearfix">
+                <li class="active"><a href="#" class="zh">综合</a></li>
+                <li><a href="#" class="sj">时间</a></li>
+                <li><a href="#" class="bm">版面</a></li>
+                <li><a href="#" class="fl">分类</a></li>
+                <li><a href="#" class="tc">体裁</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="aias-container">
+        <div class="con clearfix">
+            <div class="aias-con-mes">
+                <ul class="con-mes">
+                    <li th:each="article:${articles}">
+                        <h3 class="title">
+                            <a href="#" target="_blank"><span th:text="${article.mainTitle}"></span></a>
+                        </h3>
+                        <div class="art-mes">
+                            <a href="#" target="_blank">作者：<span th:text="${article.authorsName}"></span></a>
+                            <i class="art-respon">责编：<span th:text="${article.editorsName}"></span></i>
+                            <i class="art-page">版面：<span th:text="${article.pageName}"></span></i>
+                            <i class="art-time">日期：<span th:text="${article.publishDate}"></span></i>
+                        </div>
+                        <p style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;"><span  th:utext="${article.articleText}">正文内容</span></p>
+                        <div class="other">
+                            <a href="#" target="_blank" class="classify">分类：<span  th:utext="${article.paperCategory}">分类名字</span></a><a href="#" target="_blank" class="tc">体裁：<span th:utext="${article.paperType}">体裁名字</span></a>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div sd:pagination-summary="">info</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <nav class="pull-right">
+                            <ul class="pagination" sd:pagination="full">
+                                <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+                                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </div>
-
-<!-- build:js xgzzwz.js -->
-<!-- <script src="scripts/module-1.js"></script> -->
-<!-- endbuild -->
-
 </body>
 
 </html>

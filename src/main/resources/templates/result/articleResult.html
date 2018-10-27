@@ -1,28 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layout/default">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="renderer" content="webkit">
-    <meta name="robots" content="all">
-    <meta http-equiv="Cache-Control" content="no-siteapp">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
-    <title>文章内容页</title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <link rel="stylesheet" href="../css/normalize.css">
-
-    <!-- build:css wznry.css -->
-    <link rel="stylesheet" href="../css/wznry.css">
-    <!-- endbuild -->
+    <title>作者信息分析调度系统</title>
 </head>
 
 <body>
+<div layout:fragment="content">
     <div class="header-wznr">
-        <div class="container clearfix">
+        <div class="aias-container clearfix">
             <div class="logo">
-                <a href="#"><img src="../img/logo-l.png" alt=""></a>
+                <a href="#"><img src="/img/logo-l.png" alt=""></a>
             </div>
             <ul class="clearfix">
                 <li><a href="#">首页</a></li>
@@ -30,35 +19,34 @@
                 <li><a href="#">作者分类</a></li>
                 <li><a href="#">排行榜</a></li>
             </ul>
-            <form action="/result/showResultPage" method="POST" class="search">
-                <input type="text" class="sub"><button>搜索</button>
+            <form action="" class="search">
+                <input type="text" class="sub" placeholder="请输入检索内容" action="/result/showResultPage" method="POST"><button type="submit">搜索</button>
             </form>
         </div>
     </div>
 
-    <div class="container">
+    <div class="aias-container">
         <!--面包屑导航-->
-        <div class="breadcrumb">
+        <div class="aias-breadcrumb">
             <a href="#">检索结果</a>
-            <span>></span>
+            <i>></i>
             <a href="#">内容</a>
-        </div>
-        <div class="content"  th:each = "article:${articles}">
+        </div>解放军报
+        <div class="content"　th:each = "article:${articles}">
             <h3 class="title">
                 <span  th:utext="${article.mainTitle}">标题</span>
             </h3>
-            <p class="time"><span   th:text="${article.publishDate}">日期</span></p>
+            <div class="source">
+                <i>作者：<span   th:text="${article.authorsName}?:'解放军报'">作者</span></i>
+                <i>日期：<span   th:text="${article.publishDate}">日期</span></i>
+            </div>
             <!--文章内容-->
             <div class="con">
-				<p  th:utext="${#strings.replace(article.articleText, T(org.apache.commons.lang3.StringUtils).LF, '&lt;br /&gt;&lt;br /&gt;')}">全文</p>
+                <p  th:utext="${#strings.replace(article.articleText, T(org.apache.commons.lang3.StringUtils).LF, '&lt;br /&gt;&lt;br /&gt;')}">全文</p>
             </div>
         </div>
     </div>
-
-    <!-- build:js wznry.js -->
-    <!-- <script src="scripts/module-1.js"></script> -->
-    <!-- endbuild -->
-
+</div>
 </body>
 
 </html>

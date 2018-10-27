@@ -9,13 +9,22 @@ public class Authorfeature {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public String authorName; //作者
 
-    public String editors; //责编
-    public String coauthors; //合作者
-    public String articleTitles; //标题
-    public String category; //分类
-    public String pageName; //版名
-    public String type; //体裁
-    public String columnName; //栏目名
+    private String editors; //责编
+    private String coauthors; //合作者
+    private String articleTitles; //标题
+    private String category; //分类
+    private String pageName; //版名
+    private String type; //体裁
+    private String columnName; //栏目名
+    private int articleNumber; //
+
+    public int getArticleNumber() {
+        return articleNumber;
+    }
+
+    public void setArticleNumber(int articleNumber) {
+        this.articleNumber = articleNumber;
+    }
 
     public String getAuthorName() {
         return authorName;

@@ -195,3 +195,4 @@ spring security refers to https://docs.spring.io/spring-security/site/docs/5.0.9
 
 Thymeleaf: replace newline characters with <br>, refer to https://stackoverflow.com/questions/30655011/thymeleaf-replace-newline-characters-with-br, use the second way as follows:
 <td th:utext="${#strings.replace(row.articleText, T(org.apache.commons.lang3.StringUtils).LF, '&lt;br /&gt;')}">articleText</td>
+用法：https://blog.csdn.net/hepei120/article/details/80319422

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PagedList<T> {
 
-    private int buttonsToShow = 5;  //默认显示5个按钮
+    private int buttonsToShow = 4;  //默认显示5个按钮
     private List<T> itemList;
     private int pageSize;   //每页的数据条数
     private int pageIndex;  //当前在第几页，从0开始

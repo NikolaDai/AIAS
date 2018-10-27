@@ -159,12 +159,18 @@ public class AuthorService {
         hiBuilder.field("articleText");
         hiBuilder.fragmentSize(30000);
 
+        /*按照时间排序查询
         SortBuilder hiSort = SortBuilders.fieldSort("publishDate")
-                .order(SortOrder.DESC);
-
-
+        .order(SortOrder.DESC);
         SearchResponse response = client.prepareSearch("papers")
                 .setQuery(MatchQuery).addSort(hiSort)
+                .setFrom(fromValue)
+                .setSize(sizeValue)
+                .highlighter(hiBuilder)
+                .execute().actionGet();
+        */
+        SearchResponse response = client.prepareSearch("papers")
+                .setQuery(MatchQuery)
                 .setFrom(fromValue)
                 .setSize(sizeValue)
                 .highlighter(hiBuilder)

@@ -1,45 +1,34 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org"
+                   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                   layout:decorator="/layout/default">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="renderer" content="webkit">
-    <meta name="robots" content="all">
-    <meta http-equiv="Cache-Control" content="no-siteapp">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
     <title>作者信息分析调度系统</title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-
-    <!-- build:css index.css -->
-    <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="/css/module-1.css">
-    <!-- endbuild -->
 </head>
 
 <body>
-    <div class="header">
-        <div class="container clearfix">
-            <ul class="clearfix">
-                <li><a href="#">首页</a></li>
-                <li><a href="#">所有作者</a></li>
-                <li><a href="#">作者分类</a></li>
-                <li><a href="#">排行榜</a></li>
-                <li><a href="#">登录</a></li>
-            </ul>
+    <div layout:fragment="content">
+        <div class="aias-header">
+            <div class="aias-container clearfix">
+                <ul class="clearfix">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">所有作者</a></li>
+                    <li><a href="#">作者分类</a></li>
+                    <li><a href="#">排行榜</a></li>
+                    <li><a href="#">登录</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="logo">
+                <img src="/img/logo.png" alt="">
+            </div>
+            <form class="search"  action="/result/showResultPage" method="POST">
+                <input type="text" placeholder="请输入检索内容" name="searchContent"><button type="submit">搜索</button>
+            </form>
         </div>
     </div>
-
-    <div class="main">
-        <div class="logo">
-            <img src="/img/logo.png" alt="">
-        </div>
-        <form class="search" action="/result/showResultPage" method="POST">
-            <input type="text" name="searchContent"><button  type="submit">搜索</button>
-        </form>
-    </div>
-
 </body>
 
 </html>

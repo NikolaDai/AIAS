@@ -1,57 +1,102 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layout/default">
 <head>
-
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link href="/css/style.css}" rel="stylesheet"/>
-    <title>Articles</title>
+    <title>作者信息分析调度系统</title>
 </head>
-<body>
-<div class="container">
-    <div class="row">
-        <h1>Articles</h1>
-    </div>
-    <div class="row">
-        <div th:each="article : ${list.itemList}">
-            <p th:text="${article.mainTitle}"></p>
-            <p th:text="${article.authorsName}"></p>
-            <p th:utext="${article.articleText}"></p>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="form-group col-md-1">
-            <select class="form-control pagination" id="pageSizeSelect">
-                <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
-                        th:selected="${pageSize} == ${list.pageSize}"></option>
-            </select>
-        </div>
-        <div th:if="${list.totalPageCount != 1}" class="form-group col-md-11 pagination-centered">
-            <ul class="pagination">
-                <li th:class="${list.pageIndex == 0} ? disabled">
-                    <a class="pageLink" th:href="@{/searchByPage/(pageSize=${list.pageSize}, page=1)}">&laquo;</a>
+<body>
+<div layout:fragment="content">
+    <div class="header-search">
+        <div class="aias-container clearfix">
+            <img src="/img/logo-b.png" alt="">
+            <form action="">
+                <input type="text" placeholder="请输入检索内容"  name="searchContent"><button type="submit">搜索</button>
+            </form>
+            <ul class="clearfix">
+                <li>
+                    <a href="#">首页</a>
                 </li>
-                <li th:class="${list.pageIndex == 0} ? disabled">
-                    <a class="pageLink" th:href="@{/searchByPage/(pageSize=${list.pageSize}, page=${list.pageIndex})}">&larr;</a>
+                <li>
+                    <a href="#">所有作者</a>
                 </li>
-                <li th:class="${list.pageIndex == (pageNo - 1)} ? 'active pointer-disabled'"
-                    th:each="pageNo : ${#numbers.sequence(list.startPage, list.endPage)}">
-                    <a class="pageLink" th:href="@{/searchByPage/(pageSize=${list.pageSize}, page=${pageNo})}"
-                       th:text="${pageNo}"></a>
+                <li>
+                    <a href="#">作者分类</a>
                 </li>
-                <li th:class="${list.pageIndex + 1 == list.totalPageCount} ? disabled">
-                    <a class="pageLink" th:href="@{/searchByPage/(pageSize=${list.pageSize}, page=${list.pageIndex + 2})}">&rarr;</a>
+                <li>
+                    <a href="#">排行榜</a>
                 </li>
-                <li th:class="${list.pageIndex + 1 == list.totalPageCount} ? disabled">
-                    <a class="pageLink" th:href="@{/searchByPage/(pageSize=${list.pageSize}, page=${list.totalPageCount})}">&raquo;</a>
+                <li>
+                    <a href="#">登录</a>
                 </li>
             </ul>
         </div>
     </div>
-</div>
 
-<script src="/js/jquery.min.js}"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/app.js}"></script>
+    <div class="aias-container">
+        <div class="resault">
+            <i>为您找到相关结果约50个</i>
+        </div>
+
+        <div class="navbar">
+            <ul class="clearfix">
+                <li class="active"><a href="#" class="zh">综合</a></li>
+                <li><a href="#" class="sj">时间</a></li>
+                <li><a href="#" class="bm">版面</a></li>
+                <li><a href="#" class="fl">分类</a></li>
+                <li><a href="#" class="tc">体裁</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="aias-container">
+        <div class="con clearfix">
+            <div class="aias-con-mes">
+                <ul class="con-mes">
+                    <li th:each="article : ${list.itemList}">
+                        <h3 class="title">
+                            <a href="#" target="_blank"><span th:text="${article.mainTitle}"></span></a>
+                        </h3>
+                        <div class="art-mes">
+                            <a href="#" target="_blank"><span th:text="${article.authorsName}"></span></a>
+                            <i class="art-respon">责编：<span th:text="${article.editorsName}"></span></i>
+                            <i class="art-page">版面：<span th:text="${article.pageName}"></span></i>
+                            <i class="art-time"><span th:text="${article.articleText}"></span></i>
+                        </div>
+                        <p style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;"><span  th:utext="${article.articleText}">正文内容</span></p>
+                        <div class="other">
+                            <a href="#" target="_blank" class="classify">分类：<span  th:utext="${article.paperCategory}">分类名字</span></a><a href="#" target="_blank" class="tc">体裁：<span th:utext="${article.paperType}">体裁名字</span></a>
+                        </div>
+                    </li>
+                </ul>
+
+                <div th:if="${list.totalPageCount != 1}" class="displaypagenum">
+                    <ul class="clearfix">
+                        <li th:class="${list.pageIndex == 0} ? disabled">
+                            <a class="aias-first" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=1, searchContent=${searchContent})}"><<</a>
+                        </li>
+                        <li th:class="${list.pageIndex == 0} ? disabled">
+                            <a class="dis-pre" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${list.pageIndex}, searchContent=${searchContent})}">上一页</a>
+                        </li>
+                        <li th:class="${list.pageIndex == (pageNo - 1)} ? 'active pointer-disabled'"
+                            th:each="pageNo : ${#numbers.sequence(list.startPage, list.endPage)}">
+                            <a class="page" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${pageNo}, searchContent=${searchContent})}"
+                               th:text="${pageNo}"></a>
+                        </li>
+                        <li th:class="${list.pageIndex + 1 == list.totalPageCount} ? disabled">
+                            <a class="dis-next" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${list.pageIndex + 2}, searchContent=${searchContent})}">下一页</a>
+                        </li>
+                        <li th:class="${list.pageIndex + 1 == list.totalPageCount} ? disabled">
+                            <a class="aias-last" th:href="@{/result/showResultPage/(pageSize=${list.pageSize}, page=${list.totalPageCount}, searchContent=${searchContent})}">>></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+
 </html>

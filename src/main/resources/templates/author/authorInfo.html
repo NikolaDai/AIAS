@@ -1,82 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layout/default">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>作者信息分析调度系统</title>
-    <!-- Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
+
 <body>
-<div class="container">
-<p>检索结果如下</p>
-<!---<div th:unless="${#lists.isEmpty(authors)}">-->
-<div>
-    <table class="table">
-        <caption>作者具体信息</caption>
-        <thead>
-        <tr>
-            <th>姓名</th>
-            <th>手机号码</th>
-            <th>电话号码</th>
-            <th>QQ</th>
-            <th>微信</th>
-            <th>email</th>
-            <th>单位名称</th>
-            <th>邮件地址</th>
-            <th>邮编</th>
-            <th>城市</th>
-            <th>省份</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="active"  th:each = "author : ${authors}">
-            <td><span   th:text="${author.authorName}">姓名</span></td>
-            <td><span   th:text="${author.cellNumber}">手机号码</span></td>
-            <td><span   th:text="${author.phoneNumber}">电话号码</span></td>
-            <td><span   th:text="${author.QQ}">QQ</span></td>
-            <td><span   th:text="${author.weChat}">微信</span></td>
-            <td><span   th:text="${author.emailAddress}">email地址</span></td>
-            <td><span   th:text="${author.organizationName}">单位名称</span></td>
-            <td><span   th:text="${author.mailAddress}">邮件地址</span></td>
-            <td><span   th:text="${author.zipCode}">邮编</span></td>
-            <td><span   th:text="${author.workCityName}">城市</span></td>
-            <td><span   th:text="${author.workProvinceName}">省份</span></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-    <h3>更新作者信息</h3>
-    <form method="POST" th:each = "author : ${authors}">
-        <input type="text" name="searchContent" size="50" readonly="readonly" th:value="${searchContent}" style="display:none"/>
-        <label for="authorName">姓名</label>
-        <input type="text" name="authorName" size="50" readonly="readonly" th:value="${author.authorName}"/><br />
-        <label for="cellNumber">手机号码：</label>
-        <input type="text" name="cellNumber" size="50"  th:value="${author.cellNumber}" /><br />
-        <label for="phoneNumber">电话号码：</label>
-        <input type="text" name="phoneNumber" size="50" th:value="${author.phoneNumber}" /><br />
-        <label for="QQ">QQ：</label>
-        <input type="text" name="QQ" size="50"  th:value="${author.QQ}" /><br />
-        <label for="weChat">微信：</label>
-        <input type="text" name="weChat" size="50" th:value="${author.weChat}" /><br />
-        <label for="emailAddress">email地址：</label>
-        <input type="text" name="emailAddress" size="50" th:value="${author.emailAddress}" /><br />
-        <label for="organizationName">单位名称：</label>
-        <input type="text" name="organizationName" size="50" th:value="${author.organizationName}" /><br />
-        <label for="mailAddress">邮件地址：</label>
-        <input type="text" name="mailAddress" size="50" th:value="${author.mailAddress}" /><br />
-        <label for="zipCode">邮编：</label>
-        <input type="text" name="zipCode" size="50" th:value="${author.zipCode}" /><br />
-        <label for="workCityName">城市：</label>
-        <input type="text" name="workCityName" size="50" th:value="${author.workCityName}" /><br />
-        <label for="workProvinceName">省份：</label>
-        <input type="text" name="workProvinceName" size="50" th:value="${author.workProvinceName}" /><br />
-        <input type="submit" />
-    </form>
-</div>
-<div class="container">
-    <a th:href="${'/result/showResultPage?searchContent=' + searchContent}"><button class="btn btn-danger" style="margin:auto">返回</button></a>
+<div layout:fragment="content">
+    <div class="header-wznr">
+        <div class="aias-container clearfix">
+            <div class="logo">
+                <a href="#"><img src="/img/logo-l.png" alt=""></a>
+            </div>
+            <ul class="clearfix">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">所有作者</a></li>
+                <li><a href="#">作者分类</a></li>
+                <li><a href="#">排行榜</a></li>
+            </ul>
+            <form action="/result/showResultPage" method="POST" class="search">
+                <input type="text" class="sub" placeholder="请输入检索内容" name="searchContent"><button type="submit">搜索</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="aias-container">
+        <!--面包屑导航-->
+        <div class="aias-breadcrumb">
+            <a href="#">检索结果</a>
+            <i>></i>
+            <a href="#">内容</a>
+        </div>
+
+        <div class="mes-box author-mes">
+            <h3>作者信息</h3>
+            <div class="detailed clearfix">
+                <div class="photo"><img src="/img/photo.png" alt=""></div>
+                <div class="detailed-mes">
+                    <h4><span th:text="${author[0].authorName}">姓名</span></h4>
+                    <p>擅长体裁：<span   th:text="${authorFeature[0].type}">消息</span></p>
+                    <i>作品总数：<span   th:text="${authorFeature[0].articleNumber}">100</span></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="mes-box contact">
+            <h3>联系方式</h3>
+            <div class="contact-mes">
+                <p>电话： <span th:text="${author[0].cellNumber}"></span></p>
+                <p>Email：<span th:text="${author[0].emailAddress}">email地址</span></p>
+                <p>QQ：<span th:text="${author[0].QQ}">QQ</span></p>
+                <p>微信：<span th:text="${author[0].weChat}">微信</span></p>
+                <p>单位名称：<span th:text="${author[0].organizationName}">单位名称</span></p>
+                <p>地址：<span th:text="${author[0].mailAddress}">邮件地址</span></p>
+                <p>邮编：<span th:text="${author[0].zipCode}">邮编</span></p>
+            </div>
+        </div>
+
+        <div class="mes-box features">
+            <h3>作者特征</h3>
+            <div class="features-mes clearfix">
+                <div class="fea-label">
+                    <a href="#">军事</a>
+                    <a href="#">科技</a>
+                    <a href="#">强军</a>
+                </div>
+                <div class="fea-pic">
+                    <img src="/img/circle.png" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="mes-box works">
+            <h3>代表作品</h3>
+            <ul class="works-mes">
+                <li th:each="articleTitle:${articlesTitle}">
+                    <a><span th:text="${articleTitle}">标题</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="mes-box update">
+            <h3>更新作者信息</h3>
+            <div class="update-mes">
+                <form method="POST">
+                    <input type="text" name="searchContent" size="50" readonly="readonly" th:value="${searchContent}" style="display:none"/>
+                    <ul>
+                        <li>
+                            <label for="authorName">姓名</label>
+                            <input type="text" name="authorName" size="50" readonly="readonly" th:value="${author[0].authorName}"/>
+                        </li>
+                        <li>
+                            <label for="cellNumber">手机号码：</label>
+                            <input type="text" name="cellNumber" size="50"  th:value="${author[0].cellNumber}" />
+                        </li>
+                        <li>
+                            <label for="phoneNumber">电话号码：</label>
+                            <input type="text" name="phoneNumber" size="50" th:value="${author[0].phoneNumber}" />
+                        </li>
+                        <li>
+                            <label for="emailAddress">email地址：</label>
+                            <input type="text" name="emailAddress" size="50" th:value="${author[0].emailAddress}" />
+                        </li>
+                        <li>
+                            <label for="QQ">QQ：</label>
+                            <input type="text" name="QQ" size="50"  th:value="${author[0].QQ}" />
+                        </li>
+                        <li>
+                            <label for="weChat">微信：</label>
+                            <input type="text" name="weChat" size="50" th:value="${author[0].weChat}" />
+                        </li>
+                        <li>
+                            <label for="organizationName">单位名称：</label>
+                            <input type="text" name="organizationName" size="50" th:value="${author[0].organizationName}" />
+                        </li>
+                        <li>
+                            <label for="mailAddress">邮件地址：</label>
+                            <input type="text" name="mailAddress" size="50" th:value="${author[0].mailAddress}" />
+                        </li>
+                        <li>
+                            <label for="zipCode">邮编：</label>
+                            <input type="text" name="zipCode" size="50" th:value="${author[0].zipCode}" />
+                        </li>
+                        <li>
+                            <label for="workCityName">城市：</label>
+                            <input type="text" name="workCityName" size="50" th:value="${author[0].workCityName}" />
+                        </li>
+                        <li>
+                            <label for="workProvinceName">省份：</label>
+                            <input type="text" name="workProvinceName" size="50" th:value="${author[0].workProvinceName}" />
+                        </li>
+                    </ul>
+
+                    <input type="submit" class="btn btn-success" value="更新信息"/>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
+
 </html>
