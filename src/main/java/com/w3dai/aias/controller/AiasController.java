@@ -230,7 +230,7 @@ public class AiasController {
         model.addAttribute("author", searchAuthorResult);
         model.addAttribute("authorFeature", searchAuthorFeatureResult);
         String[] articlesTitleArray = searchAuthorFeatureResult.get(0).getArticleTitles().split(",");
-        model.addAttribute("articlesTitle", articlesTitleArray);
+        model.addAttribute("articlesTitle", (articlesTitleArray.length<=8)?articlesTitleArray:Arrays.copyOfRange(articlesTitleArray, 0, 7));
 
         return "/author/authorInfo";
     }
