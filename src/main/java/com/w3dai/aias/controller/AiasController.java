@@ -121,10 +121,6 @@ public class AiasController {
             model.addAttribute("authors", authorListWithArticleNumber);
         }
 
-        List<Article> usageList = authorService.getArticlesUsageBySearchContent(searchContent);
-        if(usageList.size() != 0){
-            model.addAttribute("usageList", usageList);
-        }
         model.addAttribute("searchContent", searchContent);
         return "/result/showResultPage";
     }
@@ -150,6 +146,16 @@ public class AiasController {
         return "/result/articleResult";
     }
 
+    @RequestMapping("/result/wordUsage")
+    public String wordUsage(@RequestParam("searchContent") String searchContent, Model model){
+        List<Article> usageList = authorService.getArticlesUsageBySearchContent(searchContent);
+        if(usageList.size() != 0){
+            model.addAttribute("usageList", usageList);
+        }
+
+        return "/result/wordUsage";
+    }
+
     @RequestMapping(value = {"/author/authorInfo"}, method = {RequestMethod.GET})
     @Secured("ROLE_ADMIN")
     public String searchAuthorAction(@RequestParam("authorsName") String authorsName, @RequestParam("searchContent") String searchContent,Model model)
@@ -169,7 +175,7 @@ public class AiasController {
                 model.addAttribute("authorFeature", searchAuthorFeatureResult);
             }
             String[] articlesTitleArray = searchAuthorFeatureResult.get(0).getArticleTitles().split(",");
-            model.addAttribute("articlesTitle", articlesTitleArray);
+            model.addAttribute("articlesTitle", (articlesTitleArray.length<=8)?articlesTitleArray:Arrays.copyOfRange(articlesTitleArray, 0, 7));
         }
         /*多名作者检索
         List<Author> authorList = new LinkedList<>();

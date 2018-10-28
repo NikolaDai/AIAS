@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layout/default">
+<head>
+    <title>作者信息分析调度系统</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="header-search">
+        <div class="aias-container clearfix">
+            <img src="/img/logo-b.png" alt="">
+            <form action="/result/showResultPage" method="POST">
+                <input type="text" placeholder="请输入检索内容" name="searchContent"><button type="submit">搜索</button>
+            </form>
+            <ul class="clearfix">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="#">所有作者</a>
+                </li>
+                <li>
+                    <a href="#">作者分类</a>
+                </li>
+                <li>
+                    <a href="#">排行榜</a>
+                </li>
+                <li>
+                    <a href="#">登录</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="aias-container">
+        <div class="tab-bq">
+            <ul class="clearfix">
+                <li><a th:href="${'/result/showResultPage?searchContent=' + searchContent}">相关文章及作者</a></li>
+                <li  class="selected"><a th:href="${'/result/wordUsage?searchContent=' + searchContent}">相关词语用法</a></li>
+
+            </ul>
+        </div>
+
+    <div class="aias-container">
+        <div class="con clearfix">
+            <div class="aias-con-mes">
+                <ul class="con-mes">
+                    <li  th:each = "article : ${usageList}">
+                        <h3 class="title">
+                            <a th:href="${'/result/articleResult?articleID='+ article.id + '&searchContent=' + searchContent}"><span  th:utext="${article.mainTitle}">世界杯是节日，足球是生活</span></a>
+                        </h3>
+                        <div class="art-mes">
+                            <a href="#" target="_blank" >作者：<span  th:text="${article.authorsName}?:'解放军报'">姓名</span></a>
+                            <i class="art-time"><span  th:utext="${article.publishDate}">时间</span></i>
+                        </div>
+                        <p style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;"><span  th:utext="${article.articleText}">正文内容</span></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+</html>

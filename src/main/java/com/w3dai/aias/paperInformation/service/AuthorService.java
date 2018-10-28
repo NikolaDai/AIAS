@@ -123,7 +123,7 @@ public class AuthorService {
     public List<Article> getArticlesUsageBySearchContent(String SearchContent) {
         //usage of QueryBuilders
         QueryBuilder multiMatchQuery = QueryBuilders.boolQuery()
-                .must(matchQuery("articleText", this.getSearchContent()));
+                .must(matchQuery("articleText", SearchContent == null ? this.getSearchContent():SearchContent));
 
         HighlightBuilder hiBuilder = new HighlightBuilder();
         hiBuilder.preTags("<strong style=\"color:red\">");
