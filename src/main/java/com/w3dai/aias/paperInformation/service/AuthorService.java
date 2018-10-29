@@ -57,7 +57,8 @@ public class AuthorService {
     public Aggregations shouldReturnAggregatedResponseForGivenSearchQuery() {
         // given
         //QueryBuilder queryBuilder = matchQuery("articleText", this.getSearchContent()).operator(Operator.AND);
-        QueryBuilder queryBuilder = commonTermsQuery("articleText", this.getSearchContent());
+        //QueryBuilder queryBuilder = commonTermsQuery("articleText", this.getSearchContent());
+        QueryBuilder queryBuilder = matchQuery("articleText", this.getSearchContent());
         //QueryBuilder qb = matchAllQuery();
         //note that you can easily print(aka debug) json generated queries using toString() method on QueryBuilder object.
         System.out.println(queryBuilder.toString());

@@ -127,7 +127,6 @@ public class AiasController {
 
     @RequestMapping("/result/searchArticleResult")
     public String searchArticleAction(@RequestParam("searchRelatedContent") String authorName, @RequestParam("searchContent") String searchContent,Pageable pageable, Model model){
-
         model.addAttribute("articles", articleRepository.findByAuthorsNameAndArticleText(authorName, searchContent, pageable));
         model.addAttribute("searchContent", searchContent);
 
@@ -153,6 +152,7 @@ public class AiasController {
             model.addAttribute("usageList", usageList);
         }
 
+        model.addAttribute("searchContent", searchContent);
         return "/result/wordUsage";
     }
 

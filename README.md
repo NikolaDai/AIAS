@@ -49,7 +49,7 @@ Due to the complexity of the designed system, many underlying technologies are u
 由于原始文档中两字作者名中有空格，导致无法正确查询两字作者名，比如“王庚”，需要对原始数据文档进行处理。10/26/2018(已经修复)
 Due to that in the source file, there is a space between the two character names. So, we can't search the names correctly which needs to be fixed by regular expression.
 
-搜索 http://localhost:8080/result/searchArticleResult?searchRelatedContent=陈典宏&searchContent=改革开放四十周年 返回结果为空？？？
+搜索 http://localhost:8080/result/searchArticleResult?searchRelatedContent=陈典宏&searchContent=改革开放四十周年 返回结果为空？？？10/29/2018 fixed
 ## Thanks
 Many thanks to Mr. NI Shunqian who took me to the IDEA world.
 
@@ -198,3 +198,6 @@ spring security refers to https://docs.spring.io/spring-security/site/docs/5.0.9
 Thymeleaf: replace newline characters with <br>, refer to https://stackoverflow.com/questions/30655011/thymeleaf-replace-newline-characters-with-br, use the second way as follows:
 <td th:utext="${#strings.replace(row.articleText, T(org.apache.commons.lang3.StringUtils).LF, '&lt;br /&gt;')}">articleText</td>
 用法：https://blog.csdn.net/hepei120/article/details/80319422
+
+elasticsearch repository的坑： findbyField01andFiled02 equals {"bool" : {"must" : [ {"field" : {"name" : "?"}}, {"field" : {"price" : "?"}} ]}} but what we need is as follows:
+{"query":{"bool":{"must":[{"match":{"authorsName":"周钰淞"}},{"match":{"articleText":"改革开放四十周年"}}]}}}
