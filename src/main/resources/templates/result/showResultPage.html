@@ -89,7 +89,7 @@
                             <a th:href="${'/result/articleResult?articleID='+ article.id + '&searchContent=' + searchContent}"><span  th:utext="${article.mainTitle}">世界杯是节日，足球是生活</span></a>
                         </h3>
                         <div class="art-mes">
-                            <a th:href="${'/author/authorInfo?authorsName='+ author.authorName + '&searchContent=' + searchContent}" target="_blank" >作者：<span  th:utext="${article.authorsName}">姓名</span></a>
+                            <a th:href="${'/author/authorInfo?authorsName='+ article.authorsName + '&searchContent=' + searchContent}" target="_blank" >作者：<span  th:utext="${article.authorsName}">姓名</span></a>
                             <i class="art-respon">责编：<span  th:utext="${article.editorsName}">责任编辑</span></i>
                             <i class="art-page">版面：<span  th:utext="${article.pageName}">版面名字</span></i>
                             <i class="art-time"><span  th:utext="${article.publishDate}">时间</span></i>
