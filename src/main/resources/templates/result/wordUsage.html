@@ -11,7 +11,7 @@
     <div class="header-search">
         <div class="aias-container clearfix">
             <img src="/img/logo-b.png" alt="">
-            <form action="/result/showResultPage" method="POST">
+            <form action="/result/showResultPage" method="GET">
                 <input type="text" placeholder="请输入检索内容" name="searchContent"><button type="submit">搜索</button>
             </form>
             <ul class="clearfix">
@@ -50,7 +50,7 @@
                 <ul class="con-mes">
                     <li  th:each = "article : ${usageList}">
                         <h3 class="title">
-                            <a th:href="${'/result/articleResult?articleID='+ article.id + '&searchContent=' + searchContent}"><span  th:utext="${article.mainTitle}">世界杯是节日，足球是生活</span></a>
+                            <a th:href="${'/result/articleResult?articleID='+ article.id + '&searchContent=' + searchContent}" target="_blank"><span  th:utext="${article.mainTitle}">世界杯是节日，足球是生活</span></a>
                         </h3>
                         <div class="art-mes">
                             <a href="#" target="_blank" >作者：<span  th:text="${article.authorsName}?:'解放军报'">姓名</span></a>

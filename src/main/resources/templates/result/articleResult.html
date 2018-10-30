@@ -19,8 +19,8 @@
                 <li><a href="#">作者分类</a></li>
                 <li><a href="#">排行榜</a></li>
             </ul>
-            <form action="" class="search">
-                <input type="text" class="sub" placeholder="请输入检索内容" action="/result/showResultPage" method="POST"><button type="submit">搜索</button>
+            <form action="/result/showResultPage" method="GET" class="search">
+                <input type="text" class="sub" placeholder="请输入检索内容" name="searchContent"><button type="submit">搜索</button>
             </form>
         </div>
     </div>
@@ -31,7 +31,7 @@
             <a href="#">检索结果</a>
             <i>></i>
             <a href="#">内容</a>
-        </div>解放军报
+        </div>
         <div class="content"　th:each = "article:${articles}">
             <h3 class="title">
                 <span  th:utext="${article.mainTitle}">标题</span>

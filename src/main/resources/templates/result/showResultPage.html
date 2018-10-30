@@ -11,7 +11,7 @@
     <div class="header-search">
         <div class="aias-container clearfix">
             <img src="/img/logo-b.png" alt="">
-            <form action="/result/showResultPage" method="POST">
+            <form action="/result/showResultPage" method="GET">
                 <input type="text" placeholder="请输入检索内容" name="searchContent"><button type="submit">搜索</button>
             </form>
             <ul class="clearfix">
@@ -68,7 +68,7 @@
                         </h3>
                         <div class="peo-mes clearfix">
                             <div class="peo-mes-left">
-                                <img src="img/photo.png" alt="">
+                                <img src="/img/photo.png" alt="">
                             </div>
                             <div class="peo-mes-right">
                                 <p>目前作品总数：<span th:text="${authorFeature[0].articleNumber}">0</span></p>
@@ -86,7 +86,7 @@
 
                     <li  th:each = "article : ${list.itemList}">
                         <h3 class="title">
-                            <a th:href="${'/result/articleResult?articleID='+ article.id + '&searchContent=' + searchContent}"><span  th:utext="${article.mainTitle}">世界杯是节日，足球是生活</span></a>
+                            <a th:href="${'/result/articleResult?articleID='+ article.id + '&searchContent=' + searchContent}"  target="_blank"><span  th:utext="${article.mainTitle}">世界杯是节日，足球是生活</span></a>
                         </h3>
                         <div class="art-mes">
                             <a th:href="${'/author/authorInfo?authorsName='+ article.authorsName + '&searchContent=' + searchContent}" target="_blank" >作者：<span  th:utext="${article.authorsName}">姓名</span></a>
@@ -127,7 +127,7 @@
                 <h3>相关作者推荐</h3>
                 <p>相关文章数</p>
                 <ul>
-                    <li class="clearfix" th:each = "author : ${authors}"><a th:href="${'/author/authorInfo?authorsName='+ author.authorName + '&searchContent=' + searchContent}"><span   th:text="${author.authorName}">推荐作者名字</span></a><i><a th:href="${'/result/searchArticleResult?searchRelatedContent='+ author.authorName + '&searchContent=' + searchContent}"><span  th:text="${author.articleNum}">50</span></a></i></li>
+                    <li class="clearfix" th:each = "author : ${authors}"><a th:href="${'/author/authorInfo?authorsName='+ author.authorName + '&searchContent=' + searchContent}"  target="_blank"><span   th:text="${author.authorName}">推荐作者名字</span></a><i><a th:href="${'/result/searchArticleResult?searchRelatedContent='+ author.authorName + '&searchContent=' + searchContent}"  target="_blank"><span  th:text="${author.articleNum}">50</span></a></i></li>
                 </ul>
             </div>
         </div>
