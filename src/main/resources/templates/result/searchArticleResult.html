@@ -60,7 +60,7 @@
                             <a th:href="${'/result/articleResult?articleID='+ article.id + '&searchContent=' + searchContent}" target="_blank"><span th:text="${article.mainTitle}"></span></a>
                         </h3>
                         <div class="art-mes">
-                            <a th:href="${'/author/authorInfo?authorsName='+ author.authorName + '&searchContent=' + searchContent}" target="_blank">作者：<span th:text="${article.authorsName}"></span></a>
+                            <a th:href="${'/author/authorInfo?authorsName='+ article.authorsName + '&searchContent=' + searchContent}" target="_blank">作者：<span th:text="${article.authorsName}"></span></a>
                             <i class="art-respon">责编：<span th:text="${article.editorsName}"></span></i>
                             <i class="art-page">版面：<span th:text="${article.pageName}"></span></i>
                             <i class="art-time">日期：<span th:text="${article.publishDate}"></span></i>
