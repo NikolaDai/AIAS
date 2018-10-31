@@ -76,7 +76,7 @@
             <h3>代表作品</h3>
             <ul class="works-mes">
                 <li th:each="articleTitle:${articlesTitle}">
-                    <a><span th:text="${articleTitle}">标题</span></a>
+                    <a style="text-decoration:none">《<span th:text="${articleTitle}">标题</span>》</a>
                 </li>
             </ul>
         </div>
