@@ -71,14 +71,16 @@ public class AuthorService {
                 .addAggregation(terms("authorsName").field("authorsName").size(10000))
                 .build();
 
-        // when
+        /*
         Aggregations aggregations = elasticsearchTemplate.query(searchQuery, new ResultsExtractor<Aggregations>() {
             @Override
             public Aggregations extract(SearchResponse response) {
                 return response.getAggregations();
             }
         });
-
+        */
+        //Simply the above code using lambda expression
+        Aggregations aggregations = elasticsearchTemplate.query(searchQuery, (SearchResponse response)->response.getAggregations());
         return aggregations;
     }
 
