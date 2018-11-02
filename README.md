@@ -35,6 +35,7 @@
 - try new analyzer other tan IKAnalyzer
 - add the user management module including sign in and out
 - hotwords to show https://blog.csdn.net/yulio1234/article/details/77479181
+- going to build a branch (feature) 11/2/2018
  
 ## Quick start
 use whatever JAVA IDE on your favor, download AIAS codes and run, have FUN!
