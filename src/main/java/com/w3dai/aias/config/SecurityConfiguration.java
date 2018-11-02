@@ -11,13 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/index", "result/**").permitAll()
-                .antMatchers("/author/**").hasRole("USER")
-                .and()
-                .formLogin()
-                .loginPage("/login").failureUrl("/login-error");
+        http//.csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/css/**", "/js/**", "/index", "result/**").permitAll()
+            .antMatchers("/author/**").hasRole("USER")
+            .and()
+            .formLogin()
+            .loginPage("/login").failureUrl("/login-error");
     }
 
     @Autowired
