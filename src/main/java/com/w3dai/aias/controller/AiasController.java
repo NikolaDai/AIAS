@@ -177,6 +177,22 @@ public class AiasController {
             String[] articlesTitleArray = searchAuthorFeatureResult.get(0).getArticleTitles().split(",");
             model.addAttribute("articlesTitle", (articlesTitleArray.length<=8)?articlesTitleArray:Arrays.copyOfRange(articlesTitleArray, 0, 7));
         }
+        else{
+            List<Author> searchAuthorResult = null;
+            List<Authorfeature> searchAuthorFeatureResult = null;
+
+            searchAuthorResult = authorInfoService.searchByAuthorName(authorsNameArray[0]);
+            searchAuthorFeatureResult = authorFeatureRepository.findByAuthorName(authorsNameArray[0]);
+
+
+            if (searchAuthorResult != null) {
+                model.addAttribute("author", searchAuthorResult);
+                model.addAttribute("authorFeature", searchAuthorFeatureResult);
+            }
+            String[] articlesTitleArray = searchAuthorFeatureResult.get(0).getArticleTitles().split(",");
+            model.addAttribute("articlesTitle", (articlesTitleArray.length<=8)?articlesTitleArray:Arrays.copyOfRange(articlesTitleArray, 0, 7));
+        }
+
         /*多名作者检索
         List<Author> authorList = new LinkedList<>();
         String[] authorsNameArray = authorsName.split(";");
@@ -209,6 +225,7 @@ public class AiasController {
                                    Model model)
     {
         Author newAuthorInfo = new Author();
+        System.out.println("code is here!");
         List<Author> searchAuthorResult = authorRepository.findByAuthorName(authorName);
         newAuthorInfo.setId(searchAuthorResult.get(0).getId());
         newAuthorInfo.setAuthorName(authorName);

@@ -83,7 +83,8 @@
         <div class="mes-box update">
             <h3>更新作者信息</h3>
             <div class="update-mes">
-                <form method="POST">
+                <form method="POST" action="/author/authorInfo">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <input type="text" name="searchContent" size="50" readonly="readonly" th:value="${searchContent}" style="display:none"/>
                     <ul>
                         <li>

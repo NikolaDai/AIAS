@@ -18,15 +18,9 @@
                 <li>
                     <a href="/">首页</a>
                 </li>
-                <li>
-                    <a href="#">所有作者</a>
-                </li>
-                <li>
-                    <a href="#">作者分类</a>
-                </li>
-                <li>
-                    <a href="#">排行榜</a>
-                </li>
+                <!--<li><a href="#">所有作者</a></li>
+                <li><a href="#">作者分类</a></li>
+                <li><a href="#">排行榜</a></li>-->
                 <li>
                     <a href="/login">登录</a>
                 </li>
@@ -77,8 +71,8 @@
                                 <p>善写体裁：<span  th:text="${authorFeature[0].type}">善写体裁</span></p>
                                 <p>写作栏目：<span  th:text="${authorFeature[0].columnName}">善写栏目</span></p>
                                 <div class="other">
-                                    <a href="#" target="_blank">更多个人信息</a>
-                                    <a href="#" target="_blank">代表作品</a>
+                                    <a th:href="${'/author/authorInfo?authorsName='+ author[0].authorName + '&searchContent=' + author[0].authorName} " href="" target="_blank">更多个人信息</a>
+                                    <a th:href="${'/author/authorInfo?authorsName='+ author[0].authorName + '&searchContent=' + author[0].authorName}" target="_blank">代表作品</a>
                                 </div>
                             </div>
                         </div>
