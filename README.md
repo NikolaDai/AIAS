@@ -202,3 +202,5 @@ Thymeleaf: replace newline characters with <br>, refer to https://stackoverflow.
 
 elasticsearch repository的坑： findbyField01andFiled02 equals {"bool" : {"must" : [ {"field" : {"name" : "?"}}, {"field" : {"price" : "?"}} ]}} but what we need is as follows:
 {"query":{"bool":{"must":[{"match":{"authorsName":"周钰淞"}},{"match":{"articleText":"改革开放四十周年"}}]}}}
+
+Spring Security with CSRF : https://www.jianshu.com/p/9a7b8b441b24
